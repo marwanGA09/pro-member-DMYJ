@@ -1,4 +1,5 @@
 const _ = (err, req, res, next) => {
+  console.log('***********************');
   console.log('er', err);
   console.log('ERROR CONTROLLER');
   return res.status(500).json({
