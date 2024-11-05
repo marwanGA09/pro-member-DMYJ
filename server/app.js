@@ -4,6 +4,7 @@ const errorController = require('./controller/errorController');
 const authRouter = require('./router/authoRouter');
 const app = express();
 
+app.use(express.json());
 // app.all('/ping', (req, res, next) => {
 //   return res.status(200).json({
 //     status: 'success',

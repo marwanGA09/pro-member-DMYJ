@@ -3,9 +3,9 @@
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(50) UNIQUE,
-  first_name VARCHAR(50) ,
-  middle_name VARCHAR(50 ,
-  last_name VARCHAR(50) ,
+  first_name VARCHAR(50) NOT NULL,
+  middle_name VARCHAR(50),
+  last_name VARCHAR(50) NOT NULL,
   date_of_birth DATE,
   email VARCHAR(100),
   sector VARCHAR(100),
