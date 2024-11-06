@@ -31,7 +31,19 @@ const userSchema = checkSchema({
   },
 
   password: {
-    isLength: { option: { min: 8 } },
+    isLength: { options: { min: 8 } },
+    errorMessage: 'Password must be at least 8 characters long',
+    trim: true,
+  },
+});
+const loginSchema = checkSchema({
+  email: {
+    isEmail: true,
+    errorMessage: 'Please enter a valid email address',
+  },
+
+  password: {
+    isLength: { options: { min: 8 } },
     errorMessage: 'Password must be at least 8 characters long',
     trim: true,
   },
@@ -45,16 +57,18 @@ router.post(
     const errors = validationResult(req);
 
     // INSERT INTO DB
-    await pool.query(
-      'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
-      [...Object.values(req.body)]
-    );
+
     if (!errors.isEmpty()) {
       return res.status(422).json({
         errors: errors.array(),
         message: 'invalid data format',
       });
     }
+
+    await pool.query(
+      'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
+      [...Object.values(req.body)]
+    );
 
     return res.status(200).json({
       status: 'success',
@@ -63,15 +77,24 @@ router.post(
   })
 );
 
-router.post(
-  '/login',
-  catchAsync((req, res, next) => {
-    console.log('2 - login');
-    return res.status(200).json({
-      status: 'success',
-      message: 'User successfully logged in',
-    });
-  })
-);
+router.post('/login', loginSchema, async (req, res, next) => {
+  console.log('2 - login');
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const customError = errors.array();
+    console.log(customError);
+    return next(new AppError(customError, 500));
+  }
+
+  const { email, password } = req.body;
+  const q = `SELECT email, password FROM users WHERE email = $1 AND password = $2`;
+  const result = await pool.query(q, [email, password]);
+  console.log(result);
+
+  return res.status(200).json({
+    status: 'success',
+    message: 'User successfully logged in',
+  });
+});
 
 module.exports = router;

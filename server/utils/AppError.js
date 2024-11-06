@@ -1,9 +1,13 @@
 class AppError extends Error {
   constructor(message, statusCode = 500) {
-    super(message);
+    const typeOfMessage = typeof message === 'string';
+    // message = typeOfMessage ? message : JSON.stringify(message);
+    // console.log('boolean from ap error', typeof message);
+    super(typeOfMessage ? message : JSON.stringify(message));
     this.statusCode = statusCode;
     this.status = statusCode * 1 >= 500 ? 'Error' : 'Failure';
-    this.operational = true;
+    this.isOperational = true;
+    this.isString = typeOfMessage;
     Error.captureStackTrace(this, this.constructor);
   }
 }
