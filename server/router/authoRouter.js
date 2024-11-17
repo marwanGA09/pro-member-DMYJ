@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const { checkSchema, validationResult } = require('express-validator');
 const AppError = require('../utils/AppError');
 const pool = require('../utils/pool');
@@ -65,10 +66,12 @@ router.post(
       });
     }
 
-    await pool.query(
-      'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
-      [...Object.values(req.body)]
-    );
+    const hashed = await bcrypt.hash('Ademkedr', 6);
+    console.log(hashed);
+    // await pool.query(
+    //   'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
+    //   [...Object.values(req.body)]
+    // );
 
     return res.status(200).json({
       status: 'success',
@@ -86,10 +89,13 @@ router.post('/login', loginSchema, async (req, res, next) => {
     return next(new AppError(customError, 500));
   }
 
-  const { email, password } = req.body;
-  const q = `SELECT email, password FROM users WHERE email = $1 AND password = $2`;
-  const result = await pool.query(q, [email, password]);
-  console.log(result);
+  const { email, userPassword } = req.body;
+  const q = `SELECT email, password FROM users WHERE email = $1`;
+  const result = await pool.query(q, [email]);
+  console.log('result', result.rows[0].password);
+  if (!result.rows.length || result.rows[0].password !== userPassword) {
+    return next(new AppError('Invalid email or password', 401));
+  }
 
   return res.status(200).json({
     status: 'success',
