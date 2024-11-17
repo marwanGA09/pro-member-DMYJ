@@ -36,6 +36,18 @@ const userSchema = checkSchema({
     errorMessage: 'Password must be at least 8 characters long',
     trim: true,
   },
+  confirmPassword: {
+    custom: {
+      options: (values, { req }) => {
+        // const unique_values = new Set(values);
+        if (values !== req.body.password) {
+          return Promise.reject();
+        }
+        return Promise.resolve();
+      },
+    },
+    errorMessage: `confirm password correctly `,
+  },
 });
 const loginSchema = checkSchema({
   email: {
@@ -77,10 +89,10 @@ router.post(
 
     const hashedPassword = await hashText(req.body.password);
     const userData = { ...req.body, password: hashedPassword };
-    console.log('hashedPassword', hashedPassword);
-    console.log('password', req.body.password);
+    // console.log('hashedPassword', hashedPassword);
+    // console.log('password', req.body.password);
 
-    compareHashedText(hashedPassword, req.body.password);
+    // compareHashedText(hashedPassword, req.body.password);
     // await pool.query(
     //   'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
     //   [...Object.values(userData)]
@@ -105,7 +117,6 @@ router.post('/login', loginSchema, async (req, res, next) => {
   const { email, password: userPassword } = req.body;
   const q = `SELECT email, password FROM users WHERE email = $1`;
   const result = await pool.query(q, [email]);
-  console.log('lkjaklsjfkl', result.rows[0].password, userPassword);
   if (
     !result.rows.length ||
     !compareHashedText(result.rows[0].password, userPassword)
