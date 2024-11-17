@@ -50,6 +50,15 @@ const loginSchema = checkSchema({
   },
 });
 
+async function hashText(text) {
+  return await bcrypt.hash(text, 11);
+}
+
+async function compareHashedText(hashText, text) {
+  const result = await bcrypt.compare(text, hashText);
+  console.log('result compare', result);
+  return result;
+}
 router.post(
   '/signup',
   userSchema,
@@ -66,11 +75,15 @@ router.post(
       });
     }
 
-    const hashed = await bcrypt.hash('Ademkedr', 6);
-    console.log(hashed);
+    const hashedPassword = await hashText(req.body.password);
+    const userData = { ...req.body, password: hashedPassword };
+    console.log('hashedPassword', hashedPassword);
+    console.log('password', req.body.password);
+
+    compareHashedText(hashedPassword, req.body.password);
     // await pool.query(
     //   'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
-    //   [...Object.values(req.body)]
+    //   [...Object.values(userData)]
     // );
 
     return res.status(200).json({
@@ -89,11 +102,14 @@ router.post('/login', loginSchema, async (req, res, next) => {
     return next(new AppError(customError, 500));
   }
 
-  const { email, userPassword } = req.body;
+  const { email, password: userPassword } = req.body;
   const q = `SELECT email, password FROM users WHERE email = $1`;
   const result = await pool.query(q, [email]);
-  console.log('result', result.rows[0].password);
-  if (!result.rows.length || result.rows[0].password !== userPassword) {
+  console.log('lkjaklsjfkl', result.rows[0].password, userPassword);
+  if (
+    !result.rows.length ||
+    !compareHashedText(result.rows[0].password, userPassword)
+  ) {
     return next(new AppError('Invalid email or password', 401));
   }
 
