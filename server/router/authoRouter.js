@@ -8,15 +8,48 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const router = express.Router();
 
-// async function hashText(text) {
-//   return await bcrypt.hash(text, 11);
-// }
+// **************************
+const LocalStrategy = require('passport-local');
 
-// async function compareHashedText(hashText, text) {
-//   const result = await bcrypt.compare(text, hashText);
-//   console.log('result compare', result);
-//   return result;
-// }
+async function verifyingFunction(username, password, done) {
+  console.log('IIIIIIIIIIIIIIIIIII');
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [
+      username,
+    ]);
+    console.log('result.rows', result.rows);
+    if (!result.rows.length) {
+      return done(null, false, { message: 'User not found' });
+    }
+
+    const isValid = await compareHashedText(result.rows[0].password, password);
+    if (!isValid) {
+      return done(null, false, { message: 'Invalid username or password' });
+    }
+
+    return done(null, result.rows[0]);
+  } catch (e) {
+    return done(e);
+  }
+}
+
+passport.serializeUser(function (user, done) {
+  process.nextTick(function () {
+    done(null, { id: user.id, username: user.username });
+  });
+});
+
+passport.deserializeUser(function (user, done) {
+  process.nextTick(function () {
+    return done(null, user);
+  });
+});
+
+const Strategy = new LocalStrategy(verifyingFunction);
+passport.use(Strategy);
+// module.exports = Strategy;
+
+// **************************
 
 const userSchema = checkSchema({
   first_name: {
@@ -96,15 +129,19 @@ router.post(
     }
 
     const hashedPassword = await hashText(req.body.password);
-    const userData = { ...req.body, password: hashedPassword };
+    const { confirmPassword, ...userData } = {
+      ...req.body,
+      password: hashedPassword,
+    };
     // console.log('hashedPassword', hashedPassword);
     // console.log('password', req.body.password);
-
-    // compareHashedText(hashedPassword, req.body.password);
-    // await pool.query(
-    //   'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
-    //   [...Object.values(userData)]
-    // );
+    console.log(userData, confirmPassword);
+    console.log([...Object.values(userData)]);
+    compareHashedText(hashedPassword, req.body.password);
+    await pool.query(
+      'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
+      [...Object.values(userData)]
+    );
 
     return res.status(200).json({
       status: 'success',

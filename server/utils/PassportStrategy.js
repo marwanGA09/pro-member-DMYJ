@@ -26,9 +26,6 @@ async function verifyingFunction(username, password, done) {
   }
 }
 
-const Strategy = new LocalStrategy(verifyingFunction);
-passport.use(Strategy);
-
 passport.serializeUser(function (user, done) {
   process.nextTick(function () {
     done(null, { id: user.id, username: user.username });
@@ -40,4 +37,7 @@ passport.deserializeUser(function (user, done) {
     return done(null, user);
   });
 });
+
+const Strategy = new LocalStrategy(verifyingFunction);
+passport.use(Strategy);
 // module.exports = Strategy;
