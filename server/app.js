@@ -1,10 +1,15 @@
 const express = require('express');
+const morgan = require('morgan');
+const expressSession = require('express-session');
+const PgStore = require('connect-pg-simple')(expressSession);
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
 const authRouter = require('./router/authoRouter');
-const Strategy = require('./utils/PassportStrategy');
+const pool = require('./utils/pool');
+const passport = require('passport');
 const app = express();
 
+app.use(morgan('dev'));
 app.use(express.json());
 // app.all('/ping', (req, res, next) => {
 //   return res.status(200).json({
@@ -12,6 +17,23 @@ app.use(express.json());
 //     message: 'Ping successfully succeeded',
 //   });
 // });
+
+// app.use(
+//   expressSession({
+//     store: new PgStore({
+//       pool: pool, // Connection pool
+//       tableName: 'user_sessions', // Use another table-name than the default "session" one
+//       // Insert connect-pg-simple options here
+//     }),
+//     secret: 'here is my screet word i use',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
+//     // Insert express-session options here
+//   })
+// );
+
+// app.use(passport.authenticate('session'));
 
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');

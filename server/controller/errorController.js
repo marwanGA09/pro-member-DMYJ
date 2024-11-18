@@ -1,6 +1,7 @@
 const _ = (err, req, res, next) => {
   console.log('***********************');
   console.log('ERROR CACHED IN THE ERROR CONTROLLER');
+  console.log(err);
   console.log('***********************');
 
   //  OPERATIONAL ERROR
