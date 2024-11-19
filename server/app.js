@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', (req, res, next) => {
   console.log('session 1');
-  // console.log(req.session);
+  console.log(req.session);
   next();
 });
 
@@ -31,7 +31,7 @@ app.use(passport.initialize());
 
 app.use('/', (req, res, next) => {
   console.log('session 2');
-  // console.log(req.session);
+  console.log(req.session);
   next();
 });
 
@@ -63,6 +63,7 @@ app.use('/', (req, res, next) => {
   console.log(req.session);
   next();
 });
+
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
 });

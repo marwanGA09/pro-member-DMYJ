@@ -183,4 +183,14 @@ router.post(
   }
 );
 
+router.get('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    console.log('logout completed', req.session);
+    res.redirect('/home');
+  });
+});
+
 module.exports = router;
