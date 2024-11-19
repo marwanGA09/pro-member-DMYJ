@@ -1,6 +1,8 @@
 const app = require('./app');
 const pg = require('pg');
 
-app.listen(4321, () => {
-  console.log('server on port 4321');
+const PORT = process.env.PORT || 4321;
+
+app.listen(PORT, () => {
+  console.log('server on port ', PORT);
 });

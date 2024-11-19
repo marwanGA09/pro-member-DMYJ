@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const expressSession = require('express-session');
 const PgStore = require('connect-pg-simple')(expressSession);
 const passport = require('passport');
+const dotenv = require('dotenv');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
@@ -11,7 +12,7 @@ const pool = require('./utils/pool');
 const { isAuth } = require('./router/authentication');
 
 const app = express();
-
+dotenv.config();
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -29,12 +30,12 @@ app.use(
   expressSession({
     store: new PgStore({
       pool: pool,
-      tableName: 'user_sessions',
+      tableName: process.env.SESSION_TABLE_NAME,
     }),
-    secret: 'here is my screet word i use',
+    secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+    cookie: { maxAge: parseInt(process.env.SESSION_MAX_AGE) },
   })
 );
 
