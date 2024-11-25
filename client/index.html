@@ -1,13 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+    <style>
+      body {
+        visibility: hidden;
+        background: #f0f0f0;
+      }
+      .js-loaded body {
+        visibility: visible;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      document.documentElement.classList.add('js-loaded');
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
