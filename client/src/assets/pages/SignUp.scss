@@ -1,0 +1,63 @@
+$primary-color: #4caf50;
+$error-color: #e74c3c;
+
+.signup-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .error {
+        color: $error-color;
+        font-size: 0.85rem;
+        margin-top: 5px;
+      }
+    }
+
+    .signup-button {
+      padding: 10px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: $primary-color;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}

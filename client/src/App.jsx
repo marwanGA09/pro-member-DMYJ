@@ -1,15 +1,13 @@
 import Navigation from './assets/components/Navigation';
-import Home from './assets/pages/Home';
-import Login from './assets/pages/Login';
-import Register from './assets/pages/Register';
+
+import SignUp from './assets/pages/SignUp';
 
 function App() {
   return (
     <div>
       <Navigation />
       {/* <Home /> */}
-      <Login />
-      <Register />
+      <SignUp />
     </div>
   );
 }
