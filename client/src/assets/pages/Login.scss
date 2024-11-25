@@ -1,0 +1,138 @@
+@use 'sass:color';
+
+$primary-color: #4caf50;
+$secondary-color: #1877f2;
+$text-color: #333;
+$border-color: #ddd;
+
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+
+  .title {
+    font-size: 1.8rem;
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  .login-form {
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: $text-color;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid $border-color;
+        border-radius: 5px;
+      }
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: $primary-color;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: color.scale($primary-color, $lightness: 10%);
+      }
+    }
+  }
+
+  .divider {
+    margin: 20px 0;
+    font-size: 0.9rem;
+    color: $border-color;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: $border-color;
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      .icon-google {
+        margin-right: 10px;
+        background: url('https://img.icons8.com/color/48/google-logo.png')
+          no-repeat center;
+        background-size: contain;
+        width: 20px;
+        height: 20px;
+      }
+
+      .icon-facebook {
+        margin-right: 10px;
+        background: url('https://img.icons8.com/color/48/facebook-new.png')
+          no-repeat center;
+        background-size: contain;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .google-button {
+      background-color: #fff;
+      color: $text-color;
+      border: 1px solid $border-color;
+
+      &:hover {
+        background-color: color.scale($primary-color, $lightness: -20%);
+      }
+    }
+
+    .facebook-button {
+      background-color: $secondary-color;
+      color: #fff;
+
+      background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+}
