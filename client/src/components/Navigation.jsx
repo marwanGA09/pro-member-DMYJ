@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Navigation.scss';
+import { Link } from 'react-router';
 
 const Navigation = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -16,20 +17,20 @@ const Navigation = () => {
 
   return (
     <nav className="navigation">
-      <div className="logo" onClick={() => (window.location.href = '/')}>
-        MyLogo
-      </div>
+      <Link to={'/'}>
+        <div className="logo">MyLogo</div>
+      </Link>
       <ul className="nav-links">
         <li>
-          <a href="/">Home</a>
+          <Link to={'/'}>Home</Link>
         </li>
         <li>
-          <a href="/about">About</a>
+          <Link to={'/about'}>About</Link>
         </li>
         {isLoggedIn ? (
           <>
             <li>
-              <a href="/dashboard">Dashboard</a>
+              <Link to={'/Dashboard'}>Dashboard</Link>
             </li>
             <li>
               <button className="logout-button" onClick={handleLogout}>
@@ -40,10 +41,10 @@ const Navigation = () => {
         ) : (
           <>
             <li>
-              <a href="/login">Login</a>
+              <Link to={'/login'}>Login</Link>
             </li>
             <li>
-              <a href="/signup">Signup</a>
+              <Link to={'/signup'}>SignUp</Link>
             </li>
           </>
         )}

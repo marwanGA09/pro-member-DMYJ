@@ -1,15 +1,10 @@
-import Navigation from './assets/components/Navigation';
+import { Outlet, RouterProvider } from 'react-router';
 
-import SignUp from './assets/pages/SignUp';
+import router from './Layout/mainRouter';
+import './App.scss';
 
 function App() {
-  return (
-    <div>
-      <Navigation />
-      {/* <Home /> */}
-      <SignUp />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
