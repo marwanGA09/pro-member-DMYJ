@@ -17,7 +17,7 @@ router.post(
   userSchema,
   catchAsync(async (req, res, next) => {
     const errors = validationResult(req);
-
+    console.log('signup');
     // INSERT INTO DB
 
     if (!errors.isEmpty()) {
@@ -28,15 +28,23 @@ router.post(
     }
 
     const hashedPassword = await hashText(req.body.password);
-    const { confirmPassword, ...userData } = {
+    let { confirmPassword, ...userData } = {
       ...req.body,
       password: hashedPassword,
     };
 
-    // console.log([...Object.values(userData)]);
+    userData = {
+      ...userData,
+      date_of_birth: userData?.date_of_birth || new Date(),
+      role: userData.role || 'user',
+
+      sector: userData.sector || '',
+    };
+
+    console.log(userData);
 
     await pool.query(
-      'INSERT INTO users (first_name,middle_name,last_name,username,date_of_birth,password,sector,role,email,phonenumber) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
+      'INSERT INTO users (first_name,middle_name,last_name,username,email,sector,password,phonenumber,date_of_birth,role) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
       [...Object.values(userData)]
     );
 

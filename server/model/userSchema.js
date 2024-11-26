@@ -1,6 +1,10 @@
 const { checkSchema } = require('express-validator');
 
 const userSchema = checkSchema({
+  username: {
+    notEmpty: true,
+    errorMessage: 'username is required',
+  },
   first_name: {
     notEmpty: true,
     errorMessage: 'First name is required',

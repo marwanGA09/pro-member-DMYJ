@@ -16,10 +16,12 @@ const DEPLOYMENT_URL = '';
 const app = express();
 dotenv.config();
 app.use(morgan('dev'));
+console.log('process', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
-  app.use(cors({ origin: DEPLOYMENT_URL }));
+  app.use(cors({ origin: DEPLOYMENT_URL, credentials: true }));
 } else {
-  app.use(cors());
+  const DEV_ORIGIN = 'http://localhost:5174'; // Frontend origin in development
+  app.use(cors({ origin: DEV_ORIGIN, credentials: true }));
 }
 app.use(express.json());
 
