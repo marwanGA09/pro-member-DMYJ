@@ -1,20 +1,24 @@
 import { useState } from 'react';
+import axios from 'axios';
 import './SignUp.scss';
+import { useNavigate } from 'react-router';
 
-const SignUp = () => {
+const SignupPage = () => {
   const [formData, setFormData] = useState({
     first_name: '',
     middle_name: '',
     last_name: '',
+    username: '',
     email: '',
+    phone: '',
     sector: '',
     password: '',
     confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({});
-
-  const sectors = ['management', 'economy', 'academy', 'social', "daw'a"];
+  const navigate = useNavigate();
+  const sectors = ['economy', 'academy', 'social', "daw'a"];
 
   const validate = () => {
     const validationErrors = {};
@@ -24,8 +28,12 @@ const SignUp = () => {
       validationErrors.middle_name = 'Middle name is required';
     if (!formData.last_name.trim())
       validationErrors.last_name = 'Last name is required';
+    if (!formData.username.trim())
+      validationErrors.username = 'Username is required';
     if (!/^\S+@\S+\.\S+$/.test(formData.email))
       validationErrors.email = 'Please enter a valid email address';
+    if (!/^\+?\d{10,15}$/.test(formData.phone))
+      validationErrors.phone = 'Enter a valid phone number (10-15 digits)';
     if (!sectors.includes(formData.sector))
       validationErrors.sector = 'Please select a valid sector';
     if (formData.password.length < 8)
@@ -46,15 +54,95 @@ const SignUp = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      setErrors({});
-      alert('Signup successful');
-      console.log(formData);
+      // console.log('Submitting form...');
+
+      const payload = {
+        first_name: formData.first_name,
+        middle_name: formData.middle_name,
+        last_name: formData.last_name,
+        username: formData.username,
+        email: formData.email,
+        sector: formData.sector,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        phonenumber: formData.phone,
+      };
+
+      // console.log('Payload:', payload);
+
+      axios
+        .post('http://localhost:4321/v1/signup', payload, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log('Signup successful!');
+          setErrors({});
+          navigate('/login');
+        })
+        .catch((err) => {
+          // console.log('xxxxxxxxx:', err.response?.data?.errors);
+          // console.log('Error response.data:', err.response?.data);
+          // console.log('Error || err.message', err.message);
+
+          if (err.response?.data?.error?.constraint === 'users_username_key') {
+            setErrors({ username: 'Username already exists' });
+          } else if (
+            err.response?.data?.error?.constraint === 'users_email_key'
+          ) {
+            setErrors({ email: 'Email already exists' });
+          } else {
+            setErrors({ something: 'Something went wrong' });
+          }
+
+          if (err.response && err.response.data) {
+            console.log(`Signup failed: ${err.response.data.message}`);
+          }
+        });
     }
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('Submitting form...');
+
+  //   const payload = {
+  //     first_name: formData.first_name,
+  //     middle_name: formData.middle_name,
+  //     last_name: formData.last_name,
+  //     username: formData.username,
+  //     email: formData.email,
+  //     sector: formData.sector,
+  //     password: formData.password,
+  //     confirmPassword: formData.confirmPassword,
+  //     phonenumber: formData.phone,
+  //   };
+
+  //   console.log('Payload:', payload);
+
+  //   axios
+  //     .post('http://localhost:4321/v1/signup', payload, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       console.log('Response:', res.data);
+  //       console.log('Signup successful!');
+  //       setErrors({});
+  //     })
+  //     .catch((err) => {
+  //       console.log('xxxxxxxxx:', err.response?.data?.errors);
+  //       console.log('Error response.data:', err.response?.data);
+  //       console.log('Error || err.message', err.message);
+  //       if (err.response && err.response.data) {
+  //         console.log(`Signup failed: ${err.response.data.message}`);
+  //       }
+  //     });
+  // };
+
   return (
     <div className="signup-container">
-      <h1 className="title">Signup</h1>
+      <h1 className="title" onClick={handleSubmit}>
+        Signup
+      </h1>
       <form className="signup-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>First Name</label>
@@ -96,6 +184,19 @@ const SignUp = () => {
         </div>
 
         <div className="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+          {errors.username && (
+            <small className="error">{errors.username}</small>
+          )}
+        </div>
+
+        <div className="form-group">
           <label>Email</label>
           <input
             type="email"
@@ -104,6 +205,17 @@ const SignUp = () => {
             onChange={handleChange}
           />
           {errors.email && <small className="error">{errors.email}</small>}
+        </div>
+
+        <div className="form-group">
+          <label>Phone Number</label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+          {errors.phone && <small className="error">{errors.phone}</small>}
         </div>
 
         <div className="form-group">
@@ -148,9 +260,14 @@ const SignUp = () => {
         <button type="submit" className="signup-button">
           Signup
         </button>
+        <div className="form-group">
+          {errors.something && (
+            <small className="error">{errors.something}</small>
+          )}
+        </div>
       </form>
     </div>
   );
 };
 
-export default SignUp;
+export default SignupPage;
