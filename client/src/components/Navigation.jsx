@@ -2,21 +2,29 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router';
 import './Navigation.scss';
 import { myContext } from '../components/ContextProvider';
+import axios from 'axios';
 
 const Navigation = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-  const { user } = useContext(myContext);
+  const { user, setUser } = useContext(myContext);
   console.log(user);
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    axios
+      .get('http://localhost:4321/v1/logout')
+      .then((res) => {
+        console.log(res);
+
+        setUser(false);
+      })
+      .catch((e) => {
+        console.log(e.response?.data);
+      });
     alert('You have been logged out.');
   };
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    alert('You are now logged in.');
-  };
+  // const handleLogin = () => {
+  //   // setIsLoggedIn(true);
+  //   alert('You are now logged in.');
+  // };
 
   return (
     <nav className="navigation">
@@ -30,7 +38,7 @@ const Navigation = () => {
         <li>
           <Link to={'/about'}>About</Link>
         </li>
-        {isLoggedIn ? (
+        {user ? (
           <>
             <li>
               <Link to={'/Dashboard'}>Dashboard</Link>

@@ -105,7 +105,10 @@ router.get('/logout', (req, res, next) => {
       return next(err);
     }
     console.log('logout completed', req.session);
-    res.redirect('/home');
+    res.status(200).json({
+      status: 'success',
+      message: 'User successfully logged out',
+    });
   });
 });
 
