@@ -55,37 +55,27 @@ router.post(
   })
 );
 
-// router.post(
-//   '/login',
-//   loginSchema,
-//   passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/login',
-//   }),
-//   async (req, res, next) => {
-//     console.log('login');
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       const customError = errors.array();
-//       return next(new AppError(customError, 500));
-//     }
-
-//     const { username, password: userPassword } = req.body;
-//     const q = `SELECT username, password FROM users WHERE username = $1`;
-//     const result = await pool.query(q, [username]);
-//     if (
-//       !result.rows.length ||
-//       !compareHashedText(result.rows[0].password, userPassword)
-//     ) {
-//       return next(new AppError('Invalid username or password', 401));
-//     }
-
-//     return res.status(200).json({
-//       status: 'success',
-//       message: 'User successfully logged in',
-//     });
-//   }
-// );
+// date_of_birth: "2024-11-25T21:00:00.000Z"
+// ​​
+// email: "booonasa@gmail.com"
+// ​​
+// first_name: "suudi"
+// ​​
+// id: 41
+// ​​
+// last_name: "kljkj"
+// ​​
+// middle_name: "dssd"
+// ​​
+// password: "$2b$11$sVibWdW8.BfXFUOkymf2YulAKiVOpLoGOKmis9WgMSv4VbL/1Q7dC"
+// ​​
+// phonenumber: "booonasa@gmail.com"
+// ​​
+// role: "user"
+// ​​
+// sector: "academy"
+// ​​
+// username: "boonsaa"
 
 router.post('/local', loginSchema, (req, res, next) => {
   console.log('login-1');
@@ -93,12 +83,17 @@ router.post('/local', loginSchema, (req, res, next) => {
     console.log('login-2');
     if (err) return next(err);
     if (!user) return res.status(401).json({ message: info.message });
+    // console.log(user);
+    const { password, ...loggedInUser } = user;
+    // console.log('login', loggedInUser);
+    // console.log('login', password);
     req.logIn(user, (loginErr) => {
       console.log('login-3');
       if (loginErr) return next(loginErr);
       return res.status(200).json({
         status: 'success',
         message: 'User successfully logged in',
+        user: loggedInUser,
       });
     });
   })(req, res, next);

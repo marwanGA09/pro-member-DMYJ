@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import './Login.scss';
 import { useNavigate } from 'react-router';
+import { myContext } from '../components/ContextProvider';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { setUser } = useContext(myContext);
 
   const navigate = useNavigate();
 
@@ -24,12 +27,14 @@ const LoginPage = () => {
         { username, password },
         { withCredentials: true }
       );
-      console.log('res', response);
-      console.log('Response:', response.data);
+      // console.log('res', response);
+      // console.log('Response: 1', response.data.user);
       if (response.data.status === 'success') {
         alert('Login successful!');
+        // console.log('user', response.data.user);
         // Optionally redirect the user after login
         // window.location.href = '/dashboard';
+        setUser(response.data.user);
         navigate('/dashboard');
       } else {
         setError(response.data.message || 'Login failed. Please try again.');

@@ -1,10 +1,13 @@
-import { useState } from 'react';
-import './Navigation.scss';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router';
+import './Navigation.scss';
+import { myContext } from '../components/ContextProvider';
 
 const Navigation = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
+  const { user } = useContext(myContext);
+  console.log(user);
   const handleLogout = () => {
     setIsLoggedIn(false);
     alert('You have been logged out.');
