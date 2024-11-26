@@ -5,6 +5,9 @@ import SignUp from '../pages/SignUp';
 import About from '../pages/About';
 import RouterController from '../RouterController';
 import Dashboard from '../pages/Dashboard';
+import ProtectedRoute from '../components/ProtectedRoute';
+import AdminDashboard from '../pages/AdminDashboard';
+import AuthorizedRoute from '../components/AuthorizedRoute';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +15,24 @@ const router = createBrowserRouter([
     element: <RouterController />,
     children: [
       { index: true, element: <Home /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: '/dashboard',
+            element: <Dashboard />,
+          },
+        ],
+      },
+      {
+        element: <AuthorizedRoute />,
+        children: [
+          {
+            path: 'admin-dashboard',
+            element: <AdminDashboard />,
+          },
+        ],
+      },
       {
         path: 'login',
         element: <LoginPage />,
@@ -23,10 +44,6 @@ const router = createBrowserRouter([
       {
         path: 'about',
         element: <About />,
-      },
-      {
-        path: '/dashboard',
-        element: <Dashboard />,
       },
     ],
   },

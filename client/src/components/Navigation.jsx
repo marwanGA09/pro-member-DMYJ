@@ -40,6 +40,10 @@ const Navigation = () => {
         </li>
         {user ? (
           <>
+            {/* FIX */}
+            <li>
+              <Link to={'/admin-dashboard'}>Admin</Link>
+            </li>
             <li>
               <Link to={'/Dashboard'}>Dashboard</Link>
             </li>
