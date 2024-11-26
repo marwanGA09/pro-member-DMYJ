@@ -4,6 +4,7 @@ import LoginPage from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import About from '../pages/About';
 import RouterController from '../RouterController';
+import Dashboard from '../pages/Dashboard';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
         path: 'about',
         element: <About />,
       },
+      {
+        path: '/dashboard',
+        element: <Dashboard />,
+      },
     ],
   },
 
@@ -30,7 +35,6 @@ const router = createBrowserRouter([
     path: '*',
     element: <h1>404 Not Found</h1>,
   },
-
 ]);
 
 export default router;
