@@ -4,6 +4,7 @@ const expressSession = require('express-session');
 const PgStore = require('connect-pg-simple')(expressSession);
 const passport = require('passport');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
@@ -11,9 +12,15 @@ const authRouter = require('./router/authoRouter');
 const pool = require('./utils/pool');
 const { isAuth } = require('./router/authentication');
 
+const DEPLOYMENT_URL = '';
 const app = express();
 dotenv.config();
 app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors({ origin: DEPLOYMENT_URL }));
+} else {
+  app.use(cors());
+}
 app.use(express.json());
 
 // app.use(express.static(path.join(__dirname, 'public')));
