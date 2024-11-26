@@ -1,10 +1,15 @@
-import { Outlet, RouterProvider } from 'react-router';
+import { RouterProvider } from 'react-router';
 
 import router from './Layout/mainRouter';
 import './App.scss';
+import { ContextProvider } from './components/ContextProvider';
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ContextProvider>
+      <RouterProvider router={router} />
+    </ContextProvider>
+  );
 }
 
 export default App;
