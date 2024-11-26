@@ -12,7 +12,7 @@ async function verifyingFunction(username, password, done) {
       username,
     ]);
     if (!result.rows.length) {
-      return done(null, false, { message: 'User not found' });
+      return done(null, false, { message: 'Username not found' });
     }
 
     const isValid = await compareHashedText(result.rows[0].password, password);

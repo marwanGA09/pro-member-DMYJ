@@ -50,11 +50,12 @@ app.use(
 
 app.use(passport.authenticate('session'));
 
-app.use('/', (req, res, next) => {
-  console.log('session after');
-  console.log(req.session);
-  next();
-});
+// app.use('/', (req, res, next) => {
+//   console.log('session after');
+//   return res.status(200).json({
+//     message: 'session is working',
+//   });
+// });
 
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
@@ -67,6 +68,7 @@ app.get('/v1/protected-route', isAuth, (req, res, next) => {
 app.use('/v1', authRouter);
 
 app.all('*', (req, res, next) => {
+  console.log(req.url);
   return next(new AppError(`Invalid route ${req.url}`, 400));
 });
 

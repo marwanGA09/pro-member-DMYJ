@@ -1,13 +1,47 @@
 import { useState } from 'react';
+import axios from 'axios';
 import './Login.scss';
+import { useNavigate } from 'react-router';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    alert(`Email: ${email}, Password: ${password}`);
+    console.log('handle login');
+    setError('');
+    setLoading(true);
+
+    try {
+      console.log('payload', { username, password });
+      const response = await axios.post(
+        ' http://localhost:4321/v1/local',
+        { username, password },
+        { withCredentials: true }
+      );
+      console.log('res', response);
+      console.log('Response:', response.data);
+      if (response.data.status === 'success') {
+        alert('Login successful!');
+        // Optionally redirect the user after login
+        // window.location.href = '/dashboard';
+        navigate('/dashboard');
+      } else {
+        setError(response.data.message || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error:', err.response?.data || err.message);
+      setError(
+        err.response?.data?.message || 'An error occurred. Please try again.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -23,12 +57,12 @@ const LoginPage = () => {
       <h1 className="title">Welcome Back</h1>
       <form className="login-form" onSubmit={handleLogin}>
         <div className="form-group">
-          <label>Email</label>
+          <label>Username</label>
           <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="username"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
@@ -42,8 +76,9 @@ const LoginPage = () => {
             required
           />
         </div>
-        <button type="submit" className="login-button">
-          Log In
+        {error && <div className="error-message">{error}</div>}
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? 'Logging in...' : 'Log In'}
         </button>
       </form>
 

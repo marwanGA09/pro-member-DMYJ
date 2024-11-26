@@ -55,36 +55,54 @@ router.post(
   })
 );
 
-router.post(
-  '/login',
-  loginSchema,
-  passport.authenticate('local', {
-    successRedirect: '/home',
-    failureRedirect: '/login',
-  }),
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const customError = errors.array();
-      return next(new AppError(customError, 500));
-    }
+// router.post(
+//   '/login',
+//   loginSchema,
+//   passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/login',
+//   }),
+//   async (req, res, next) => {
+//     console.log('login');
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       const customError = errors.array();
+//       return next(new AppError(customError, 500));
+//     }
 
-    const { username, password: userPassword } = req.body;
-    const q = `SELECT username, password FROM users WHERE username = $1`;
-    const result = await pool.query(q, [username]);
-    if (
-      !result.rows.length ||
-      !compareHashedText(result.rows[0].password, userPassword)
-    ) {
-      return next(new AppError('Invalid username or password', 401));
-    }
+//     const { username, password: userPassword } = req.body;
+//     const q = `SELECT username, password FROM users WHERE username = $1`;
+//     const result = await pool.query(q, [username]);
+//     if (
+//       !result.rows.length ||
+//       !compareHashedText(result.rows[0].password, userPassword)
+//     ) {
+//       return next(new AppError('Invalid username or password', 401));
+//     }
 
-    return res.status(200).json({
-      status: 'success',
-      message: 'User successfully logged in',
+//     return res.status(200).json({
+//       status: 'success',
+//       message: 'User successfully logged in',
+//     });
+//   }
+// );
+
+router.post('/local', loginSchema, (req, res, next) => {
+  console.log('login-1');
+  passport.authenticate('local', (err, user, info) => {
+    console.log('login-2');
+    if (err) return next(err);
+    if (!user) return res.status(401).json({ message: info.message });
+    req.logIn(user, (loginErr) => {
+      console.log('login-3');
+      if (loginErr) return next(loginErr);
+      return res.status(200).json({
+        status: 'success',
+        message: 'User successfully logged in',
+      });
     });
-  }
-);
+  })(req, res, next);
+});
 
 router.get('/logout', (req, res, next) => {
   req.logout((err) => {
