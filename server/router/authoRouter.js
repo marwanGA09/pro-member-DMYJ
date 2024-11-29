@@ -83,7 +83,9 @@ router.post(
       !user.rows.length ||
       !(await compareHashedText(user.rows[0].password, password))
     ) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res
+        .status(401)
+        .json({ message: 'Incorrect username or password' });
     }
 
     const token = jwt.sign(
@@ -97,7 +99,8 @@ router.post(
     // NOTE Study about sending token with cookies
     // res.cookie('jwt', token, { expires: new Date(Date.now() + process.env.JWT_EXPIRATION), httpOnly: true });
     return res.status(200).json({
-      message: 'successful',
+      status: 'success',
+      message: 'User successfully logged in',
       token,
       user: user.rows[0],
     });

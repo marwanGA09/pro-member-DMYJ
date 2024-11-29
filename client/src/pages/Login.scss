@@ -41,11 +41,6 @@ $border-color: #ddd;
       }
     }
 
-    .error-message {
-      color: red;
-      padding: 3px;
-    }
-
     .login-button {
       width: 100%;
       padding: 10px;
@@ -140,4 +135,9 @@ $border-color: #ddd;
       background-color: color.adjust($primary-color, $lightness: -10%);
     }
   }
+}
+
+.error-message {
+  color: red;
+  padding: 3px;
 }
