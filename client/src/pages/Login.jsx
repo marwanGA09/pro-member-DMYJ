@@ -5,47 +5,79 @@ import { useNavigate } from 'react-router';
 import { myContext } from '../components/ContextProvider';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [loginData, setLoginData] = useState({
+    username: '',
+    password: '',
+  });
+  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
   const { setUser } = useContext(myContext);
 
   const navigate = useNavigate();
 
+  const validate = () => {
+    const validationErrors = {};
+    if (!loginData.username.trim())
+      validationErrors.username = 'Username is required';
+
+    //  if (!/^\S+@\S+\.\S+$/.test(loginData.email))
+    //    validationErrors.email = 'Please enter a valid email address';
+
+    if (loginData.password.length < 8)
+      validationErrors.password = 'Password must be at least 8 characters long';
+
+    return validationErrors;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({ ...prevData, [name]: value }));
+  };
+  // FIX
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log('handle login');
-    setError('');
-    setLoading(true);
 
-    try {
-      console.log('payload', { username, password });
-      const response = await axios.post(
-        ' http://localhost:4321/v1/local',
-        { username, password },
-        { withCredentials: true }
-      );
-      // console.log('res', response);
-      // console.log('Response: 1', response.data.user);
-      if (response.data.status === 'success') {
-        alert('Login successful!');
-        // console.log('user', response.data.user);
-        // Optionally redirect the user after login
-        // window.location.href = '/dashboard';
-        setUser(response.data.user);
-        navigate('/dashboard');
-      } else {
-        setError(response.data.message || 'Login failed. Please try again.');
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setError(validationErrors);
+    } else {
+      setLoading(true);
+
+      try {
+        const response = await axios.post(' http://localhost:4321/v1/login', {
+          username: loginData.username,
+          password: loginData.password,
+        });
+        console.log('res', response);
+        // console.log('Response: 1', response.data.user);
+        if (response.data.status === 'success') {
+          alert('Login successful!');
+          console.log('user', response.data);
+          // Optionally redirect the user after login
+          // window.location.href = '/dashboard';
+          setError({});
+          // FIX TO INCLUDE TOKEN ALSO
+          console.log(response.data.user);
+          setUser(response.data.user);
+          navigate('/dashboard');
+        } else {
+          setError({
+            other: response.data.message || 'Login failed. Please try again.',
+          });
+        }
+      } catch (err) {
+        // console.error('Error:', err);
+        console.error('Error:', err.response?.data || err.message);
+        setError({
+          other:
+            err.response?.data?.message ||
+            'An error occurred. Please try again.',
+        });
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Error:', err.response?.data || err.message);
-      setError(
-        err.response?.data?.message || 'An error occurred. Please try again.'
-      );
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -65,23 +97,31 @@ const LoginPage = () => {
           <label>Username</label>
           <input
             type="username"
+            name="username"
             placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={loginData.username}
+            onChange={handleChange}
             required
           />
+          {error.username && (
+            <small className="error-message">{error.username}</small>
+          )}
         </div>
         <div className="form-group">
           <label>Password</label>
           <input
             type="password"
+            name="password"
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={loginData.password}
+            onChange={handleChange}
             required
           />
+          {error.password && (
+            <small className="error-message">{error.password}</small>
+          )}
         </div>
-        {error && <div className="error-message">{error}</div>}
+        {error.other && <div className="error-message">{error.other}</div>}
         <button type="submit" className="login-button" disabled={loading}>
           {loading ? 'Logging in...' : 'Log In'}
         </button>

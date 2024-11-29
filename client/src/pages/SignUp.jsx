@@ -101,43 +101,6 @@ const SignupPage = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log('Submitting form...');
-
-  //   const payload = {
-  //     first_name: formData.first_name,
-  //     middle_name: formData.middle_name,
-  //     last_name: formData.last_name,
-  //     username: formData.username,
-  //     email: formData.email,
-  //     sector: formData.sector,
-  //     password: formData.password,
-  //     confirmPassword: formData.confirmPassword,
-  //     phonenumber: formData.phone,
-  //   };
-
-  //   console.log('Payload:', payload);
-
-  //   axios
-  //     .post('http://localhost:4321/v1/signup', payload, {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       console.log('Response:', res.data);
-  //       console.log('Signup successful!');
-  //       setErrors({});
-  //     })
-  //     .catch((err) => {
-  //       console.log('xxxxxxxxx:', err.response?.data?.errors);
-  //       console.log('Error response.data:', err.response?.data);
-  //       console.log('Error || err.message', err.message);
-  //       if (err.response && err.response.data) {
-  //         console.log(`Signup failed: ${err.response.data.message}`);
-  //       }
-  //     });
-  // };
-
   return (
     <div className="signup-container">
       <h1 className="title" onClick={handleSubmit}>
