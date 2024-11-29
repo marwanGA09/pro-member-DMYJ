@@ -21,7 +21,7 @@ console.log('process', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
   app.use(cors({ origin: DEPLOYMENT_URL, credentials: true }));
 } else {
-  const DEV_ORIGIN = 'http://localhost:5174'; // Frontend origin in development
+  const DEV_ORIGIN = 'http://localhost:5173'; // Frontend origin in development
   app.use(cors({ origin: DEV_ORIGIN, credentials: true }));
 }
 app.use(express.json());

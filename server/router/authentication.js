@@ -11,7 +11,7 @@ const isAuth = async (req, res, next) => {
       new AppError('You are not logged in, please logged in first', 401)
     );
   }
-
+  console.log(header);
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
       return next(new AppError('Invalid token, please login again', 401));

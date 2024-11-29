@@ -59,8 +59,7 @@ const LoginPage = () => {
           // window.location.href = '/dashboard';
           setError({});
           // FIX TO INCLUDE TOKEN ALSO
-          console.log(response.data.user);
-          setUser(response.data.user);
+          setUser(response.data);
           navigate('/dashboard');
         } else {
           setError({
