@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const passport = require('./../utils/passportConfig');
 const LocalStrategy = require('passport-local');
 const { checkSchema, validationResult } = require('express-validator');
@@ -10,6 +11,7 @@ const catchAsync = require('../utils/catchAsync');
 const { hashText, compareHashedText } = require('./../utils/hashing');
 const { loginSchema } = require('./../model/loginSchema');
 const { userSchema } = require('./../model/userSchema');
+
 const router = express.Router();
 
 router.post(
@@ -55,29 +57,73 @@ router.post(
   })
 );
 
-router.post('/local', loginSchema, (req, res, next) => {
-  console.log('login-1');
-  passport.authenticate('local', (err, user, info) => {
-    console.log('login-2');
-    if (err) return next(err);
-    if (!user) return res.status(401).json({ message: info.message });
-    // console.log(user);
-    const { password, ...loggedInUser } = user;
-    // console.log('login', loggedInUser);
-    // console.log('login', password);
-    req.logIn(user, (loginErr) => {
-      console.log('login-3');
-      if (loginErr) return next(loginErr);
-      return res.status(200).json({
-        status: 'success',
-        message: 'User successfully logged in',
-        user: loggedInUser,
+router.post(
+  '/login',
+  loginSchema,
+  catchAsync(async (req, res, next) => {
+    console.log('login-1');
+    // NOTE login schema
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        errors: errors.array(),
+        message: 'invalid data format',
       });
+    }
+
+    const { username, password } = req.body;
+    console.log(username, password);
+    // NOTE check in database
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [
+      username,
+    ]);
+
+    if (
+      !user.rows.length ||
+      !(await compareHashedText(user.rows[0].password, password))
+    ) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    const token = jwt.sign(
+      { id: user.rows[0].id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: process.env.JWT_EXPIRATION,
+      }
+    );
+
+    // NOTE Study about sending token with cookies
+    // res.cookie('jwt', token, { expires: new Date(Date.now() + process.env.JWT_EXPIRATION), httpOnly: true });
+    return res.status(200).json({
+      message: 'successful',
+      token,
+      user: user.rows[0],
     });
-  });
-  // # i FIXed this part
-  // })(req, res, next);
-});
+
+    // passport.authenticate('local', (err, user, info) => {
+    //   console.log('login-2');
+    //   if (err) return next(err);
+    //   if (!user) return res.status(401).json({ message: info.message });
+    //   // console.log(user);
+    //   const { password, ...loggedInUser } = user;
+    //   // console.log('login', loggedInUser);
+    //   // console.log('login', password);
+    //   req.logIn(user, (loginErr) => {
+    //     console.log('login-3');
+    //     if (loginErr) return next(loginErr);
+    //     return res.status(200).json({
+    //       status: 'success',
+    //       message: 'User successfully logged in',
+    //       user: loggedInUser,
+    //     });
+    //   });
+    // });
+    // # i FIXed this part
+    // })(req, res, next);
+  })
+);
 
 router.get('/logout', (req, res, next) => {
   req.logout((err) => {

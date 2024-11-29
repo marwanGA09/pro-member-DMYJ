@@ -27,12 +27,6 @@ app.use(express.json());
 
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', (req, res, next) => {
-  console.log('session before');
-  console.log(req.session);
-  next();
-});
-
 // app.use(
 //   expressSession({
 //     store: new PgStore({
@@ -52,10 +46,10 @@ app.use('/', (req, res, next) => {
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
 });
-app.get('/v1/protected-route', isAuth, (req, res, next) => {
-  console.log('This is protected route');
-  res.send('This is protected route');
-});
+// app.get('/v1/protected-route', isAuth, (req, res, next) => {
+//   console.log('This is protected route');
+//   res.send('This is protected route');
+// });
 
 app.use('/v1', authRouter);
 
