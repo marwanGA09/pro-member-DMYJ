@@ -55,28 +55,6 @@ router.post(
   })
 );
 
-// date_of_birth: "2024-11-25T21:00:00.000Z"
-// ​​
-// email: "booonasa@gmail.com"
-// ​​
-// first_name: "suudi"
-// ​​
-// id: 41
-// ​​
-// last_name: "kljkj"
-// ​​
-// middle_name: "dssd"
-// ​​
-// password: "$2b$11$sVibWdW8.BfXFUOkymf2YulAKiVOpLoGOKmis9WgMSv4VbL/1Q7dC"
-// ​​
-// phonenumber: "booonasa@gmail.com"
-// ​​
-// role: "user"
-// ​​
-// sector: "academy"
-// ​​
-// username: "boonsaa"
-
 router.post('/local', loginSchema, (req, res, next) => {
   console.log('login-1');
   passport.authenticate('local', (err, user, info) => {
@@ -96,7 +74,9 @@ router.post('/local', loginSchema, (req, res, next) => {
         user: loggedInUser,
       });
     });
-  })(req, res, next);
+  });
+  // # i FIXed this part
+  // })(req, res, next);
 });
 
 router.get('/logout', (req, res, next) => {

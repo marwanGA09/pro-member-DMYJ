@@ -27,35 +27,27 @@ app.use(express.json());
 
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(passport.initialize());
-
 app.use('/', (req, res, next) => {
   console.log('session before');
   console.log(req.session);
   next();
 });
 
-app.use(
-  expressSession({
-    store: new PgStore({
-      pool: pool,
-      tableName: process.env.SESSION_TABLE_NAME,
-    }),
-    secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: parseInt(process.env.SESSION_MAX_AGE) },
-  })
-);
+// app.use(
+//   expressSession({
+//     store: new PgStore({
+//       pool: pool,
+//       tableName: process.env.SESSION_TABLE_NAME,
+//     }),
+//     secret: process.env.SESSION_SECRET_KEY,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { maxAge: parseInt(process.env.SESSION_MAX_AGE) },
+//   })
+// );
 
-app.use(passport.authenticate('session'));
-
-// app.use('/', (req, res, next) => {
-//   console.log('session after');
-//   return res.status(200).json({
-//     message: 'session is working',
-//   });
-// });
+// app.use(passport.initialize());
+// app.use(passport.authenticate('session'));
 
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
