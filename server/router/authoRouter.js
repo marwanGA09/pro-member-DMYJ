@@ -11,7 +11,7 @@ const catchAsync = require('../utils/catchAsync');
 const { hashText, compareHashedText } = require('./../utils/hashing');
 const { loginSchema } = require('./../model/loginSchema');
 const { userSchema } = require('./../model/userSchema');
-
+const { addToken } = require('./../utils/blacklistToken');
 const router = express.Router();
 
 router.post(
@@ -129,15 +129,30 @@ router.post(
 );
 
 router.get('/logout', (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    console.log('logout completed', req.session);
-    res.status(200).json({
-      status: 'success',
-      message: 'User successfully logged out',
-    });
+  // req.logout((err) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   console.log('logout completed', req.session);
+  //   res.status(200).json({
+  //     status: 'success',
+  //     message: 'User successfully logged out',
+  //   });
+  // });
+  const header = req.headers.authorization;
+  const token = header && header.split(' ')[1];
+  if (!header || !token) {
+    return next(
+      new AppError(
+        'You are not logged in, please logged in first to logout',
+        401
+      )
+    );
+  }
+  addToken(token);
+  res.status(200).json({
+    status: 'success',
+    message: 'User successfully logged out',
   });
 });
 
