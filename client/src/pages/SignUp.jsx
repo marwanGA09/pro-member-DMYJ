@@ -18,7 +18,15 @@ const SignupPage = () => {
 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const sectors = ['economy', 'academy', 'social', "daw'a"];
+
+  const sectors = [
+    'economy',
+    'academy',
+    'social',
+    'dawah',
+    'managment',
+    'other',
+  ];
 
   const validate = () => {
     const validationErrors = {};
@@ -80,15 +88,13 @@ const SignupPage = () => {
           navigate('/login');
         })
         .catch((err) => {
-          // console.log('xxxxxxxxx:', err.response?.data?.errors);
+          console.log('xxxxxxxxx:', err.response?.data);
           // console.log('Error response.data:', err.response?.data);
           // console.log('Error || err.message', err.message);
 
-          if (err.response?.data?.error?.constraint === 'users_username_key') {
+          if (err.response?.data?.error?.constraint === 'username') {
             setErrors({ username: 'Username already exists' });
-          } else if (
-            err.response?.data?.error?.constraint === 'users_email_key'
-          ) {
+          } else if (err.response?.data?.error?.constraint === 'email') {
             setErrors({ email: 'Email already exists' });
           } else {
             setErrors({ something: 'Something went wrong' });

@@ -1,9 +1,6 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const passport = require('./../utils/passportConfig');
-const LocalStrategy = require('passport-local');
-const { checkSchema, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 
 const AppError = require('../utils/AppError');
 const pool = require('../utils/pool');
@@ -14,9 +11,13 @@ const { userSchema } = require('./../model/userSchema');
 const { addToken } = require('./../utils/blacklistToken');
 const router = express.Router();
 
+const { PrismaClient } = require('@prisma/client');
+const _ = require('../controller/errorController');
+const prisma = new PrismaClient();
+
 router.post(
   '/signup',
-  userSchema,
+  // userSchema,
   catchAsync(async (req, res, next) => {
     const errors = validationResult(req);
     console.log('signup');
@@ -45,10 +46,14 @@ router.post(
 
     console.log(userData);
 
-    await pool.query(
-      'INSERT INTO users (first_name,middle_name,last_name,username,email,sector,password,phonenumber,date_of_birth,role) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
-      [...Object.values(userData)]
-    );
+    const curentUser = await prisma.users.create({
+      data: userData,
+    });
+    console.log('curentUser', curentUser);
+    // await pool.query(
+    //   'INSERT INTO users (first_name,middle_name,last_name,username,email,sector,password,phonenumber,date_of_birth,role) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
+    //   [...Object.values(userData)]
+    // );
 
     return res.status(200).json({
       status: 'success',
