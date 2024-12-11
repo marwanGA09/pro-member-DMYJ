@@ -1,5 +1,20 @@
 {
-  "dependencies": {
-    "jsonwebtoken": "^9.0.2"
-  }
+  "name": "pro-member",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marwanGA09/pro-member-DMYJ.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marwanGA09/pro-member-DMYJ/issues"
+  },
+  "homepage": "https://github.com/marwanGA09/pro-member-DMYJ#readme"
 }

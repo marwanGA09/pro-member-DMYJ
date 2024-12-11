@@ -9,7 +9,9 @@ const Navigation = () => {
   console.log(user);
   const handleLogout = () => {
     axios
-      .get('http://localhost:4321/v1/logout')
+      .get('http://localhost:4321/v1/logout', {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
       .then((res) => {
         console.log(res);
 
