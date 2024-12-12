@@ -4,7 +4,9 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/server.js",
+    "client": "npm run dev --prefix client"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/marwanGA09/pro-member-DMYJ/issues"
   },
-  "homepage": "https://github.com/marwanGA09/pro-member-DMYJ#readme"
+  "homepage": "https://github.com/marwanGA09/pro-member-DMYJ#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.7"
+  }
 }

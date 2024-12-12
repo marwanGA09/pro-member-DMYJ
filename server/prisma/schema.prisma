@@ -7,30 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id            Int       @id @default(autoincrement())
-  username      String   @unique @db.VarChar(80)
-  first_name    String    @db.VarChar(80)
-  middle_name   String   @db.VarChar(80)
-  last_name     String    @db.VarChar(80)
-  date_of_birth DateTime? @db.Date
-  email         String   @unique @db.VarChar(100)
-  sector        Sector    @default(economy)
-  password      String   @db.VarChar(200)
-  phonenumber   String   @db.VarChar(20)
-  role          Role   @default(user) 
-}
 
 enum Sector {
   economy
   academy
   social
   dawah
-  managment
+  management
   other
 }
 
 enum Role {
   user
   admin
+}
+
+model User {
+  id            Int       @id @default(autoincrement()) @unique
+  username      String    @db.VarChar(80)                @unique
+  first_name    String    @db.VarChar(80)
+  middle_name   String    @db.VarChar(80)
+  last_name     String    @db.VarChar(80)
+  date_of_birth DateTime? @db.Date
+  email         String    @unique @db.VarChar(100)
+  sector        Sector    @default(economy)
+  password      String    @db.VarChar(200)
+  phonenumber   String    @db.VarChar(20)        @unique
+  role          Role      @default(user) 
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  members    Member[]
+}
+
+// MEMBER 
+
+model Member{
+  id            Int       @id @default(autoincrement()) @unique
+  first_name    String    @db.VarChar(80)
+  middle_name   String    @db.VarChar(80)
+  last_name     String    @db.VarChar(80)
+  sex           String    @db.VarChar(1)
+  bookNumber    String    @unique 
+  profession    String?   @db.VarChar(80)
+  address       String    @db.VarChar(250)
+  phone         String    @db.VarChar(20)  @unique
+  email         String?   @db.VarChar(100)  @unique 
+  membershipAmmount Int   
+  profileImage   String?
+  signedDate     DateTime  @default(now())
+  dateOfBirth    DateTime?
+  note           String?
+  createdBy      Int       
+  user           User @relation(fields: [createdBy],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

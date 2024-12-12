@@ -12,7 +12,7 @@ const { addToken } = require('./../utils/blacklistToken');
 const router = express.Router();
 
 const { PrismaClient } = require('@prisma/client');
-const _ = require('../controller/errorController');
+// const _ = require('../controller/errorController');
 const prisma = new PrismaClient();
 
 router.post(
@@ -36,26 +36,25 @@ router.post(
       password: hashedPassword,
     };
 
-    userData = {
-      ...userData,
-      date_of_birth: userData?.date_of_birth || new Date(),
-      role: userData.role || 'user',
+    // userData = {
+    //   ...userData,
 
-      sector: userData.sector || '',
-    };
+    //   sector: userData.sector || '',
+    // };
 
     console.log(userData);
 
-    const curentUser = await prisma.users.create({
+    const currentUser = await prisma.users.create({
       data: userData,
     });
-    console.log('curentUser', curentUser);
+    console.log('currentUser', currentUser);
     // await pool.query(
     //   'INSERT INTO users (first_name,middle_name,last_name,username,email,sector,password,phonenumber,date_of_birth,role) VALUES ($1, $2, $3, $4, $5,$6, $7, $8, $9, $10)',
     //   [...Object.values(userData)]
     // );
 
     return res.status(200).json({
+      user: currentUser,
       status: 'success',
       message: 'User successfully registered',
     });
