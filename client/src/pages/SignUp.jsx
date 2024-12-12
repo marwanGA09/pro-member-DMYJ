@@ -24,7 +24,7 @@ const SignupPage = () => {
     'academy',
     'social',
     'dawah',
-    'managment',
+    'management',
     'other',
   ];
 
