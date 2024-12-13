@@ -23,20 +23,20 @@ enum Role {
 }
 
 model User {
-  id            Int       @id @default(autoincrement()) @unique
-  username      String    @db.VarChar(80)                @unique
-  first_name    String    @db.VarChar(80)
-  middle_name   String    @db.VarChar(80)
-  last_name     String    @db.VarChar(80)
-  date_of_birth DateTime? @db.Date
-  email         String    @unique @db.VarChar(100)
-  sector        Sector    @default(economy)
-  password      String    @db.VarChar(200)
-  phonenumber   String    @db.VarChar(20)        @unique
-  role          Role      @default(user) 
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  members    Member[]
+  id              Int           @id @default(autoincrement()) @unique
+  username        String        @db.VarChar(80)                @unique
+  first_name      String        @db.VarChar(80)
+  middle_name     String        @db.VarChar(80)
+  last_name       String        @db.VarChar(80)
+  date_of_birth   DateTime?     @db.Date
+  email           String        @unique @db.VarChar(100)
+  sector          Sector        @default(economy)
+  password        String        @db.VarChar(200)
+  phone_number    String        @db.VarChar(20)        @unique
+  role            Role          @default(user) 
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  members         Member[]
 }
 
 // MEMBER 
@@ -47,18 +47,18 @@ model Member{
   middle_name   String    @db.VarChar(80)
   last_name     String    @db.VarChar(80)
   sex           String    @db.VarChar(1)
-  bookNumber    String    @unique 
+  book_number    String    @unique 
   profession    String?   @db.VarChar(80)
   address       String    @db.VarChar(250)
   phone         String    @db.VarChar(20)  @unique
   email         String?   @db.VarChar(100)  @unique 
-  membershipAmmount Int   
-  profileImage   String?
-  signedDate     DateTime  @default(now())
-  dateOfBirth    DateTime?
+  membership_amount Int   
+  profile_image   String?
+  signed_date     DateTime  @default(now())
+  date_of_birth    DateTime?
   note           String?
-  createdBy      Int       
-  user           User @relation(fields: [createdBy],references: [id])
+  created_by      Int       
+  user           User @relation(fields: [created_by],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

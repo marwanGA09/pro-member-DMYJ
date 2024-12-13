@@ -5,15 +5,15 @@ const userSchema = checkSchema({
     notEmpty: true,
     errorMessage: 'username is required',
   },
-  first_name: {
+  firstName: {
     notEmpty: true,
     errorMessage: 'First name is required',
   },
-  middle_name: {
+  middleName: {
     notEmpty: true,
     errorMessage: 'Middle name is required',
   },
-  last_name: {
+  lastName: {
     notEmpty: true,
     errorMessage: 'Last name is required',
   },

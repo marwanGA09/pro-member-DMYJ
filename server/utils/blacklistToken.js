@@ -71,7 +71,7 @@ function removeFirst30Percent() {
     removedTokens++;
   }
 
-  console.log(`Removed ${removedTokens} tokens from the blacklist.`);
+  // console.log(`Removed ${removedTokens} tokens from the blacklist.`);
 }
 
 module.exports = {

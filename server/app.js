@@ -8,6 +8,7 @@ const cors = require('cors');
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
 const authRouter = require('./router/authoRouter');
+const memberRouter = require('./router/memberRouter');
 const pool = require('./utils/pool');
 const authentication = require('./controller/authController');
 const catchAsync = require('./utils/catchAsync');
@@ -28,12 +29,13 @@ app.use(express.json());
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
 });
-app.get('/v1/protected-route', authentication.isAuth, (req, res, next) => {
+app.get('/v1/protected-route', authentication.protected, (req, res, next) => {
   console.log('This is protected route');
   res.send('This is protected route');
 });
 
 app.use('/v1', authRouter);
+app.use('/v1/members', memberRouter);
 
 app.all('*', (req, res, next) => {
   console.log(req.url);

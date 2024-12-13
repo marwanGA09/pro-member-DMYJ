@@ -25,15 +25,32 @@ const signUp = async (req, res, next) => {
   }
 
   const hashedPassword = await hashText(req.body.password);
+
+  console.log('req body', req.body);
+
   let { confirmPassword, ...userData } = {
     ...req.body,
     password: hashedPassword,
   };
+  console.log('userdata', userData);
 
-  console.log(userData);
+  let endData = {
+    username: userData.username,
+    first_name: userData.firstName,
+    middle_name: userData.middleName,
+    last_name: userData.lastName,
+    email: userData.email,
+    sector: userData.sector,
+    password: hashedPassword,
+    phone_number: userData.phoneNumber,
+    date_of_birth: userData.dateOfBirth,
+    role: userData.role,
+  };
+
+  console.log('end data', endData);
 
   const currentUser = await prisma.user.create({
-    data: userData,
+    data: endData,
   });
   console.log('currentUser', currentUser);
 
@@ -105,7 +122,7 @@ const logOut = (req, res, next) => {
   });
 };
 
-const isAuth = async (req, res, next) => {
+const protected = async (req, res, next) => {
   const header = req.headers.authorization;
   const token = header && header.split(' ')[1];
   if (!header || !token) {
@@ -136,5 +153,5 @@ module.exports = {
   logOut,
   login,
   signUp,
-  isAuth,
+  protected,
 };

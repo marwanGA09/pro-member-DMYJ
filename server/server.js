@@ -8,7 +8,7 @@ const {
 const PORT = process.env.PORT || 4321;
 
 setInterval(() => {
-  console.log('set interval', getAllTokens());
+  // console.log('set interval', getAllTokens());
   removeFirst30Percent();
   // NOTE remove 30% of oldest token from blacklist  every 5 hours
 }, 15 * 1000);
