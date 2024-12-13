@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
-    first_name: '',
-    middle_name: '',
-    last_name: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
     username: '',
     email: '',
     phone: '',
@@ -30,12 +30,12 @@ const SignupPage = () => {
 
   const validate = () => {
     const validationErrors = {};
-    if (!formData.first_name.trim())
-      validationErrors.first_name = 'First name is required';
-    if (!formData.middle_name.trim())
-      validationErrors.middle_name = 'Middle name is required';
-    if (!formData.last_name.trim())
-      validationErrors.last_name = 'Last name is required';
+    if (!formData.firstName.trim())
+      validationErrors.firstName = 'First name is required';
+    if (!formData.middleName.trim())
+      validationErrors.middleName = 'Middle name is required';
+    if (!formData.lastName.trim())
+      validationErrors.lastName = 'Last name is required';
     if (!formData.username.trim())
       validationErrors.username = 'Username is required';
     if (!/^\S+@\S+\.\S+$/.test(formData.email))
@@ -65,15 +65,15 @@ const SignupPage = () => {
       // console.log('Submitting form...');
 
       const payload = {
-        first_name: formData.first_name,
-        middle_name: formData.middle_name,
-        last_name: formData.last_name,
+        firstName: formData.firstName,
+        middleName: formData.middleName,
+        lastName: formData.lastName,
         username: formData.username,
         email: formData.email,
         sector: formData.sector,
         password: formData.password,
         confirmPassword: formData.confirmPassword,
-        phonenumber: formData.phone,
+        phoneNumber: formData.phone,
       };
 
       // console.log('Payload:', payload);
@@ -117,12 +117,12 @@ const SignupPage = () => {
           <label>First Name</label>
           <input
             type="text"
-            name="first_name"
-            value={formData.first_name}
+            name="firstName"
+            value={formData.firstName}
             onChange={handleChange}
           />
-          {errors.first_name && (
-            <small className="error">{errors.first_name}</small>
+          {errors.firstName && (
+            <small className="error">{errors.firstName}</small>
           )}
         </div>
 
@@ -130,12 +130,12 @@ const SignupPage = () => {
           <label>Middle Name</label>
           <input
             type="text"
-            name="middle_name"
-            value={formData.middle_name}
+            name="middleName"
+            value={formData.middleName}
             onChange={handleChange}
           />
-          {errors.middle_name && (
-            <small className="error">{errors.middle_name}</small>
+          {errors.middleName && (
+            <small className="error">{errors.middleName}</small>
           )}
         </div>
 
@@ -143,12 +143,12 @@ const SignupPage = () => {
           <label>Last Name</label>
           <input
             type="text"
-            name="last_name"
-            value={formData.last_name}
+            name="lastName"
+            value={formData.lastName}
             onChange={handleChange}
           />
-          {errors.last_name && (
-            <small className="error">{errors.last_name}</small>
+          {errors.lastName && (
+            <small className="error">{errors.lastName}</small>
           )}
         </div>
 

@@ -28,23 +28,23 @@ const signUp = async (req, res, next) => {
 
   console.log('req body', req.body);
 
-  let { confirmPassword, ...userData } = {
-    ...req.body,
-    password: hashedPassword,
-  };
-  console.log('userdata', userData);
+  // let { confirmPassword, ...userData } = {
+  //   ...req.body,
+  //   password: hashedPassword,
+  // };
+  // console.log('userdata', userData);
 
   let endData = {
-    username: userData.username,
-    first_name: userData.firstName,
-    middle_name: userData.middleName,
-    last_name: userData.lastName,
-    email: userData.email,
-    sector: userData.sector,
+    username: req.body.username,
+    first_name: req.body.firstName,
+    middle_name: req.body.middleName,
+    last_name: req.body.lastName,
+    email: req.body.email,
+    sector: req.body.sector,
     password: hashedPassword,
-    phone_number: userData.phoneNumber,
-    date_of_birth: userData.dateOfBirth,
-    role: userData.role,
+    phone_number: req.body.phoneNumber,
+    date_of_birth: req.body.dateOfBirth,
+    role: req.body.role,
   };
 
   console.log('end data', endData);
@@ -74,10 +74,13 @@ const login = async (req, res, next) => {
   }
 
   const { username, password } = req.body;
+  console.log(password, username);
   // NOTE check in database
   // const user = await pool.query('SELECT * FROM user WHERE username = $1', [
   //   username,
   // ]);
+  const users = await prisma.user.findMany();
+  console.log(users);
   const user = await prisma.user.findUnique({
     where: {
       username,

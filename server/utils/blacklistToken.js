@@ -57,7 +57,7 @@ function removeFirst30Percent() {
   const totalTokens = tokenBlacklist.size;
 
   if (totalTokens === 0) {
-    console.log('Blacklist is empty. No tokens to remove.');
+    // console.log('Blacklist is empty. No tokens to remove.');
     return;
   }
 

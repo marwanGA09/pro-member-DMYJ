@@ -43,10 +43,8 @@ model User {
 
 model Member{
   id            Int       @id @default(autoincrement()) @unique
-  first_name    String    @db.VarChar(80)
-  middle_name   String    @db.VarChar(80)
-  last_name     String    @db.VarChar(80)
-  sex           String    @db.VarChar(1)
+  full_name    String    @db.VarChar(150)
+  sex           String    @db.VarChar(10)
   book_number    String    @unique 
   profession    String?   @db.VarChar(80)
   address       String    @db.VarChar(250)
@@ -57,8 +55,8 @@ model Member{
   signed_date     DateTime  @default(now())
   date_of_birth    DateTime?
   note           String?
-  created_by      Int       
-  user           User @relation(fields: [created_by],references: [id])
+  created_by      Int      
+  user           User? @relation(fields: [created_by],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

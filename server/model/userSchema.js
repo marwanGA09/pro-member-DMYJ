@@ -23,7 +23,9 @@ const userSchema = checkSchema({
   },
   sector: {
     isIn: {
-      options: [['economy', 'academy', 'social', "daw'a"]],
+      options: [
+        ['economy', 'academy', 'social', 'dawah', 'management', 'other'],
+      ],
       errorMessage:
         "Sector must be one of the following: economy, academy, social, daw'a",
     },
