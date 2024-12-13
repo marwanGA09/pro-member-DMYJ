@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post('/', catchAsync(memberController.createMember));
 
+router.get('/', catchAsync(memberController.getMember));
+
 module.exports = router;
