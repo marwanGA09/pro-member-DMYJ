@@ -29,16 +29,27 @@ const createMember = async (req, res, next) => {
   });
 };
 
-const getMember = async (req, res, next) => {
-  console.log('req.query', req.query);
-  console.log('getMember');
-
-  // const members = await prisma.member.findMany({});
-  // console.log(members);
-  return res.status(404).json({
-    status: 'error',
-    message: 'Not Found',
+const getAllMembers = async (req, res, next) => {
+  return res.status(200).json({
+    status: 'success',
   });
 };
 
-module.exports = { createMember, getMember };
+const getMember = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+  console.log('getMember');
+
+  const member = await prisma.member.findUnique({
+    where: { id: id },
+  });
+  console.log(member);
+  return res.status(404).json({
+    status: member ? 'success' : 'failure',
+    message: member
+      ? 'get members successfully'
+      : `There is no member with ${id} id:`,
+    data: member,
+  });
+};
+
+module.exports = { createMember, getMember, getAllMembers };

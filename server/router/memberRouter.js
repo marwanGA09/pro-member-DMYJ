@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post('/', catchAsync(memberController.createMember));
 
-router.get('/', catchAsync(memberController.getMember));
+router.get('/', catchAsync(memberController.getAllMembers));
+
+router.get('/:id', catchAsync(memberController.getMember));
 
 module.exports = router;
