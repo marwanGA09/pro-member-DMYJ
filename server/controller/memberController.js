@@ -35,12 +35,18 @@ const getAllMembers = async (req, res, next) => {
   // console.log(queryString);
   const filters = {};
 
-  excludeQuery = ['page', 'sort', 'limit', 'fields'];
+  excludeQuery = ['q', 'page', 'sort', 'limit', 'fields'];
   const tempQueryString = { ...queryString };
   // console.log(tempQueryString);
   excludeQuery.forEach((f) => delete tempQueryString[f]);
   // console.log(tempQueryString);
-  filters.AND = tempQueryString;
+  // BASIC SEARCH
+  if (queryString.q) {
+    filters.AND = {
+      full_name: { contains: queryString.q, mode: 'insensitive' },
+    };
+  }
+  filters.AND = { ...filters.AND, ...tempQueryString };
   console.log(filters);
   clearedFilters = convertStringsToNumbers(filters, [
     'gt',
@@ -49,8 +55,8 @@ const getAllMembers = async (req, res, next) => {
     'lte',
     'membership_amount',
   ]);
-  const members = await prisma.member.findMany({ where: clearedFilters });
-  console.log(members);
+  const members = prisma.member.findMany({ where: clearedFilters });
+  console.log(await members);
   return res.status(200).json({
     status: 'success',
   });
