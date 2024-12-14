@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { convertStringsToNumbers } = require('../utils/convertStringsToNumbers');
 const prisma = new PrismaClient();
 
 const createMember = async (req, res, next) => {
@@ -30,6 +31,26 @@ const createMember = async (req, res, next) => {
 };
 
 const getAllMembers = async (req, res, next) => {
+  const queryString = req.query;
+  // console.log(queryString);
+  const filters = {};
+
+  excludeQuery = ['page', 'sort', 'limit', 'fields'];
+  const tempQueryString = { ...queryString };
+  // console.log(tempQueryString);
+  excludeQuery.forEach((f) => delete tempQueryString[f]);
+  // console.log(tempQueryString);
+  filters.AND = tempQueryString;
+  console.log(filters);
+  clearedFilters = convertStringsToNumbers(filters, [
+    'gt',
+    'gte',
+    'lt',
+    'lte',
+    'membership_amount',
+  ]);
+  const members = await prisma.member.findMany({ where: clearedFilters });
+  console.log(members);
   return res.status(200).json({
     status: 'success',
   });
