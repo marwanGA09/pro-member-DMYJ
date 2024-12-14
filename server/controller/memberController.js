@@ -35,17 +35,17 @@ const getAllMembers = async (req, res, next) => {
   // console.log(queryString);
   const filters = {};
 
+  if (queryString.q) {
+    filters.AND = {
+      full_name: { contains: queryString.q, mode: 'insensitive' },
+    };
+  }
   excludeQuery = ['q', 'page', 'sort', 'limit', 'fields'];
   const tempQueryString = { ...queryString };
   // console.log(tempQueryString);
   excludeQuery.forEach((f) => delete tempQueryString[f]);
   // console.log(tempQueryString);
   // BASIC SEARCH
-  if (queryString.q) {
-    filters.AND = {
-      full_name: { contains: queryString.q, mode: 'insensitive' },
-    };
-  }
   filters.AND = { ...filters.AND, ...tempQueryString };
   console.log(filters);
   clearedFilters = convertStringsToNumbers(filters, [
@@ -55,7 +55,22 @@ const getAllMembers = async (req, res, next) => {
     'lte',
     'membership_amount',
   ]);
-  const members = prisma.member.findMany({ where: clearedFilters });
+
+  // filter().sort().limitFields().paginate();
+  // SORT
+  let sortBy = [];
+  if (queryString.sort) {
+    sortBy = queryString.sort.split(',').map((field) => ({
+      [field.replace('-', '')]: field.startsWith('-') ? 'desc' : 'asc',
+    }));
+    console.log(sortBy);
+  }
+
+  const members = prisma.member.findMany({
+    where: clearedFilters,
+    orderBy: sortBy,
+  });
+
   console.log(await members);
   return res.status(200).json({
     status: 'success',
