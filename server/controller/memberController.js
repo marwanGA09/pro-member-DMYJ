@@ -78,10 +78,17 @@ const getAllMembers = async (req, res, next) => {
     }, {});
   }
 
+  // PAGINATE
+  const page = parseInt(queryString.page, 10) || 1;
+  const limit = parseInt(queryString.limit, 10) || 10;
+  const offset = (page - 1) * limit;
+
   const members = prisma.member.findMany({
     where: clearedFilters,
     orderBy: sortBy,
     select: limitFields,
+    skip: offset,
+    take: limit,
   });
 
   console.log(await members);
