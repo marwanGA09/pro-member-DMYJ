@@ -64,11 +64,24 @@ const getAllMembers = async (req, res, next) => {
       [field.replace('-', '')]: field.startsWith('-') ? 'desc' : 'asc',
     }));
     console.log(sortBy);
+  } else {
+    sortBy = [{ createdAt: 'desc' }];
+  }
+
+  // LIMIT_FIELDS
+
+  let limitFields = {};
+  if (queryString.fields) {
+    limitFields = queryString.fields.split(',').reduce((acc, field) => {
+      acc[field] = true;
+      return acc;
+    }, {});
   }
 
   const members = prisma.member.findMany({
     where: clearedFilters,
     orderBy: sortBy,
+    select: limitFields,
   });
 
   console.log(await members);
