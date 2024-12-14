@@ -14,13 +14,26 @@ const _ = (err, req, res, next) => {
     if (err.meta) {
       console.log('Meta Data:', err.meta);
     }
+
+    if (err.code === 'P2003') {
+      return res.status(500).json({
+        status: 'error',
+        error: err,
+
+        message: `there is integrity issue on ${(err.meta?.field_name)
+          .split('_')
+          .slice(0, -1)
+          .join(' ')} fields`,
+      });
+    }
+
     if (err.code === 'P2002') {
       // console.log('from res');
       err.constraint = err.meta?.target[0];
       return res.status(500).json({
         status: 'error',
         error: err,
-        message: `There is user with this ${err.meta?.target[0]} `,
+        message: `There is duplicate data on ${err.meta?.target[0]} attribute of ${err.meta?.modelName} model`,
       });
     }
   } else {

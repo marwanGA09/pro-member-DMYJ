@@ -30,10 +30,11 @@ const createMember = async (req, res, next) => {
 };
 
 const getMember = async (req, res, next) => {
+  console.log('req.query', req.query);
   console.log('getMember');
 
-  const members = await prisma.member.findMany({});
-  console.log(members);
+  // const members = await prisma.member.findMany({});
+  // console.log(members);
   return res.status(404).json({
     status: 'error',
     message: 'Not Found',
