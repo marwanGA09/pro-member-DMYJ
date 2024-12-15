@@ -1,5 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const { convertStringsToNumbers } = require('../utils/convertStringsToNumbers');
+const APIfeature = require('../utils/APIfeature.JS');
+const PrismaAPIFeatures = require('../utils/APIfeature.JS');
 const prisma = new PrismaClient();
 
 const createMember = async (req, res, next) => {
@@ -31,69 +33,24 @@ const createMember = async (req, res, next) => {
 };
 
 const getAllMembers = async (req, res, next) => {
-  const queryString = req.query;
-  // console.log(queryString);
-  const filters = {};
+  const features = new PrismaAPIFeatures(req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const prismaQueryOption = features.build();
+  console.log(JSON.stringify(features, null, 2));
 
-  if (queryString.q) {
-    filters.AND = {
-      full_name: { contains: queryString.q, mode: 'insensitive' },
-    };
-  }
-  excludeQuery = ['q', 'page', 'sort', 'limit', 'fields'];
-  const tempQueryString = { ...queryString };
-  // console.log(tempQueryString);
-  excludeQuery.forEach((f) => delete tempQueryString[f]);
-  // console.log(tempQueryString);
-  // BASIC SEARCH
-  filters.AND = { ...filters.AND, ...tempQueryString };
-  console.log(filters);
-  clearedFilters = convertStringsToNumbers(filters, [
-    'gt',
-    'gte',
-    'lt',
-    'lte',
-    'membership_amount',
-  ]);
-
-  // filter().sort().limitFields().paginate();
-  // SORT
-  let sortBy = [];
-  if (queryString.sort) {
-    sortBy = queryString.sort.split(',').map((field) => ({
-      [field.replace('-', '')]: field.startsWith('-') ? 'desc' : 'asc',
-    }));
-    console.log(sortBy);
-  } else {
-    sortBy = [{ createdAt: 'desc' }];
-  }
-
-  // LIMIT_FIELDS
-
-  let limitFields = {};
-  if (queryString.fields) {
-    limitFields = queryString.fields.split(',').reduce((acc, field) => {
-      acc[field] = true;
-      return acc;
-    }, {});
-  }
-
-  // PAGINATE
-  const page = parseInt(queryString.page, 10) || 1;
-  const limit = parseInt(queryString.limit, 10) || 10;
-  const offset = (page - 1) * limit;
-
-  const members = prisma.member.findMany({
-    where: clearedFilters,
-    orderBy: sortBy,
-    select: limitFields,
-    skip: offset,
-    take: limit,
-  });
-
-  console.log(await members);
+  const members = await prisma.member.findMany(prismaQueryOption);
+  console.log('*', features.query);
+  const totalMembers = await prisma.member.count(features.query);
+  console.log(members);
   return res.status(200).json({
     status: 'success',
+    result: members.length,
+    totalMembers,
+    currentPage: +req.query.page || 1,
+    data: members,
   });
 };
 
