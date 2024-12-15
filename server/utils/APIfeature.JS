@@ -1,15 +1,16 @@
 const { convertStringsToNumbers } = require('./convertStringsToNumbers');
 
 class PrismaAPIFeatures {
-  constructor(queryString) {
+  constructor(queryString, numericFields) {
     this.queryString = queryString; // Request query string
     this.query = {}; // Holds the Prisma `where` filters
     this.orderBy = []; // Holds Prisma `orderBy` sorting
     this.selectFields = undefined; // Holds Prisma `select` fields
     this.pagination = {}; // Holds pagination options
+    this.numericFields = numericFields || [];
   }
 
-  filter() {
+  filter(qForField) {
     // Exclude special query parameters
     const excludedFields = ['q', 'page', 'sort', 'limit', 'fields'];
     let queryObj = { ...this.queryString };
@@ -17,7 +18,7 @@ class PrismaAPIFeatures {
 
     if (this.queryString.q) {
       queryObj = {
-        full_name: { contains: this.queryString.q, mode: 'insensitive' },
+        [qForField]: { contains: this.queryString.q, mode: 'insensitive' },
         ...queryObj,
       };
     }
@@ -28,8 +29,9 @@ class PrismaAPIFeatures {
       'gte',
       'lt',
       'lte',
-      'membership_amount',
+      ...this.numericFields,
     ]);
+    this.query.where = queryObj;
 
     return this;
   }
@@ -50,7 +52,7 @@ class PrismaAPIFeatures {
     return this;
   }
 
-  limitFields() {
+  limitFields(hideArrayFields) {
     if (this.queryString.fields) {
       // Convert "field1,field2" to Prisma's select format
       this.selectFields = this.queryString.fields
@@ -60,13 +62,21 @@ class PrismaAPIFeatures {
           return acc;
         }, {});
     }
+    console.log('***********', this.selectFields);
+    if (hideArrayFields) {
+      const hide = hideArrayFields.reduce((acc, f) => {
+        acc[f] = false;
+        return acc;
+      }, {});
 
+      this.selectFields = { ...this.selectFields, ...hide };
+    }
     return this;
   }
 
   paginate() {
     const page = parseInt(this.queryString.page, 10) || 1;
-    const limit = parseInt(this.queryString.limit, 10) || 10;
+    const limit = parseInt(this.queryString.limit, 10) || 5;
     const skip = (page - 1) * limit;
 
     this.pagination = { skip, take: limit };
@@ -83,6 +93,7 @@ class PrismaAPIFeatures {
     };
   }
 
+  // NOTE I DON'T USE THIS (convertValue)BUT I IT CAN BE BENEFICIARY FOR FUTURE
   // Helper function to convert string values to appropriate data types
   convertValue(value) {
     if (!isNaN(value)) return parseFloat(value); // Convert numbers

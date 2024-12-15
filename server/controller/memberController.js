@@ -33,8 +33,8 @@ const createMember = async (req, res, next) => {
 };
 
 const getAllMembers = async (req, res, next) => {
-  const features = new PrismaAPIFeatures(req.query)
-    .filter()
+  const features = new PrismaAPIFeatures(req.query, ['membership_amount'])
+    .filter('full_name')
     .sort()
     .limitFields()
     .paginate();
@@ -42,9 +42,7 @@ const getAllMembers = async (req, res, next) => {
   console.log(JSON.stringify(features, null, 2));
 
   const members = await prisma.member.findMany(prismaQueryOption);
-  console.log('*', features.query);
   const totalMembers = await prisma.member.count(features.query);
-  console.log(members);
   return res.status(200).json({
     status: 'success',
     result: members.length,
