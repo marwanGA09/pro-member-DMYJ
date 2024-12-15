@@ -17,10 +17,21 @@ class PrismaAPIFeatures {
     excludedFields.forEach((field) => delete queryObj[field]);
 
     if (this.queryString.q) {
-      queryObj = {
-        [qForField]: { contains: this.queryString.q, mode: 'insensitive' },
-        ...queryObj,
-      };
+      qForField.forEach(
+        (f) =>
+          (queryObj = {
+            [f]: { contains: this.queryString.q, mode: 'insensitive' },
+            ...queryObj,
+          })
+      );
+
+      if (qForField.length > 1) {
+        const some = Object.entries(queryObj).map(([key, value]) => ({
+          [key]: value,
+        }));
+
+        queryObj = { OR: some };
+      }
     }
 
     // Add the processed filters to the Prisma `where` clause
@@ -62,15 +73,9 @@ class PrismaAPIFeatures {
           return acc;
         }, {});
     }
-    console.log('***********', this.selectFields);
-    if (hideArrayFields) {
-      const hide = hideArrayFields.reduce((acc, f) => {
-        acc[f] = false;
-        return acc;
-      }, {});
 
-      this.selectFields = { ...this.selectFields, ...hide };
-    }
+    this.selectFields = this.selectFields;
+
     return this;
   }
 

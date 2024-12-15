@@ -8,6 +8,7 @@ const cors = require('cors');
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
 const authRouter = require('./router/authoRouter');
+const userRouter = require('./router/userRouter');
 const memberRouter = require('./router/memberRouter');
 const pool = require('./utils/pool');
 const authentication = require('./controller/authController');
@@ -35,6 +36,7 @@ app.get('/v1/protected-route', authentication.protected, (req, res, next) => {
 });
 
 app.use('/v1', authRouter);
+app.use('/v1/users',userRouter)
 app.use('/v1/members', memberRouter);
 
 app.all('*', (req, res, next) => {
