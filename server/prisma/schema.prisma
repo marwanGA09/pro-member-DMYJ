@@ -27,6 +27,8 @@ enum Sex {
   female
 }
 
+
+
 model User {
   id              Int           @id @default(autoincrement()) @unique
   username        String        @db.VarChar(80)                @unique
@@ -71,6 +73,13 @@ model Member{
   payments       MonthlyPayment[]
 }
 
+
+enum PaymentMethod {
+  cash
+  bank_transfer
+  other
+}
+
 model MonthlyPayment {
   id              Int            @id @default(autoincrement()) @unique
   monthly_amount          Int
@@ -78,6 +87,7 @@ model MonthlyPayment {
   month_covered Int[]
   year Int
   member_id       Int
+  payment_method   PaymentMethod @default(cash)
   member          Member         @relation(fields: [member_id], references: [id])
   user_id      Int
   user          User           @relation(fields: [user_id], references: [id])

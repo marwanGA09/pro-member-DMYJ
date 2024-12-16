@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const expressSession = require('express-session');
-const PgStore = require('connect-pg-simple')(expressSession);
 const dotenv = require('dotenv');
 const cors = require('cors');
 
@@ -10,9 +9,8 @@ const errorController = require('./controller/errorController');
 const authRouter = require('./router/authoRouter');
 const userRouter = require('./router/userRouter');
 const memberRouter = require('./router/memberRouter');
-const pool = require('./utils/pool');
+const paymentRouter = require('./router/paymentRouter');
 const authentication = require('./controller/authController');
-const catchAsync = require('./utils/catchAsync');
 
 const DEPLOYMENT_URL = '';
 const app = express();
@@ -38,6 +36,7 @@ app.get('/v1/protected-route', authentication.protected, (req, res, next) => {
 app.use('/v1', authRouter);
 app.use('/v1/users',userRouter)
 app.use('/v1/members', memberRouter);
+app.use('/v1/payments', paymentRouter);
 
 app.all('*', (req, res, next) => {
   console.log(req.url);
