@@ -1,9 +1,19 @@
 const { PrismaClient } = require('@prisma/client');
 const AppError = require('../utils/AppError');
+const { validationResult } = require('express-validator');
 
 const prisma = new PrismaClient();
 
 const createPayment = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      errors: errors.array(),
+      message: 'invalid data format',
+    });
+  }
+
   console.log(req.body);
 
   const paymentData = {

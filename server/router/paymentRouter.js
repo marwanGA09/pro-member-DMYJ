@@ -2,9 +2,14 @@ const express = require('express');
 
 const paymentController = require('../controller/paymentController');
 const catchAsync = require('../utils/catchAsync');
+const monthlyPaymentSchema = require('../model/paymentSchema');
 const router = express.Router();
 
-router.post('/', catchAsync(paymentController.createPayment));
+router.post(
+  '/',
+  monthlyPaymentSchema,
+  catchAsync(paymentController.createPayment)
+);
 router.get('/', catchAsync(paymentController.getAllPayments));
 
 module.exports = router;
