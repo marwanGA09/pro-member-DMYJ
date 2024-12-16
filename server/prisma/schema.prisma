@@ -22,6 +22,11 @@ enum Role {
   admin
 }
 
+enum Sex {
+  male 
+  female
+}
+
 model User {
   id              Int           @id @default(autoincrement()) @unique
   username        String        @db.VarChar(80)                @unique
@@ -34,18 +39,22 @@ model User {
   password        String        @db.VarChar(200)
   phone_number    String        @db.VarChar(20)        @unique
   role            Role          @default(user) 
+  sex  Sex?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   members         Member[]
+  payments       MonthlyPayment[]
 }
+
+
 
 // MEMBER 
 
 model Member{
   id            Int       @id @default(autoincrement()) @unique
-  full_name    String    @db.VarChar(150)
-  sex           String    @db.VarChar(10)
-  book_number    String    @unique 
+  full_name    String     @db.VarChar(150)
+  sex           Sex?
+  book_number    String   @unique 
   profession    String?   @db.VarChar(80)
   address       String    @db.VarChar(250)
   phone         String    @db.VarChar(20)  @unique
@@ -59,4 +68,19 @@ model Member{
   user           User? @relation(fields: [created_by],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  payments       MonthlyPayment[]
+}
+
+model MonthlyPayment {
+  id              Int            @id @default(autoincrement()) @unique
+  monthly_amount          Int
+  total_amount Int
+  month_covered Int[]
+  year Int
+  member_id       Int
+  member          Member         @relation(fields: [member_id], references: [id])
+  user_id      Int
+  user          User           @relation(fields: [user_id], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
