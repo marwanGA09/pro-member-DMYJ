@@ -1,5 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const AppError = require('../utils/AppError');
+
+const { PrismaAPIFeatures } = require('./../utils/APIfeatures');
 const { validationResult } = require('express-validator');
 
 const prisma = new PrismaClient();
@@ -37,9 +39,30 @@ const createPayment = async (req, res, next) => {
 };
 
 const getAllPayments = async (req, res, next) => {
+  const features = new PrismaAPIFeatures(req.query, [
+    'monthly_amount',
+    'total_amount',
+    'year',
+    'member_id',
+    'user_id',
+  ])
+    .filter(['monthly_amount'])
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const prismaQueryOption = features.build();
+
+  const payments = await prisma.payment.findMany(prismaQueryOption);
+
+  const totalPayments = await prisma.payment.count(features.query);
+
   return res.status(200).json({
     status: 'success',
-    message: 'payments fetched successfully',
+    result: payments.length,
+    totalPayments,
+    currentPage: +req.query.page || 1,
+    data: payments,
   });
 };
 
