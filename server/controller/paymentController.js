@@ -26,15 +26,6 @@ const createPayment = async (req, res, next) => {
     user_id: req.body.userId,
   };
 
-  if (
-    +paymentData.total_amount !==
-    paymentData.month_covered.length * paymentData.monthly_amount
-  ) {
-    return next(
-      new AppError('total Payment amount is not equal to months paid for')
-    );
-  }
-
   const monthlyPayment = await prisma.monthlyPayment.create({
     data: paymentData,
   });

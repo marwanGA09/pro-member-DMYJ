@@ -2,9 +2,19 @@ const { PrismaClient } = require('@prisma/client');
 const { convertStringsToNumbers } = require('../utils/convertStringsToNumbers');
 const APIfeature = require('../utils/APIfeature.JS');
 const PrismaAPIFeatures = require('../utils/APIfeature.JS');
+const { validationResult } = require('express-validator');
 const prisma = new PrismaClient();
 
 const createMember = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      errors: errors.array(),
+      message: 'invalid data format',
+    });
+  }
+
   console.log('req body', req.body);
   const memberData = {
     full_name: req.body.fullName,
