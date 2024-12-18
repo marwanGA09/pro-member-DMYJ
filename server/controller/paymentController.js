@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const AppError = require('../utils/AppError');
 
-const PrismaAPIFeatures = require('./../utils/APIfeature.JS');
+const PrismaAPIFeatures = require('../utils/APIfeature.js');
 const { validationResult } = require('express-validator');
 
 const prisma = new PrismaClient();

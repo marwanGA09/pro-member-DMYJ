@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const PrismaAPIFeatures = require('../utils/APIfeature.JS');
+const PrismaAPIFeatures = require('../utils/APIfeature.js');
 
 const prisma = new PrismaClient();
 
