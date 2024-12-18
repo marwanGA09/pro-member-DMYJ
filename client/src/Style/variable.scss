@@ -1,0 +1,8 @@
+@use 'sass:color';
+
+$primary-color: #4caf50;
+$hover-color: darken($primary-color, 10%);
+$text-color: rgb(210, 234, 255);
+$font-family: 'Arial, sans-serif';
+// $background-color: #010e30;
+$background-color: color.scale(#010e30, $lightness: 5%);

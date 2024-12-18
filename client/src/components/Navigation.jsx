@@ -39,7 +39,10 @@ const Navigation = () => {
       </div>
 
       {/* Menu Links */}
-      <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+      <ul
+        className={`nav-links ${isMenuOpen ? 'open' : ''}`}
+        onClick={toggleMenu}
+      >
         <li>
           <Link to={'/'}>Home</Link>
         </li>
