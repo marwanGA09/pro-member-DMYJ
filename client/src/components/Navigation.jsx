@@ -20,7 +20,7 @@ const Navigation = () => {
       .catch((e) => {
         console.log(e.response?.data);
       });
-    alert('You have been logged out.');
+    // alert('You have been logged out.');
   };
 
   const toggleMenu = () => {

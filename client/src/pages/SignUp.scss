@@ -1,14 +1,12 @@
+@use './../Style/variable.scss' as *;
 @use 'sass:color';
-
-$primary-color: #4caf50;
-$error-color: #e74c3c;
 
 .signup-container {
   max-width: 500px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  // background-color: #fff;
+  box-shadow: 0 0 4px $border-color;
   border-radius: 10px;
 
   .title {

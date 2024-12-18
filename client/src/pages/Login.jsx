@@ -53,7 +53,7 @@ const LoginPage = () => {
         console.log('res', response);
         // console.log('Response: 1', response.data.user);
         if (response.data.status === 'success') {
-          alert('Login successful!');
+          // alert('Login successful!');
           console.log('user', response.data);
           // Optionally redirect the user after login
           // window.location.href = '/dashboard';
@@ -81,11 +81,11 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    alert('Logged in with Google!');
+    // alert('Logged in with Google!');
   };
 
   const handleFacebookLogin = () => {
-    alert('Logged in with Facebook!');
+    // alert('Logged in with Facebook!');
   };
 
   return (

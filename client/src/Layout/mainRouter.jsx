@@ -4,10 +4,13 @@ import LoginPage from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import About from '../pages/About';
 import RouterController from '../RouterController';
-import Dashboard from '../pages/Dashboard';
 import ProtectedRoute from '../components/ProtectedRoute';
 import AdminDashboard from '../pages/AdminDashboard';
 import AuthorizedRoute from '../components/AuthorizedRoute';
+import GeneralDashBoard from '../pages/GeneralDashBoard';
+import Members from '../pages/Members';
+import Payments from '../pages/Payments';
+import DashBoardRouterController from '../DashBoardRouterController';
 
 const router = createBrowserRouter([
   {
@@ -19,8 +22,13 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           {
-            path: '/dashboard',
-            element: <Dashboard />,
+            path: 'dashboard',
+            element: <DashBoardRouterController />,
+            children: [
+              { index: true, element: <GeneralDashBoard /> },
+              { path: 'members', element: <Members /> },
+              { path: 'payments', element: <Payments /> },
+            ],
           },
         ],
       },
