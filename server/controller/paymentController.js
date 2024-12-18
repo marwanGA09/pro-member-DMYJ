@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const AppError = require('../utils/AppError');
 
-const { PrismaAPIFeatures } = require('./../utils/APIfeatures');
+const PrismaAPIFeatures = require('./../utils/APIfeature.JS');
 const { validationResult } = require('express-validator');
 
 const prisma = new PrismaClient();
@@ -28,11 +28,41 @@ const createPayment = async (req, res, next) => {
     user_id: req.body.userId,
   };
 
+  const oldPayment = await prisma.monthlyPayment.findMany({
+    where: {
+      year: paymentData.year,
+      member_id: paymentData.member_id,
+    },
+    select: {
+      month_covered: true,
+    },
+  });
+
+  const allMonthsCovered = oldPayment
+    .map((payment) => payment.month_covered)
+    .flat();
+
+  const foundItems = allMonthsCovered.filter((item) =>
+    paymentData.month_covered.includes(item)
+  );
+
+  if (foundItems.length > 0) {
+    return next(
+      new AppError(
+        `${foundItems.join(', ')} month are already payed for ${
+          paymentData.year
+        }`,
+        401
+      )
+    );
+  }
+
   const monthlyPayment = await prisma.monthlyPayment.create({
     data: paymentData,
   });
   console.log('monthlyPayment', monthlyPayment);
   return res.status(200).json({
+    data: monthlyPayment,
     status: 'success',
     message: 'payments created successfully',
   });
@@ -53,9 +83,9 @@ const getAllPayments = async (req, res, next) => {
 
   const prismaQueryOption = features.build();
 
-  const payments = await prisma.payment.findMany(prismaQueryOption);
+  const payments = await prisma.monthlyPayment.findMany(prismaQueryOption);
 
-  const totalPayments = await prisma.payment.count(features.query);
+  const totalPayments = await prisma.monthlyPayment.count(features.query);
 
   return res.status(200).json({
     status: 'success',
