@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router'; // Changed to use `react-router-dom` for Link
 import './Navigation.scss';
 import { myContext } from '../components/ContextProvider';
 import axios from 'axios';
 
 const Navigation = () => {
   const { user, setUser } = useContext(myContext);
-  console.log(user);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for toggling menu
+
   const handleLogout = () => {
     axios
       .get('http://localhost:4321/v1/logout', {
@@ -14,7 +15,6 @@ const Navigation = () => {
       })
       .then((res) => {
         console.log(res);
-
         setUser(false);
       })
       .catch((e) => {
@@ -23,17 +23,23 @@ const Navigation = () => {
     alert('You have been logged out.');
   };
 
-  // const handleLogin = () => {
-  //   // setIsLoggedIn(true);
-  //   alert('You are now logged in.');
-  // };
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // Toggle menu visibility
+  };
 
   return (
     <nav className="navigation">
       <Link to={'/'}>
         <div className="logo">MyLogo</div>
       </Link>
-      <ul className="nav-links">
+
+      {/* Hamburger Icon */}
+      <div className="hamburger" onClick={toggleMenu}>
+        ☰
+      </div>
+
+      {/* Menu Links */}
+      <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
         <li>
           <Link to={'/'}>Home</Link>
         </li>
@@ -42,7 +48,6 @@ const Navigation = () => {
         </li>
         {user ? (
           <>
-            {/* FIX */}
             <li>
               <Link to={'/admin-dashboard'}>Admin</Link>
             </li>
