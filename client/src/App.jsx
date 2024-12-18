@@ -1,8 +1,8 @@
 import { RouterProvider } from 'react-router';
 
 import mainRouter from './Layout/mainRouter';
-import './App.scss';
 import { ContextProvider } from './components/ContextProvider';
+import './App.scss';
 
 function App() {
   return (

@@ -3,14 +3,14 @@ import Home from '../pages/Home';
 import LoginPage from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import About from '../pages/About';
-import RouterController from '../RouterController';
+import RouterController from '../controllers/RouterController';
 import ProtectedRoute from '../components/ProtectedRoute';
 import AdminDashboard from '../pages/AdminDashboard';
 import AuthorizedRoute from '../components/AuthorizedRoute';
 import GeneralDashBoard from '../pages/GeneralDashBoard';
 import Members from '../pages/Members';
 import Payments from '../pages/Payments';
-import DashBoardRouterController from '../DashBoardRouterController';
+import DashBoardRouterController from '../controllers/DashBoardRouterController';
 
 const router = createBrowserRouter([
   {
