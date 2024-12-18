@@ -1,0 +1,32 @@
+.dashboard-router {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 1.3rem 4rem; // Ensure the right section comes first in the row layout
+
+  &__left {
+    flex: 1; // Take all remaining space
+    display: flex;
+    flex-direction: column; // Ensures proper stacking if needed
+  }
+
+  &__right {
+    flex: 0; // Only take the minimum size of its content
+    white-space: nowrap; // Prevent content from wrapping
+  }
+
+  // Responsive design for screens smaller than 500px
+  @media (max-width: 500px) {
+    flex-direction: column; // Stack elements vertically
+    padding: 0.8rem 1rem;
+
+    &__right {
+      order: -1; // Move the right section to the top
+      flex: 0; // Still take minimum space for content
+    }
+
+    &__left {
+      order: 1; // Move the left section to the bottom
+      flex: 1; // Take all available width
+    }
+  }
+}

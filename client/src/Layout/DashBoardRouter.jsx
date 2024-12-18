@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
-import DashBoardRouterController from '../DashBoardRouterController';
+import DashBoardRouterController from '../controllers/DashBoardRouterController';
 import GeneralDashBoard from '../pages/GeneralDashBoard';
 import Members from '../pages/Members';
 import Payments from '../pages/Payments';

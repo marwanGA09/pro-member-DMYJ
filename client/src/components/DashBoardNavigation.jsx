@@ -1,10 +1,20 @@
+import { Link } from 'react-router';
+import './DashBoardNavigation.scss';
 function DashBoardNavigation() {
   return (
-    <div>
-      <button>dashboard1</button>
-      <button>dashboard2</button>
-      <button>dashboard3</button>
-      <button>dashboard4</button>
+    <div className="dashboard-navigation">
+      <Link to={'members'}>
+        <h5>Members</h5>
+      </Link>
+      <Link to={'payments'}>
+        <h5>Payments</h5>
+      </Link>
+      <Link to={'new-member'}>
+        <h5>New Member</h5>
+      </Link>
+      <Link to={'new-record'}>
+        <h5>New Record</h5>
+      </Link>
     </div>
   );
 }
