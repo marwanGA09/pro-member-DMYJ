@@ -5,12 +5,13 @@ import SignUp from '../pages/SignUp';
 import About from '../pages/About';
 import RouterController from '../controllers/RouterController';
 import ProtectedRoute from '../components/ProtectedRoute';
-import AdminDashboard from '../pages/AdminDashboard';
+import AdminDashboard from '../pages/DashBoard/AdminDashboard';
 import AuthorizedRoute from '../components/AuthorizedRoute';
-import GeneralDashBoard from '../pages/GeneralDashBoard';
-import Members from '../pages/Members';
-import Payments from '../pages/Payments';
+import GeneralDashBoard from '../pages/DashBoard/GeneralDashBoard';
+import Members from '../pages/DashBoard/Members';
+import Payments from '../pages/DashBoard/Payments';
 import DashBoardRouterController from '../controllers/DashBoardRouterController';
+import NewMember from '../pages/DashBoard/NewMember';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
               { index: true, element: <GeneralDashBoard /> },
               { path: 'members', element: <Members /> },
               { path: 'payments', element: <Payments /> },
+              { path: 'new-member', element: <NewMember /> },
             ],
           },
         ],
