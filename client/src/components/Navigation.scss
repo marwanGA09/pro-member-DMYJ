@@ -69,7 +69,7 @@ $hover-color: color.scale($primary-color, $lightness: -10%);
   }
 
   // Mobile styles
-  @media (max-width: 500px) {
+  @media (max-width: 590px) {
     padding-bottom: 10px;
     padding-top: 10px;
     .hamburger {

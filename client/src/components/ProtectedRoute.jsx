@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { myContext } from './ContextProvider';
+import { globalContext } from './ContextProvider';
 
 function ProtectedRoute() {
   // FIX
-  const { user } = useContext(myContext);
+  const { user } = useContext(globalContext);
   return user ? <Outlet /> : <Navigate to={'/login'} />;
 }
 

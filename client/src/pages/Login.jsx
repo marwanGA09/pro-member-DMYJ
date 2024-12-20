@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import axios from 'axios';
 import './Login.scss';
 import { useNavigate } from 'react-router';
-import { myContext } from '../components/ContextProvider';
+import { globalContext } from '../components/ContextProvider';
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -12,7 +12,7 @@ const LoginPage = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { setUser } = useContext(myContext);
+  const { setUser } = useContext(globalContext);
 
   const navigate = useNavigate();
 

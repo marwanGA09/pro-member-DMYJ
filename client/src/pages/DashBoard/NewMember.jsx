@@ -1,27 +1,102 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styles from './NewMember.module.scss';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { globalContext } from '../../components/ContextProvider';
+import axios from 'axios';
 
 function NewMember() {
+  const { user } = useContext(globalContext);
+  console.log(user.user.id);
+
   const [formData, setFormData] = useState({
     fullName: '',
-    sex: '',
+    sex: 'male',
     bookNumber: '',
     profession: '',
     phone: '',
     address: '',
-    email: '',
+    email: null,
     dateOfBirth: new Date(), // Default to current date
     membershipAmount: '',
     profileImage: null,
     signedDate: new Date(), // Default to current date
     note: '',
-    createdBy: '',
   });
+
+  const [errors, setErrors] = useState({});
+
+  // Validation logic
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate fullName
+    if (!formData.fullName) {
+      newErrors.fullName = 'Full name is required';
+    } else if (formData.fullName.length > 150) {
+      newErrors.fullName = 'Full name must not exceed 150 characters';
+    }
+
+    // Validate sex
+    if (formData.sex && !['male', 'female'].includes(formData.sex)) {
+      newErrors.sex = 'Sex must be one of: Male, Female ';
+    }
+
+    // Validate bookNumber
+    if (!formData.bookNumber) {
+      newErrors.bookNumber = 'Book number is required';
+    } else if (!/^[a-zA-Z0-9]+$/.test(formData.bookNumber)) {
+      newErrors.bookNumber =
+        'Book number must contain only letters and numbers';
+    }
+
+    // Validate phone
+    if (!formData.phone) {
+      newErrors.phone = 'Phone number is required';
+    } else if (
+      !/^(\+?[0-9]{1,3})?(\([0-9]{1,3}\))?([0-9]{7,15})$/.test(formData.phone)
+    ) {
+      newErrors.phone = 'Phone number must be valid';
+    }
+
+    // Validate address
+    if (!formData.address) {
+      newErrors.address = 'Address is required';
+    } else if (formData.address.length > 250) {
+      newErrors.address = 'Address must not exceed 250 characters';
+    }
+
+    // Validate email
+    if (formData.email && /^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = 'Email must be valid';
+    }
+
+    // Validate membershipAmount
+    if (!formData.membershipAmount) {
+      newErrors.membershipAmount = 'Membership amount is required';
+    } else if (parseInt(formData.membershipAmount, 10) < 10) {
+      newErrors.membershipAmount = 'Membership amount must be greater than 10';
+    }
+
+    // Validate note
+    if (formData.note && formData.note.length > 500) {
+      newErrors.note = 'Note must not exceed 500 characters';
+    }
+
+    setErrors(newErrors);
+
+    // If there are any errors, return false, otherwise return true
+    // return Object.keys(newErrors).length ;
+    return newErrors;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (errors[name]) {
+      validateForm();
+    }
+    // const x = validateForm()[1][name];
+    // console.log('xx', x);
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -39,6 +114,9 @@ function NewMember() {
   };
 
   const handleDateChange = (date, field) => {
+    if (errors[field]) {
+      validateForm();
+    }
     setFormData((prev) => ({
       ...prev,
       [field]: date,
@@ -47,7 +125,62 @@ function NewMember() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      console.log('submitiing member');
+      const payload = {
+        fullName: formData.fullName,
+        sex: formData.sex,
+        bookNumber: formData.bookNumber,
+        profession: formData.profession,
+        phone: formData.phone,
+        address: formData.address,
+
+        dateOfBirth: formData.dateOfBirth,
+        membershipAmount: parseInt(formData.membershipAmount),
+        profileImage: formData.profileImage,
+        signedDate: formData.signedDate,
+        note: formData.note,
+        createdBy: parseInt(user.user.id), // Assuming user is logged in
+      };
+
+      if (formData.email) {
+        payload.email = formData.email;
+      }
+      console.log('payload', payload);
+
+      axios
+        .post('http://localhost:4321/v1/members', payload, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then((res) => {
+          console.log('Signup successful!');
+          setErrors({});
+        })
+        .catch((err) => {
+          // console.log(JSON.stringify(err, null, 2));
+          console.log('xxxxxxxxx:', err.response?.data);
+
+          if (err.response?.data?.error?.constraint === 'phone') {
+            setErrors({ phone: 'phone already used for other members' });
+          } else if (err.response?.data?.error?.constraint === 'book_number') {
+            setErrors({ bookNumber: 'book number is used by other member' });
+          } else if (err.response?.data?.error?.constraint === 'email') {
+            setErrors({ email: 'Email already exists' });
+          } else {
+            setErrors({ something: 'Something went wrong' });
+          }
+
+          if (err.response && err.response.data) {
+            console.log(`member creation field: ${err.response.data.message}`);
+          }
+        });
+    }
   };
 
   return (
@@ -63,20 +196,38 @@ function NewMember() {
             onChange={handleChange}
             className={styles.input}
           />
+          {errors.fullName && (
+            <span className={styles.error}>{errors.fullName}</span>
+          )}
         </label>
 
         <label className={styles.label}>
           Sex
-          <select
-            name="sex"
-            value={formData.sex}
-            onChange={handleChange}
-            className={styles.input}
-          >
-            <option value="">Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+          <div className={styles.checkboxGroup}>
+            <label>
+              <input
+                type="radio"
+                name="sex"
+                value="male"
+                checked={formData.sex === 'male'}
+                onChange={handleChange}
+                className={styles.checkbox}
+              />
+              Male
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="sex"
+                value="female"
+                checked={formData.sex === 'female'}
+                onChange={handleChange}
+                className={styles.checkbox}
+              />
+              Female
+            </label>
+          </div>
+          {errors.sex && <span className={styles.error}>{errors.sex}</span>}
         </label>
 
         <label className={styles.label}>
@@ -88,6 +239,9 @@ function NewMember() {
             onChange={handleChange}
             className={styles.input}
           />
+          {errors.bookNumber && (
+            <span className={styles.error}>{errors.bookNumber}</span>
+          )}
         </label>
 
         <label className={styles.label}>
@@ -110,6 +264,7 @@ function NewMember() {
             onChange={handleChange}
             className={styles.input}
           />
+          {errors.phone && <span className={styles.error}>{errors.phone}</span>}
         </label>
 
         <label className={styles.label}>
@@ -121,6 +276,9 @@ function NewMember() {
             onChange={handleChange}
             className={styles.input}
           />
+          {errors.address && (
+            <span className={styles.error}>{errors.address}</span>
+          )}
         </label>
 
         <label className={styles.label}>
@@ -132,6 +290,7 @@ function NewMember() {
             onChange={handleChange}
             className={styles.input}
           />
+          {errors.email && <span className={styles.error}>{errors.email}</span>}
         </label>
 
         <label className={styles.label}>
@@ -152,6 +311,9 @@ function NewMember() {
             onChange={handleChange}
             className={styles.input}
           />
+          {errors.membershipAmount && (
+            <span className={styles.error}>{errors.membershipAmount}</span>
+          )}
         </label>
 
         <label className={styles.label}>
@@ -159,6 +321,7 @@ function NewMember() {
           <input
             type="file"
             accept="image/*"
+            name="profileImage"
             onChange={handleImageUpload}
             className={styles.input}
           />
@@ -188,22 +351,17 @@ function NewMember() {
             onChange={handleChange}
             className={styles.textarea}
           />
-        </label>
-
-        <label className={styles.label}>
-          Created By
-          <input
-            type="number"
-            name="createdBy"
-            value={formData.createdBy}
-            onChange={handleChange}
-            className={styles.input}
-          />
+          {errors.note && <span className={styles.error}>{errors.note}</span>}
         </label>
 
         <button type="submit" className={styles.submitButton}>
           Submit
         </button>
+        <div className={styles.label}>
+          {errors.something && (
+            <small className="error">{errors.something}</small>
+          )}
+        </div>
       </form>
     </div>
   );

@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import { Link } from 'react-router'; // Changed to use `react-router-dom` for Link
 import './Navigation.scss';
-import { myContext } from '../components/ContextProvider';
+import { globalContext } from '../components/ContextProvider';
 import axios from 'axios';
 
 const Navigation = () => {
-  const { user, setUser } = useContext(myContext);
+  const { user, setUser } = useContext(globalContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for toggling menu
 
   const handleLogout = () => {

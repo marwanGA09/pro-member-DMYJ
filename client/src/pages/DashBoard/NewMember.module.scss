@@ -6,61 +6,57 @@ $input-border-color: #ddd;
 $button-hover-color: darken($primary-color, 10%);
 
 .formContainer {
-  max-width: 600px;
+  max-width: 800px; // Increase max-width for larger screens
   margin: 0 auto;
   padding: 20px;
   background-color: $form-bg-color;
-  border-radius: $border-radius; // Reusing variable from variable.scss
+  border-radius: $border-radius;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .formTitle {
   text-align: center;
   font-size: 1.5rem;
-  color: $primary-color; // Using primary color from variable.scss
+  color: $primary-color;
   margin-bottom: 20px;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  //   display: grid;
-  //   grid-template-columns: 1fr 1fr;
-  gap: $spacing-medium; // Reusing spacing variable
+  display: grid; // Use grid layout
+  grid-template-columns: 1fr 1fr; // Default to single column
+  gap: $spacing-medium;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Two columns for tablets and larger screens
+  }
 }
 
 .label {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   font-size: 1rem;
-  color: $text-color; // Using text color from variable.scss
-
-  width: min-content;
+  color: $text-color;
 }
 
-.input {
-  color: color.scale($text-color, $lightness: -60%); // Dynamic color scaling
-  padding: $spacing-small; // Using spacing variable
-  border: 1px solid $input-border-color;
-  border-radius: $border-radius;
-  font-size: 1rem;
-}
-
+.input,
 .textarea {
   color: color.scale($text-color, $lightness: -60%);
   padding: $spacing-small;
   border: 1px solid $input-border-color;
   border-radius: $border-radius;
   font-size: 1rem;
+}
+
+.textarea {
   resize: vertical;
 }
 
 .submitButton {
+  grid-column: span 2; // Button spans across both columns
   padding: $spacing-small;
   border: none;
   background-color: $primary-color;
-  color: $light-color; // Assuming light color exists in variable.scss
+  color: $light-color;
   border-radius: $border-radius;
   font-size: 1rem;
   cursor: pointer;
@@ -69,4 +65,18 @@ $button-hover-color: darken($primary-color, 10%);
   &:hover {
     background-color: $button-hover-color;
   }
+
+  @media (max-width: 768px) {
+    grid-column: span 1;
+  }
+}
+
+.imagePreview {
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 10px;
+}
+.error {
+  color: $error-color;
+  font-size: 0.7rem;
 }

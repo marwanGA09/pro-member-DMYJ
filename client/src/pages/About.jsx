@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useContext } from 'react';
-import { myContext } from '../components/ContextProvider';
+import { globalContext } from '../components/ContextProvider';
 
 function About() {
-  const { user } = useContext(myContext);
+  const { user } = useContext(globalContext);
   console.log(`Bearer ${user.token}`);
   const onFetchProtected = () => {
     axios

@@ -53,6 +53,9 @@ const SignupPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (errors[name]) {
+      validate();
+    }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 

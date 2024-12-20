@@ -55,7 +55,7 @@ model User {
 model Member{
   id            Int       @id @default(autoincrement()) @unique
   full_name    String     @db.VarChar(150)
-  sex           Sex?
+  sex           Sex
   book_number    String   @unique 
   profession    String?   @db.VarChar(80)
   address       String    @db.VarChar(250)

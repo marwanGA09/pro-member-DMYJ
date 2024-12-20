@@ -7,15 +7,15 @@ const prisma = new PrismaClient();
 
 const createMember = async (req, res, next) => {
   const errors = validationResult(req);
-
+  console.log('req body from creating errors', req.body);
   if (!errors.isEmpty()) {
+    console.log('there is error', errors.array());
     return res.status(422).json({
       errors: errors.array(),
       message: 'invalid data format',
     });
   }
 
-  console.log('req body', req.body);
   const memberData = {
     full_name: req.body.fullName,
     sex: req.body.sex,

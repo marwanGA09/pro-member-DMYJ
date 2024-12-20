@@ -1,14 +1,15 @@
 import { createContext, useState } from 'react';
 
-const myContext = createContext();
+const globalContext = createContext();
 
 function ContextProvider({ children }) {
   const [user, setUser] = useState(false);
+  console.log('user', user);
   return (
-    <myContext.Provider value={{ user, setUser }}>
+    <globalContext.Provider value={{ user, setUser }}>
       {children}
-    </myContext.Provider>
+    </globalContext.Provider>
   );
 }
 
-export { ContextProvider, myContext };
+export { ContextProvider, globalContext };

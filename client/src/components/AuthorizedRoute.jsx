@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { myContext } from './ContextProvider';
+import { globalContext } from './ContextProvider';
 import { Navigate, Outlet } from 'react-router';
 
 function AuthorizedRoute() {
-  const { user } = useContext(myContext);
+  const { user } = useContext(globalContext);
   console.log(user);
   if (user && user.role === 'admin') {
     return <Outlet />;

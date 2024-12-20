@@ -14,7 +14,7 @@ const memberSchema = checkSchema({
   sex: {
     optional: true,
     isIn: {
-      options: [['Male', 'Female', 'Other']],
+      options: [['male', 'female']],
       errorMessage: 'Sex must be one of: Male or Female',
     },
   },
