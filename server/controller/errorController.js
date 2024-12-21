@@ -16,10 +16,9 @@ const _ = (err, req, res, next) => {
     }
 
     if (err.code === 'P2003') {
-      return res.status(500).json({
+      return res.status(409).json({
         status: 'error',
         error: err,
-
         message: `there is integrity issue on ${(err.meta?.field_name)
           .split('_')
           .slice(0, -1)
@@ -30,7 +29,7 @@ const _ = (err, req, res, next) => {
     if (err.code === 'P2002') {
       // console.log('from res');
       err.constraint = err.meta?.target[0];
-      return res.status(500).json({
+      return res.status(409).json({
         status: 'error',
         error: err,
         message: `There is duplicate data on ${err.meta?.target[0]} attribute of ${err.meta?.modelName} model`,

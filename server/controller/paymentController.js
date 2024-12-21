@@ -10,7 +10,7 @@ const createPayment = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).json({
+    return res.status(400).json({
       errors: errors.array(),
       message: 'invalid data format',
     });
@@ -52,7 +52,7 @@ const createPayment = async (req, res, next) => {
         `${foundItems.join(', ')} month are already payed for ${
           paymentData.year
         }`,
-        401
+        409
       )
     );
   }
@@ -61,7 +61,7 @@ const createPayment = async (req, res, next) => {
     data: paymentData,
   });
   console.log('monthlyPayment', monthlyPayment);
-  return res.status(200).json({
+  return res.status(201).json({
     data: monthlyPayment,
     status: 'success',
     message: 'payments created successfully',

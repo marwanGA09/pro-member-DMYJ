@@ -34,13 +34,13 @@ app.get('/v1/protected-route', authentication.protected, (req, res, next) => {
 });
 
 app.use('/v1', authRouter);
-app.use('/v1/users',userRouter)
+app.use('/v1/users', userRouter);
 app.use('/v1/members', memberRouter);
 app.use('/v1/payments', paymentRouter);
 
 app.all('*', (req, res, next) => {
   console.log(req.url);
-  return next(new AppError(`Invalid route ${req.url}`, 400));
+  return next(new AppError(`Invalid route ${req.url}`, 404));
 });
 
 app.use(errorController);

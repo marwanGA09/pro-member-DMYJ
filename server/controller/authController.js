@@ -18,7 +18,7 @@ const signUp = async (req, res, next) => {
   // INSERT INTO DB
 
   if (!errors.isEmpty()) {
-    return res.status(422).json({
+    return res.status(400).json({
       errors: errors.array(),
       message: 'invalid data format',
     });
@@ -54,7 +54,7 @@ const signUp = async (req, res, next) => {
   });
   console.log('currentUser', currentUser);
 
-  return res.status(200).json({
+  return res.status(201).json({
     user: currentUser,
     status: 'success',
     message: 'User successfully registered',
@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).json({
+    return res.status(400).json({
       errors: errors.array(),
       message: 'invalid data format',
     });

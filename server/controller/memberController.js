@@ -10,7 +10,7 @@ const createMember = async (req, res, next) => {
   console.log('req body from creating errors', req.body);
   if (!errors.isEmpty()) {
     console.log('there is error', errors.array());
-    return res.status(422).json({
+    return res.status(400).json({
       errors: errors.array(),
       message: 'invalid data format',
     });
@@ -36,9 +36,10 @@ const createMember = async (req, res, next) => {
     data: memberData,
   });
   console.log('created member', member);
-  return res.status(404).json({
-    status: 'error',
-    message: 'Not Found',
+  return res.status(201).json({
+    status: 'success',
+    message: 'registered member successfully ',
+    member,
   });
 };
 
@@ -70,8 +71,8 @@ const getMember = async (req, res, next) => {
     where: { id: id },
   });
   console.log(member);
-  return res.status(404).json({
-    status: member ? 'success' : 'failure',
+  return res.status(200).json({
+    status: 'success',
     message: member
       ? 'get members successfully'
       : `There is no member with ${id} id:`,
