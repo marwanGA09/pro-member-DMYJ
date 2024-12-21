@@ -4,11 +4,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { globalContext } from '../../components/ContextProvider';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 function NewMember() {
   const { user } = useContext(globalContext);
   console.log(user.user.id);
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     sex: 'male',
@@ -67,7 +68,7 @@ function NewMember() {
     }
 
     // Validate email
-    if (formData.email && /^\S+@\S+\.\S+$/.test(formData.email)) {
+    if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = 'Email must be valid';
     }
 
@@ -159,8 +160,9 @@ function NewMember() {
           },
         })
         .then((res) => {
-          console.log('Signup successful!');
+          console.log('member successful registered!');
           setErrors({});
+          navigate('../members');
         })
         .catch((err) => {
           // console.log(JSON.stringify(err, null, 2));
