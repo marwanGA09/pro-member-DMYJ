@@ -28,7 +28,7 @@ const createMember = async (req, res, next) => {
     email: req.body.email,
     date_of_birth: req.body.dateOfBirth,
     membership_amount: parseInt(req.body.membershipAmount),
-    profile_image: req.file.path,
+    profile_image: req?.file?.path,
     signed_date: req.body.signedDate,
     note: req.body.note,
     created_by: parseInt(req.body.createdBy),

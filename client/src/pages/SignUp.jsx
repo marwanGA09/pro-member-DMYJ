@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axios from './../Utils/axios';
 import './SignUp.scss';
 import { useNavigate } from 'react-router';
 
@@ -82,7 +82,7 @@ const SignupPage = () => {
       // console.log('Payload:', payload);
 
       axios
-        .post('http://localhost:4321/v1/signup', payload, {
+        .post('signup', payload, {
           withCredentials: true,
         })
         .then((res) => {

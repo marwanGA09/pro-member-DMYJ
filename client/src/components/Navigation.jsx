@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router'; // Changed to use `react-router-dom` for Link
 import './Navigation.scss';
 import { globalContext } from '../components/ContextProvider';
-import axios from 'axios';
+import axios from './../Utils/axios';
 
 const Navigation = () => {
   const { user, setUser } = useContext(globalContext);
@@ -10,7 +10,7 @@ const Navigation = () => {
 
   const handleLogout = () => {
     axios
-      .get('http://localhost:4321/v1/logout', {
+      .get('logout', {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {

@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import axios from 'axios';
+import axios from './../Utils/axios';
 import './Login.scss';
 import { useNavigate } from 'react-router';
 import { globalContext } from '../components/ContextProvider';
@@ -46,7 +46,7 @@ const LoginPage = () => {
       setLoading(true);
 
       try {
-        const response = await axios.post(' http://localhost:4321/v1/login', {
+        const response = await axios.post('login', {
           username: loginData.username,
           password: loginData.password,
         });

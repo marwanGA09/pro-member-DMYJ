@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './../Utils/axios';
 import { useContext } from 'react';
 import { globalContext } from '../components/ContextProvider';
 
@@ -7,7 +7,7 @@ function About() {
   console.log(`Bearer ${user.token}`);
   const onFetchProtected = () => {
     axios
-      .get('http://localhost:4321/v1/protected-route', {
+      .get('protected-route', {
         headers: {
           authorization: `Bearer ${user.token}`,
         },

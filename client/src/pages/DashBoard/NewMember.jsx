@@ -3,7 +3,7 @@ import styles from './NewMember.module.scss';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { globalContext } from '../../components/ContextProvider';
-import axios from 'axios';
+import axios from './../../Utils/axios';
 import { useNavigate } from 'react-router';
 
 function NewMember() {
@@ -223,7 +223,7 @@ function NewMember() {
       console.log('Payload:', Array.from(formDataPayload.entries()));
 
       axios
-        .post('http://localhost:4321/v1/members', formDataPayload, {
+        .post('members', formDataPayload, {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${user.token}`,
