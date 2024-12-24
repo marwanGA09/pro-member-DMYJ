@@ -14,7 +14,12 @@ const authentication = require('./controller/authController');
 
 const DEPLOYMENT_URL = '';
 const app = express();
+
 dotenv.config();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(morgan('dev'));
 console.log('process', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
@@ -23,8 +28,6 @@ if (process.env.NODE_ENV === 'production') {
   const DEV_ORIGIN = 'http://localhost:5173'; // Frontend origin in development
   app.use(cors({ origin: DEV_ORIGIN, credentials: true }));
 }
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   console.log('middleware');
