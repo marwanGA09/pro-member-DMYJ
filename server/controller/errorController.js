@@ -32,7 +32,9 @@ const _ = (err, req, res, next) => {
       return res.status(409).json({
         status: 'error',
         error: err,
-        message: `There is duplicate data on ${err.meta?.target[0]} attribute of ${err.meta?.modelName} model`,
+        message: `There is duplicate data on ${err.meta?.target.join(
+          ', '
+        )} attribute of ${err.meta?.modelName} model`,
       });
     }
   } else {

@@ -81,7 +81,7 @@ class PrismaAPIFeatures {
 
   paginate() {
     let page = parseInt(this.queryString.page, 10) || 1;
-    let limit = parseInt(this.queryString.limit, 10) || 5;
+    let limit = parseInt(this.queryString.limit, 10) || 10;
     page = page < 0 ? 1 : page;
     limit = limit < 0 ? 5 : limit;
     const skip = (page - 1) * limit;
