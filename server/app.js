@@ -24,6 +24,14 @@ if (process.env.NODE_ENV === 'production') {
   app.use(cors({ origin: DEV_ORIGIN, credentials: true }));
 }
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log('middleware');
+  console.log('mi1, ', req.body);
+  console.log('mi1, ', req.file);
+  next();
+});
 
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');

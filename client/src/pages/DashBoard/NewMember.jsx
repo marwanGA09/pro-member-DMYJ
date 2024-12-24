@@ -106,10 +106,12 @@ function NewMember() {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    console.log('files', file);
     if (file) {
       setFormData((prev) => ({
         ...prev,
-        profileImage: URL.createObjectURL(file), // Preview the uploaded image
+        profileImage: file, // Preview the uploaded image
+        // profileImage: URL.createObjectURL(file), // Preview the uploaded image
       }));
     }
   };
@@ -124,54 +126,122 @@ function NewMember() {
     }));
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const validationErrors = validateForm();
+  //   if (Object.keys(validationErrors).length > 0) {
+  //     setErrors(validationErrors);
+  //   } else {
+  //     console.log('submitiing member');
+  //     const payload = {
+  //       fullName: formData.fullName,
+  //       sex: formData.sex,
+  //       bookNumber: formData.bookNumber,
+  //       profession: formData.profession,
+  //       phone: formData.phone,
+  //       address: formData.address,
+
+  //       dateOfBirth: formData.dateOfBirth,
+  //       membershipAmount: parseInt(formData.membershipAmount),
+  //       profileImage: formData.profileImage,
+  //       signedDate: formData.signedDate,
+  //       note: formData.note,
+  //       createdBy: parseInt(user.user.id), // Assuming user is logged in
+  //     };
+
+  //     if (formData.email) {
+  //       payload.email = formData.email;
+  //     }
+  //     console.log('payload', payload);
+
+  //     axios
+  //       .post('http://localhost:4321/v1/members', payload, {
+  //         withCredentials: true,
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log('member successful registered!');
+  //         setErrors({});
+  //         navigate('../members');
+  //       })
+  //       .catch((err) => {
+  //         // console.log(JSON.stringify(err, null, 2));
+  //         console.log('xxxxxxxxx:', err.response?.data);
+
+  //         if (err.response?.data?.error?.constraint === 'phone') {
+  //           setErrors({ phone: 'phone already used for other members' });
+  //         } else if (err.response?.data?.error?.constraint === 'book_number') {
+  //           setErrors({ bookNumber: 'book number is used by other member' });
+  //         } else if (err.response?.data?.error?.constraint === 'email') {
+  //           setErrors({ email: 'Email already exists' });
+  //         } else {
+  //           setErrors({ something: 'Something went wrong' });
+  //         }
+
+  //         if (err.response && err.response.data) {
+  //           console.log(`member creation field: ${err.response.data.message}`);
+  //         }
+  //       });
+  //   }
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      console.log('submitiing member');
-      const payload = {
-        fullName: formData.fullName,
-        sex: formData.sex,
-        bookNumber: formData.bookNumber,
-        profession: formData.profession,
-        phone: formData.phone,
-        address: formData.address,
+      console.log('Submitting member');
 
-        dateOfBirth: formData.dateOfBirth,
-        membershipAmount: parseInt(formData.membershipAmount),
-        profileImage: formData.profileImage,
-        signedDate: formData.signedDate,
-        note: formData.note,
-        createdBy: parseInt(user.user.id), // Assuming user is logged in
-      };
+      // Create FormData instance
+      const formDataPayload = new FormData();
+      formDataPayload.append('fullName', formData.fullName);
+      formDataPayload.append('sex', formData.sex);
+      formDataPayload.append('bookNumber', formData.bookNumber);
+      formDataPayload.append('profession', formData.profession);
+      formDataPayload.append('phone', formData.phone);
+      formDataPayload.append('address', formData.address);
+      formDataPayload.append('dateOfBirth', formData.dateOfBirth.toISOString());
+      formDataPayload.append(
+        'membershipAmount',
+        parseInt(formData.membershipAmount)
+      );
+      formDataPayload.append('signedDate', formData.signedDate.toISOString());
+      formDataPayload.append('note', formData.note);
+      formDataPayload.append('createdBy', parseInt(user.user.id));
 
       if (formData.email) {
-        payload.email = formData.email;
+        formDataPayload.append('email', formData.email);
       }
-      console.log('payload', payload);
+
+      if (formData.profileImage) {
+        formDataPayload.append('profileImage', formData.profileImage);
+      }
+
+      console.log('Payload:', Array.from(formDataPayload.entries()));
 
       axios
-        .post('http://localhost:4321/v1/members', payload, {
+        .post('http://localhost:4321/v1/members', formDataPayload, {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'multipart/form-data',
           },
         })
         .then((res) => {
-          console.log('member successful registered!');
+          console.log('Member successfully registered!');
           setErrors({});
           navigate('../members');
         })
         .catch((err) => {
-          // console.log(JSON.stringify(err, null, 2));
-          console.log('xxxxxxxxx:', err.response?.data);
+          console.log('Error with in catch:', err.response?.data);
 
           if (err.response?.data?.error?.constraint === 'phone') {
-            setErrors({ phone: 'phone already used for other members' });
+            setErrors({ phone: 'Phone already used for other members' });
           } else if (err.response?.data?.error?.constraint === 'book_number') {
-            setErrors({ bookNumber: 'book number is used by other member' });
+            setErrors({ bookNumber: 'Book number is used by another member' });
           } else if (err.response?.data?.error?.constraint === 'email') {
             setErrors({ email: 'Email already exists' });
           } else {
@@ -179,7 +249,7 @@ function NewMember() {
           }
 
           if (err.response && err.response.data) {
-            console.log(`member creation field: ${err.response.data.message}`);
+            console.log(`Member creation failed: ${err.response.data.message}`);
           }
         });
     }
@@ -329,7 +399,7 @@ function NewMember() {
           />
           {formData.profileImage && (
             <img
-              src={formData.profileImage}
+              src={URL.createObjectURL(formData.profileImage)}
               alt="Profile Preview"
               className={styles.imagePreview}
             />
