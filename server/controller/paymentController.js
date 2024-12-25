@@ -24,7 +24,7 @@ const createPayment = async (req, res, next) => {
   req.body.monthCovered.forEach((month) => {
     payments.push({
       uuid,
-      monthly_amount: req.body.monthlyAmount,
+
       month: month,
       year: req.body.year,
       payment_method: req.body.paymentMethod,
