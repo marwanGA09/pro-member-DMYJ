@@ -214,7 +214,12 @@ const MembersList = () => {
           <p>Phone</p>
         </div>
         {members.map((member) => (
-          <div key={member.id} className={styles['member-row']}>
+          <div
+            key={member.id}
+            className={`${styles['member-row']}  ${
+              member?.payments.length > 0 ? styles.paid : ''
+            }`}
+          >
             <h3>{member.full_name}</h3>
             <p> {member.book_number}</p>
             <p> {member?.profession || '---'}</p>

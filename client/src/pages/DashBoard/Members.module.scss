@@ -100,6 +100,10 @@
     }
   }
 
+  .paid {
+    border-right: solid 1px $primary-color !important;
+  }
+
   .pagination {
     display: flex;
     justify-content: center;
