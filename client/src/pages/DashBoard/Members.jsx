@@ -110,96 +110,98 @@ const MembersList = () => {
           </select>
 
           {/* Paid */}
-          <div>
-            <p>Paid for </p>
-            <select name="" id="" onChange={handleIsPaid}>
-              <option value="">All</option>
-              <option value="some">Paid</option>
-              <option value="none">Not Paid</option>
-            </select>
 
-            {isPaid && (
-              <>
-                <select name="" id="" onChange={handleMonth}>
-                  <option selected={month === 1} value="1">
-                    Jan{' '}
-                  </option>
-                  <option selected={month === 2} value="2">
-                    Feb
-                  </option>
-                  <option selected={month === 3} value="3">
-                    Mar
-                  </option>
-                  <option selected={month === 4} value="3">
-                    Apr
-                  </option>
-                  <option selected={month === 5} value="5">
-                    May
-                  </option>
-                  <option selected={month === 6} value="6">
-                    Jun
-                  </option>
-                  <option selected={month === 7} value="7">
-                    Jul
-                  </option>
-                  <option selected={month === 8} value="8">
-                    Aug
-                  </option>
-                  <option selected={month === 9} value="9">
-                    Sep
-                  </option>
-                  <option selected={month === 10} value="10">
-                    Oct
-                  </option>
-                  <option selected={month === 11} value="11">
-                    Nov
-                  </option>
-                  <option selected={month === 12} value="12">
-                    Dec
-                  </option>
-                </select>
+          <select name="" id="" onChange={handleIsPaid}>
+            <option value="">All</option>
+            <option value="some">Paid</option>
+            <option value="none">Not Paid</option>
+          </select>
 
-                <select name="" id="" onChange={handleYear}>
-                  <option selected={year === 2022} value="2022">
-                    2022
-                  </option>
-                  <option selected={year === 2023} value="2023">
-                    2023
-                  </option>
-                  <option selected={year === 2024} value="2024">
-                    2024
-                  </option>
-                  <option selected={year === 2025} value="2025">
-                    2025
-                  </option>
-                  <option selected={year === 2026} value="2026">
-                    2026
-                  </option>
-                </select>
-              </>
-            )}
-          </div>
+          {isPaid && (
+            <>
+              <select name="" id="" onChange={handleMonth}>
+                <option selected={month === 1} value="1">
+                  Jan{' '}
+                </option>
+                <option selected={month === 2} value="2">
+                  Feb
+                </option>
+                <option selected={month === 3} value="3">
+                  Mar
+                </option>
+                <option selected={month === 4} value="3">
+                  Apr
+                </option>
+                <option selected={month === 5} value="5">
+                  May
+                </option>
+                <option selected={month === 6} value="6">
+                  Jun
+                </option>
+                <option selected={month === 7} value="7">
+                  Jul
+                </option>
+                <option selected={month === 8} value="8">
+                  Aug
+                </option>
+                <option selected={month === 9} value="9">
+                  Sep
+                </option>
+                <option selected={month === 10} value="10">
+                  Oct
+                </option>
+                <option selected={month === 11} value="11">
+                  Nov
+                </option>
+                <option selected={month === 12} value="12">
+                  Dec
+                </option>
+              </select>
+
+              <select name="" id="" onChange={handleYear}>
+                <option selected={year === 2022} value="2022">
+                  2022
+                </option>
+                <option selected={year === 2023} value="2023">
+                  2023
+                </option>
+                <option selected={year === 2024} value="2024">
+                  2024
+                </option>
+                <option selected={year === 2025} value="2025">
+                  2025
+                </option>
+                <option selected={year === 2026} value="2026">
+                  2026
+                </option>
+              </select>
+            </>
+          )}
 
           {/* Filters */}
-          <div>
-            <input
-              type="text"
-              placeholder="Address"
-              onChange={(e) => handleFilterChange('address', e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Profession"
-              onChange={(e) => handleFilterChange('profession', e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Membership Amount"
-              onChange={(e) =>
-                handleFilterChange('membership_amount', e.target.value)
-              }
-            />
-          </div>
+
+          <input
+            type="text"
+            placeholder="Book Number"
+            onChange={(e) => handleFilterChange('book_number', e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Address"
+            onChange={(e) => handleFilterChange('address', e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Profession"
+            onChange={(e) => handleFilterChange('profession', e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Membership Amount"
+            onChange={(e) =>
+              handleFilterChange('membership_amount', e.target.value)
+            }
+          />
         </div>
       )}
 
