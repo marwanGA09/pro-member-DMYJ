@@ -8,14 +8,35 @@ class PrismaAPIFeatures {
     this.selectFields = undefined; // Holds Prisma `select` fields
     this.pagination = {}; // Holds pagination options
     this.numericFields = numericFields || [];
+    this.payments = {}; // Holds
   }
 
   filter(qForField) {
     // Exclude special query parameters
-    const excludedFields = ['q', 'page', 'sort', 'limit', 'fields'];
+    const excludedFields = [
+      'q',
+      'page',
+      'sort',
+      'limit',
+      'fields',
+      'payments',
+      'pmonth',
+      'pyear',
+    ];
     let queryObj = { ...this.queryString };
     excludedFields.forEach((field) => delete queryObj[field]);
-
+    let paymentStr = {};
+    const current = new Date();
+    if (this.queryString.payments) {
+      paymentStr = {
+        payments: {
+          [this.queryString.payments]: {
+            month: parseInt(this.queryString.pmonth) || current.getMonth() + 1,
+            year: parseInt(this.queryString.pyear) || current.getFullYear(),
+          },
+        },
+      };
+    }
     if (this.queryString.q) {
       qForField.forEach(
         (f) =>
@@ -42,11 +63,10 @@ class PrismaAPIFeatures {
       'lte',
       ...this.numericFields,
     ]);
-    this.query.where = queryObj;
+    this.query.where = { ...queryObj, ...paymentStr };
 
     return this;
   }
-
   sort() {
     if (this.queryString.sort) {
       // Convert "field,-field2" to Prisma's orderBy array

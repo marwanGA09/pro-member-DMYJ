@@ -52,13 +52,7 @@ const getAllMembers = async (req, res, next) => {
     .limitFields()
     .paginate();
   const prismaQueryOption = features.build();
-  console.log(
-    JSON.stringify(
-      { ...prismaQueryOption, include: { MonthlyPayment: true } },
-      null,
-      2
-    )
-  );
+  console.log(JSON.stringify(prismaQueryOption, null, 2));
 
   const data = new Date();
 
@@ -69,8 +63,10 @@ const getAllMembers = async (req, res, next) => {
     include: {
       payments: {
         where: {
-          month: data.getMonth() + 1,
-          year: data.getFullYear(),
+          // month: data.getMonth() + 1,
+          // year: data.getFullYear(),
+          month: parseInt(req.query.pmonth) || current.getMonth() + 1,
+          year: parseInt(req.query.pyear) || current.getFullYear(),
         },
       },
     },

@@ -126,7 +126,8 @@ const MembersList = () => {
   const [sort, setSort] = useState('');
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  // const [limit, setLimit] = useState(10);
+  const limit = 10;
   const [totalPages, setTotalPages] = useState(1);
 
   // Function to fetch data from the backend
@@ -230,6 +231,7 @@ const MembersList = () => {
             <p>Profession: {member.profession}</p>
             <p>Membership Amount: ${member.membership_amount}</p>
             <p>Phone: {member.phone}</p>
+            {member.payments.length > 0 ? <p>r</p> : <p>x</p>}
           </div>
         ))}
       </div>
