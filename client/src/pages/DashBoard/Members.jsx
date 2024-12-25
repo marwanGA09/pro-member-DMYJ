@@ -1,122 +1,3 @@
-// import { useState, useEffect } from 'react';
-// import axios from './../../Utils/axios';
-
-// const MembersList = () => {
-//   const [members, setMembers] = useState([]);
-//   const [viewMode, setViewMode] = useState('rows'); // 'rows' or 'cards'
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     // Fetch members from the API
-//     const fetchMembers = async () => {
-//       try {
-//         const response = await axios.get('members'); // Replace with your actual URL
-//         if (response.data.status === 'success') {
-//           setMembers(response.data.data); // Update with your API's response structure
-//         }
-//       } catch (error) {
-//         console.error('Error fetching members:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchMembers();
-//   }, []);
-
-//   if (loading) {
-//     return <p>Loading...</p>;
-//   }
-
-//   return (
-//     <div>
-//       <div style={{ marginBottom: '20px' }}>
-//         <button onClick={() => setViewMode('rows')}>View as Rows</button>
-//         <button onClick={() => setViewMode('cards')}>View as Cards</button>
-//       </div>
-
-//       {viewMode === 'rows' ? (
-//         <table border="1" style={{ width: '100%', textAlign: 'left' }}>
-//           <thead>
-//             <tr>
-//               <th>ID</th>
-//               <th>Full Name</th>
-//               <th>Sex</th>
-//               <th>Book Number</th>
-//               <th>Address</th>
-//               <th>Phone</th>
-//               <th>Email</th>
-//               <th>Membership Amount</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {members.map((member) => (
-//               <tr key={member.id}>
-//                 <td>{member.id}</td>
-//                 <td>{member.full_name}</td>
-//                 <td>{member.sex}</td>
-//                 <td>{member.book_number}</td>
-//                 <td>{member.address}</td>
-//                 <td>{member.phone}</td>
-//                 <td>{member.email || 'N/A'}</td>
-//                 <td>{member.membership_amount}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       ) : (
-//         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-//           {members.map((member) => (
-//             <div
-//               key={member.id}
-//               style={{
-//                 border: '1px solid #ddd',
-//                 borderRadius: '10px',
-//                 padding: '20px',
-//                 width: '300px',
-//               }}
-//             >
-//               {member.profile_image && (
-//                 <img
-//                   src={member.profile_image}
-//                   alt={member.full_name}
-//                   style={{
-//                     width: '100%',
-//                     height: '150px',
-//                     objectFit: 'cover',
-//                     borderRadius: '10px 10px 0 0',
-//                   }}
-//                 />
-//               )}
-//               <h3>{member.full_name}</h3>
-//               <p>
-//                 <strong>Sex:</strong> {member.sex}
-//               </p>
-//               <p>
-//                 <strong>Book Number:</strong> {member.book_number}
-//               </p>
-//               <p>
-//                 <strong>Address:</strong> {member.address}
-//               </p>
-//               <p>
-//                 <strong>Phone:</strong> {member.phone}
-//               </p>
-//               <p>
-//                 <strong>Email:</strong> {member.email || 'N/A'}
-//               </p>
-//               <p>
-//                 <strong>Membership Amount:</strong> {member.membership_amount}
-//               </p>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default MembersList;
-
 import { useState, useEffect } from 'react';
 import axios from './../../Utils/axios';
 
@@ -127,6 +8,11 @@ const MembersList = () => {
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
   // const [limit, setLimit] = useState(10);
+
+  const [isPaid, setIsPaid] = useState('');
+  const currentTime = new Date();
+  const [month, setMonth] = useState(currentTime.getMonth() + 1);
+  const [year, setYear] = useState(currentTime.getFullYear());
   const limit = 10;
   const [totalPages, setTotalPages] = useState(1);
 
@@ -138,7 +24,12 @@ const MembersList = () => {
       page,
       limit,
       ...filters,
+      pyear: year,
+      pmonth: month,
+      payments: isPaid,
     };
+
+    console.log('params', params);
 
     try {
       const response = await axios.get('members', { params });
@@ -154,7 +45,22 @@ const MembersList = () => {
   // Trigger fetchData whenever search, sort, filters, page, or limit changes
   useEffect(() => {
     fetchData();
-  }, [search, sort, filters, page, limit]);
+  }, [search, sort, filters, page, limit, month, year, isPaid]);
+
+  // Handle Year
+  const handleYear = (event) => {
+    setYear(event.target.value);
+  };
+
+  // Handle Month
+  const handleMonth = (event) => {
+    setMonth(event.target.value);
+  };
+
+  // Handle IsPaid
+  const handleIsPaid = (event) => {
+    setIsPaid(event.target.value);
+  };
 
   // Handle pagination
   const handlePageChange = (newPage) => {
@@ -194,6 +100,77 @@ const MembersList = () => {
         </option>
       </select>
 
+      {/* Paid */}
+      <div>
+        <p>Paid for </p>
+        <select name="" id="" onChange={handleIsPaid}>
+          <option value="">All</option>
+          <option value="some">Paid</option>
+          <option value="none">Not Paid</option>
+        </select>
+
+        {isPaid && (
+          <>
+            <select name="" id="" onChange={handleMonth}>
+              <option selected={month === 1} value="1">
+                Jan{' '}
+              </option>
+              <option selected={month === 2} value="2">
+                Feb
+              </option>
+              <option selected={month === 3} value="3">
+                Mar
+              </option>
+              <option selected={month === 4} value="3">
+                Apr
+              </option>
+              <option selected={month === 5} value="5">
+                May
+              </option>
+              <option selected={month === 6} value="6">
+                Jun
+              </option>
+              <option selected={month === 7} value="7">
+                Jul
+              </option>
+              <option selected={month === 8} value="8">
+                Aug
+              </option>
+              <option selected={month === 9} value="9">
+                Sep
+              </option>
+              <option selected={month === 10} value="10">
+                Oct
+              </option>
+              <option selected={month === 11} value="11">
+                Nov
+              </option>
+              <option selected={month === 12} value="12">
+                Dec
+              </option>
+            </select>
+
+            <select name="" id="" onChange={handleYear}>
+              <option selected={year === 2022} value="2022">
+                2022
+              </option>
+              <option selected={year === 2023} value="2023">
+                2023
+              </option>
+              <option selected={year === 2024} value="2024">
+                2024
+              </option>
+              <option selected={year === 2025} value="2025">
+                2025
+              </option>
+              <option selected={year === 2026} value="2026">
+                2026
+              </option>
+            </select>
+          </>
+        )}
+      </div>
+
       {/* Filters */}
       <div>
         <input
@@ -227,7 +204,7 @@ const MembersList = () => {
             }}
           >
             <h3>{member.full_name}</h3>
-            <p>Address: {member.address}</p>
+            <p>Book Number: {member.book_number}</p>
             <p>Profession: {member.profession}</p>
             <p>Membership Amount: ${member.membership_amount}</p>
             <p>Phone: {member.phone}</p>

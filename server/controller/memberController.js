@@ -54,17 +54,13 @@ const getAllMembers = async (req, res, next) => {
   const prismaQueryOption = features.build();
   console.log(JSON.stringify(prismaQueryOption, null, 2));
 
-  const data = new Date();
-
-  console.log(data.getFullYear(), data.getMonth());
+  const current = new Date();
 
   const members = await prisma.member.findMany({
     ...prismaQueryOption,
     include: {
       payments: {
         where: {
-          // month: data.getMonth() + 1,
-          // year: data.getFullYear(),
           month: parseInt(req.query.pmonth) || current.getMonth() + 1,
           year: parseInt(req.query.pyear) || current.getFullYear(),
         },
