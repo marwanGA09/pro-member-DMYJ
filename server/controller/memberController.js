@@ -52,9 +52,29 @@ const getAllMembers = async (req, res, next) => {
     .limitFields()
     .paginate();
   const prismaQueryOption = features.build();
-  // console.log(JSON.stringify(features, null, 2));
+  console.log(
+    JSON.stringify(
+      { ...prismaQueryOption, include: { MonthlyPayment: true } },
+      null,
+      2
+    )
+  );
 
-  const members = await prisma.member.findMany(prismaQueryOption);
+  const data = new Date();
+
+  console.log(data.getFullYear(), data.getMonth());
+
+  const members = await prisma.member.findMany({
+    ...prismaQueryOption,
+    include: {
+      payments: {
+        where: {
+          month: data.getMonth() + 1,
+          year: data.getFullYear(),
+        },
+      },
+    },
+  });
   const totalMembers = await prisma.member.count(features.query);
   return res.status(200).json({
     status: 'success',
