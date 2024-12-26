@@ -12,6 +12,7 @@ import Members from '../pages/DashBoard/Members';
 import Payments from '../pages/DashBoard/Payments';
 import DashBoardRouterController from '../controllers/DashBoardRouterController';
 import NewMember from '../pages/DashBoard/NewMember';
+import Member from '../pages/DashBoard/Member';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <GeneralDashBoard /> },
               { path: 'members', element: <Members /> },
+              { path: 'members/:memberId', element: <Member /> },
               { path: 'payments', element: <Payments /> },
               { path: 'new-member', element: <NewMember /> },
             ],
