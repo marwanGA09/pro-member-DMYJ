@@ -96,7 +96,7 @@ const getMember = async (req, res, next) => {
           ],
         },
         orderBy: [
-          { year: 'asc' },
+          { year: 'desc' },
           {
             month: 'asc',
           },

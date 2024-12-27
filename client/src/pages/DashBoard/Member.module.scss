@@ -1,9 +1,23 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
 
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 20px;
+
+  @media (max-width: 1080px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content;
+  }
+}
+
 .memberProfile {
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 500px;
+  // margin: 5px auto;
+  flex-grow: 1;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px $background-color;

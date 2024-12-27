@@ -4,6 +4,7 @@ import axios from './../../Utils/axios';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
 import styles from './Member.module.scss';
+import PaymentCardList from './PaymentCardList';
 
 function Member() {
   const { memberId } = useParams();
@@ -54,48 +55,59 @@ function Member() {
   });
 
   const profileImage = cld.image(member.profile_image);
-  console.log('member', member);
+
+  console.log('member', JSON.stringify(member, null, 2));
+  console.log(member);
   return (
-    <div className={styles.memberProfile}>
-      <div>
-        <AdvancedImage cldImg={profileImage} className={styles.profileImage} />{' '}
+    <div className={styles.container}>
+      <div className={styles.memberProfile}>
+        <div>
+          <AdvancedImage
+            cldImg={profileImage}
+            className={styles.profileImage}
+          />{' '}
+        </div>
+        <h2>{member.full_name}</h2>
+        <p>
+          <strong>Book Number:</strong> {member.book_number}
+        </p>
+        <p>
+          <strong>Sex:</strong> {member.sex}
+        </p>
+        <p>
+          <strong>Profession:</strong> {member.profession}
+        </p>
+        <p>
+          <strong>Address:</strong> {member.address}
+        </p>
+        <p>
+          <strong>Phone:</strong> {member.phone}
+        </p>
+        <p>
+          <strong>Email:</strong> {member.email}
+        </p>
+        <p>
+          <strong>Membership Amount:</strong> ${member.membership_amount}
+        </p>
+        <p>
+          <strong>Signed Date:</strong>{' '}
+          {new Date(member.signed_date).toLocaleDateString()}
+        </p>
+        <p>
+          <strong>Age:</strong> {calculateAge(member.date_of_birth)}
+        </p>
+        <p>
+          <strong>DMYJ representative :</strong>{' '}
+          {Object.values(member.user).slice(0, -1).join(' ')}
+        </p>
+        <p>
+          <strong>Note:</strong> {member.note}
+        </p>
       </div>
-      <h2>{member.full_name}</h2>
-      <p>
-        <strong>Book Number:</strong> {member.book_number}
-      </p>
-      <p>
-        <strong>Sex:</strong> {member.sex}
-      </p>
-      <p>
-        <strong>Profession:</strong> {member.profession}
-      </p>
-      <p>
-        <strong>Address:</strong> {member.address}
-      </p>
-      <p>
-        <strong>Phone:</strong> {member.phone}
-      </p>
-      <p>
-        <strong>Email:</strong> {member.email}
-      </p>
-      <p>
-        <strong>Membership Amount:</strong> ${member.membership_amount}
-      </p>
-      <p>
-        <strong>Signed Date:</strong>{' '}
-        {new Date(member.signed_date).toLocaleDateString()}
-      </p>
-      <p>
-        <strong>Age:</strong> {calculateAge(member.date_of_birth)}
-      </p>
-      <p>
-        <strong>DMYJ representative :</strong>{' '}
-        {Object.values(member.user).slice(0, -1).join(' ')}
-      </p>
-      <p>
-        <strong>Note:</strong> {member.note}
-      </p>
+      <PaymentCardList
+        payments={member.payments}
+        className={styles.paymentList}
+      />
     </div>
   );
 }
