@@ -28,7 +28,7 @@ const createMember = async (req, res, next) => {
     email: req.body.email,
     date_of_birth: req.body.dateOfBirth,
     membership_amount: parseInt(req.body.membershipAmount),
-    profile_image: req?.file?.path,
+    profile_image: req?.file?.filename,
     signed_date: req.body.signedDate,
     note: req.body.note,
     created_by: parseInt(req.body.createdBy),
@@ -83,6 +83,34 @@ const getMember = async (req, res, next) => {
 
   const member = await prisma.member.findUnique({
     where: { id: id },
+    include: {
+      payments: {
+        where: {
+          OR: [
+            {
+              year: new Date().getFullYear(),
+            },
+            {
+              year: new Date().getFullYear() - 1,
+            },
+          ],
+        },
+        orderBy: [
+          { year: 'asc' },
+          {
+            month: 'asc',
+          },
+        ],
+      },
+      user: {
+        select: {
+          first_name: true,
+          middle_name: true,
+          last_name: true,
+          id: true,
+        },
+      },
+    },
   });
   console.log(member);
   return res.status(200).json({

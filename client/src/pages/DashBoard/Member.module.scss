@@ -1,0 +1,43 @@
+@use './../../Style/variable.scss' as *;
+@use 'sass:color';
+
+.memberProfile {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px $background-color;
+  font-family: Arial, sans-serif;
+  background-color: color.scale($background-color, $lightness: -10%);
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.profileImage {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  // margin: 0 auto 20px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: $text-color;
+}
+
+p {
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: color.adjust($text-color, $lightness: 20%);
+}
+p strong {
+  font-weight: bold;
+  color: color.adjust($text-color, $lightness: -10%);
+}
