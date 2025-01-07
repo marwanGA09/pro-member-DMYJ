@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import style from './PaymentForm.module.scss';
+import axios from '../../Utils/axios';
 const PaymentForm = () => {
+  const [error, setError] = useState(false);
   const { state } = useLocation();
   const [formData, setFormData] = useState({
     monthlyAmount: state.monthlyAmount,
@@ -12,6 +14,8 @@ const PaymentForm = () => {
     memberId: state.memberId,
     userId: state.userId,
   });
+
+  const navigate = useNavigate();
 
   // Handle input change
   const handleChange = (e) => {
@@ -44,6 +48,28 @@ const PaymentForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Submitted Payment Data:', formData);
+
+    const payload = {
+      monthlyAmount: parseInt(formData.monthlyAmount),
+      totalAmount: parseInt(formData.totalAmount),
+      monthCovered: formData.monthCovered,
+      year: parseInt(formData.year),
+      paymentMethod: formData.paymentMethod,
+      memberId: parseInt(formData.memberId),
+      userId: parseInt(formData.userId),
+    };
+
+    axios
+      .post('payments', payload, { withCredentials: true })
+      .then((res) => {
+        console.log('res payments', res);
+        navigate(-1);
+      })
+      .catch((err) => {
+        console.log('error payments', err.response?.data);
+        setError(true);
+      });
+
     // Perform form submission logic here (e.g., API call)
   };
 
@@ -80,6 +106,9 @@ const PaymentForm = () => {
             </option>
           ))}
         </select>
+        <div className={style.error}>
+          {error && <small> You selected already payed month </small>}
+        </div>
       </div>
       <div>
         <label>Total Amount:</label>
