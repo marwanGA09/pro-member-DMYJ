@@ -1,6 +1,19 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
 
+.new-button {
+  background-color: $primary-color;
+  color: #fff;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $hover-color;
+  }
+}
+
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;

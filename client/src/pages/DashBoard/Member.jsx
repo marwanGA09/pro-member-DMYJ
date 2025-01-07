@@ -70,6 +70,7 @@ function Member() {
       <div>
         {' '}
         <Link
+          className={styles['new-button']}
           to={`./new-payment`}
           state={{
             memberId,
@@ -77,7 +78,7 @@ function Member() {
             userId: user?.user?.id,
           }}
         >
-          new payment
+          New Payment
         </Link>{' '}
       </div>
       <div className={styles.container}>
