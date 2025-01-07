@@ -13,6 +13,7 @@ import Payments from '../pages/DashBoard/Payments';
 import DashBoardRouterController from '../controllers/DashBoardRouterController';
 import NewMember from '../pages/DashBoard/NewMember';
 import Member from '../pages/DashBoard/Member';
+import PaymentForm from '../pages/DashBoard/PaymentForm';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
               { index: true, element: <GeneralDashBoard /> },
               { path: 'members', element: <Members /> },
               { path: 'members/:memberId', element: <Member /> },
+              {
+                path: 'members/:memberId/new-payment',
+                element: <PaymentForm />,
+              },
               { path: 'payments', element: <Payments /> },
               { path: 'new-member', element: <NewMember /> },
             ],
