@@ -209,11 +209,11 @@ const Members = () => {
       {/* Members List */}
       <div className={styles['members-list']}>
         {' '}
-        <div className={styles['member-row']}>
+        <div className={`${styles['member-row']} ${styles['header']}`}>
           <h3>Full Name</h3>
-          <p>Book Number</p>
+          <p>Book No</p>
           <p>Profession</p>
-          <p>Membership Amount</p>
+          <p>Pro Amount</p>
           <p>Phone</p>
         </div>
         {members.map((member) => (
