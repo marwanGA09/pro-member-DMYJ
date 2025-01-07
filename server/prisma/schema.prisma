@@ -83,7 +83,7 @@ enum PaymentMethod {
 
 model MonthlyPayment {
   id              Int            @id @default(autoincrement()) @unique
-  uuid Int 
+  uuid String 
   month Int?
   year Int
   member_id       Int

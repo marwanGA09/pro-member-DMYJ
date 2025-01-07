@@ -1,7 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
-const AppError = require('../utils/AppError');
-
 const PrismaAPIFeatures = require('../utils/APIfeature.js');
+const { v4 } = require('uuid');
 const { validationResult } = require('express-validator');
 
 const prisma = new PrismaClient();
@@ -19,8 +18,8 @@ const createPayment = async (req, res, next) => {
   console.log(req.body);
 
   const payments = [];
-  const uuid = 254232532;
-
+  const uuid = v4();
+  console.log(uuid);
   req.body.monthCovered.forEach((month) => {
     payments.push({
       uuid,
@@ -95,9 +94,8 @@ const createPayment = async (req, res, next) => {
 
 //   if (foundItems.length > 0) {
 //     return next(
-//       new AppError(
 //         `${foundItems.join(', ')} month are already payed for ${
-//           paymentData.year
+//           paymentata.year
 //         }`,
 //         409
 //       )
