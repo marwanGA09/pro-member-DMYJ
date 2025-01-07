@@ -60,7 +60,7 @@ const LoginPage = () => {
           setError({});
           // FIX TO INCLUDE TOKEN ALSO
           setUser(response.data);
-          navigate('/dashboard');
+          navigate('/dashboard/members');
         } else {
           setError({
             other: response.data.message || 'Login failed. Please try again.',

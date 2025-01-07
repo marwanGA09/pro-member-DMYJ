@@ -28,7 +28,7 @@ const router = createBrowserRouter([
             path: 'dashboard',
             element: <DashBoardRouterController />,
             children: [
-              { index: true, element: <GeneralDashBoard /> },
+              // { index: true, element: <GeneralDashBoard /> },
               { path: 'members', element: <Members /> },
               { path: 'members/:memberId', element: <Member /> },
               {

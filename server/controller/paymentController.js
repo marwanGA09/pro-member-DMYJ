@@ -52,66 +52,6 @@ const createPayment = async (req, res, next) => {
     message: 'payments created successfully',
   });
 };
-// const createPayment = async (req, res, next) => {
-//   const errors = validationResult(req);
-
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({
-//       errors: errors.array(),
-//       message: 'invalid data format',
-//     });
-//   }
-
-//   console.log(req.body);
-
-//   const paymentData = {
-//     monthly_amount: req.body.monthlyAmount,
-//     total_amount: req.body.totalAmount,
-//     month_covered: req.body.monthCovered,
-//     year: req.body.year,
-//     payment_method: req.body.paymentMethod,
-//     member_id: req.body.memberId,
-//     user_id: req.body.userId,
-//   };
-
-//   const oldPayment = await prisma.monthlyPayment.findMany({
-//     where: {
-//       year: paymentData.year,
-//       member_id: paymentData.member_id,
-//     },
-//     select: {
-//       month_covered: true,
-//     },
-//   });
-
-//   const allMonthsCovered = oldPayment
-//     .map((payment) => payment.month_covered)
-//     .flat();
-
-//   const foundItems = allMonthsCovered.filter((item) =>
-//     paymentData.month_covered.includes(item)
-//   );
-
-//   if (foundItems.length > 0) {
-//     return next(
-//         `${foundItems.join(', ')} month are already payed for ${
-//           paymentata.year
-//         }`,
-//         409
-//       )
-//     );
-//   }
-
-//   const monthlyPayment = await prisma.monthlyPayment.create({
-//     data: paymentData,
-//   });
-//   console.log('monthlyPayment', monthlyPayment);
-//   return res.status(201).json({
-//     data: monthlyPayment,
-//     status: 'success',
-//     message: 'payments created successfully',
-//   });
-// };
 
 const getAllPayments = async (req, res, next) => {
   const features = new PrismaAPIFeatures(req.query, [
@@ -128,8 +68,29 @@ const getAllPayments = async (req, res, next) => {
     .paginate();
 
   const prismaQueryOption = features.build();
-
-  const payments = await prisma.monthlyPayment.findMany(prismaQueryOption);
+  // const members = await prisma.member.findMany({
+  //   ...prismaQueryOption,
+  //   include: {
+  //     payments: {
+  //       where: {
+  //         month: parseInt(req.query.pmonth) || current.getMonth() + 1,
+  //         year: parseInt(req.query.pyear) || current.getFullYear(),
+  //       },
+  //     },
+  //   },
+  // });
+  const payments = await prisma.monthlyPayment.findMany({
+    ...prismaQueryOption,
+    include: {
+      member: {
+        select: {
+          full_name: true,
+          book_number: true,
+        },
+      },
+      user: { select: { username: true } },
+    },
+  });
 
   const totalPayments = await prisma.monthlyPayment.count(features.query);
 
