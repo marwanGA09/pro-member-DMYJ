@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from './../../Utils/axios';
 import styles from './Members.module.scss';
 import { Link } from 'react-router';
-
+import Pagination from '@mui/material/Pagination';
 const Members = () => {
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState('');
@@ -235,15 +235,28 @@ const Members = () => {
 
       {/* Pagination */}
       <div className={styles.pagination}>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            disabled={page === index + 1}
-          >
-            {index + 1}
-          </button>
-        ))}
+        <Pagination
+          classes={'MuiPagination-root MuiPaginationItem-root Mui-selected'}
+          count={totalPages}
+          page={page}
+          onChange={(event, value) => handlePageChange(value)}
+          color="primary"
+          shape="rounded"
+          sx={{
+            '& .MuiPaginationItem-root': {
+              color: '#007bff',
+              '&:hover': {
+                backgroundColor: '#e0f7fa',
+                color: '#0056b3',
+              },
+            },
+            '& .Mui-selected': {
+              backgroundColor: '#007bff',
+              color: '#fff',
+              fontWeight: 'bold',
+            },
+          }}
+        />
       </div>
     </div>
   );

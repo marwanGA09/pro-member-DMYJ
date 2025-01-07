@@ -7,7 +7,6 @@ import RouterController from '../controllers/RouterController';
 import ProtectedRoute from '../components/ProtectedRoute';
 import AdminDashboard from '../pages/DashBoard/AdminDashboard';
 import AuthorizedRoute from '../components/AuthorizedRoute';
-import GeneralDashBoard from '../pages/DashBoard/GeneralDashBoard';
 import Members from '../pages/DashBoard/Members';
 import Payments from '../pages/DashBoard/Payments';
 import DashBoardRouterController from '../controllers/DashBoardRouterController';

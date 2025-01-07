@@ -112,30 +112,36 @@
     border-right: solid 2px $primary-color !important;
   }
 
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: $margin;
-    overflow-y: scroll;
+  // .pagination {
+  //   display: flex;
+  //   justify-content: center;
+  //   margin-top: $margin;
+  //   overflow-y: scroll;
 
-    button {
-      margin: 0 5px;
-      padding: $padding;
-      border: 1px solid $primary-color;
-      border-radius: 60%;
-      background-color: white;
-      cursor: pointer;
+  //   button {
+  //     margin: 0 5px;
+  //     padding: $padding;
+  //     border: 1px solid $primary-color;
+  //     border-radius: 60%;
+  //     background-color: white;
+  //     cursor: pointer;
 
-      @media (max-width: 650px) {
-        padding: 4px;
-        margin: 0 3px;
-      }
+  //     @media (max-width: 650px) {
+  //       padding: 4px;
+  //       margin: 0 3px;
+  //     }
 
-      &:disabled {
-        background-color: $primary-color;
-        color: white;
-        cursor: not-allowed;
-      }
-    }
-  }
+  //     &:disabled {
+  //       background-color: $primary-color;
+  //       color: white;
+  //       cursor: not-allowed;
+  //     }
+  //   }
+  // }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
