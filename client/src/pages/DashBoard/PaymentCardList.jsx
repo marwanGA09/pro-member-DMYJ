@@ -24,7 +24,11 @@ function PaymentCardList({ payments }) {
                   <strong>Month:</strong> {payment.month}
                 </p>
                 <p>
-                  <strong>Payment Method:</strong> {payment.payment_method}
+                  <strong>Payment Method:</strong>{' '}
+                  {payment.payment_method
+                    .split('_')
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ')}
                 </p>
                 <p>
                   <strong>Day of Payment:</strong>{' '}

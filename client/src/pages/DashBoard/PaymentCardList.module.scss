@@ -1,5 +1,6 @@
 /* PaymentsList.module.scss */
-
+@use './../../Style/variable.scss' as *;
+@use 'sass:color';
 .paymentsContainer {
   min-width: 300px;
   max-width: 500px;
@@ -7,15 +8,15 @@
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: color.scale($background-color, $lightness: -10%);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .yearGroup {
   padding: 10px;
-  background-color: #ffffff;
-  border: 2px solid #ddd;
+  background-color: color.scale($background-color, $lightness: 5%);
+  border: 2px solid #777;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -23,8 +24,8 @@
 .yearTitle {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #2c3e50;
-  border-bottom: 2px solid #ddd;
+  color: #e3f1ff;
+  border-bottom: 2px solid #777;
   margin-bottom: 10px;
   padding-bottom: 5px;
 }
@@ -33,16 +34,16 @@
   padding: 10px;
   margin: 10px 0;
   border-left: 4px solid #3498db;
-  background-color: #ecf9ff;
+  background-color: color.scale($background-color, $lightness: 10%);
   border-radius: 4px;
 }
 
 .paymentItem p {
   margin: 5px 0;
   font-size: 0.9rem;
-  color: #34495e;
+  color: #c3e1ff;
 }
 
 .paymentItem strong {
-  color: #2c3e50;
+  color: #c3e1ff;
 }
