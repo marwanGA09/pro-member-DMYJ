@@ -1,9 +1,144 @@
-function Payments() {
+import { useState, useEffect } from 'react';
+import axios from './../../Utils/axios';
+import styles from './Payments.module.scss';
+import { Link } from 'react-router';
+
+const Payments = () => {
+  const [payments, setPayments] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({});
+  const [page, setPage] = useState(4);
+  const limit = 10;
+  const [totalPages, setTotalPages] = useState(1);
+  const [advancedSearch, setAdvancedSearch] = useState(false);
+
+  // Function to fetch data from the backend
+  const fetchData = async () => {
+    const params = {
+      q: search,
+      page,
+      limit,
+      ...filters,
+    };
+
+    try {
+      const response = await axios.get('payments', { params });
+      const { data, totalPayments } = response.data;
+
+      setPayments(data);
+      setTotalPages(Math.ceil(totalPayments / limit));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  // Trigger fetchData whenever search, filters, page, or limit changes
+  useEffect(() => {
+    fetchData();
+  }, [search, filters, page, limit]);
+
+  // Handle pagination
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  // Handle filtering updates
+  const handleFilterChange = (field, value) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Handle search
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const changeFilterDisplay = () => setAdvancedSearch((pre) => !pre);
+
   return (
-    <div>
-      <h1>Payments</h1>
+    <div className={styles.container}>
+      {/* Search Input */}
+      <div className={styles['search-bar']}>
+        <input
+          type="text"
+          placeholder="Search by member name or book number..."
+          value={search}
+          onChange={handleSearchChange}
+        />
+        <button onClick={changeFilterDisplay}>
+          {advancedSearch ? 'Close Advanced Search' : 'Advanced Search'}
+        </button>
+      </div>
+
+      {advancedSearch && (
+        <div className={styles['advanced-search']}>
+          {/* Filters */}
+          <input
+            type="text"
+            placeholder="Book Number"
+            onChange={(e) => handleFilterChange('book_number', e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Full Name"
+            onChange={(e) => handleFilterChange('full_name', e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Payment Method"
+            onChange={(e) =>
+              handleFilterChange('payment_method', e.target.value)
+            }
+          />
+          <input
+            type="number"
+            placeholder="Year"
+            onChange={(e) => handleFilterChange('year', e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Month"
+            onChange={(e) => handleFilterChange('month', e.target.value)}
+          />
+        </div>
+      )}
+
+      {/* Payments List */}
+      <div className={styles['payments-list']}>
+        <div className={`${styles['payment-row']} ${styles['header']}`}>
+          <h3>Full Name</h3>
+          <p>Book Number</p>
+          <p>Payment Method</p>
+          <p>mm / yy</p>
+        </div>
+        {payments.map((payment) => (
+          // <Link to={'./' + payment.id} key={payment.id}>
+          <Link key={payment.id}>
+            <div className={styles['payment-row']}>
+              <h3>{payment.member.full_name}</h3>
+              <p>{payment.member.book_number}</p>
+              <p>{payment.payment_method}</p>
+              <p>
+                {payment.month} / {payment.year}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      {/* <div className={styles.pagination}>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => handlePageChange(index + 1)}
+            disabled={page === index + 1}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div> */}
     </div>
   );
-}
+};
 
 export default Payments;
