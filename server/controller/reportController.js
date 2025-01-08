@@ -94,9 +94,16 @@ const yearlyPayments = async (req, res, next) => {
   }, {});
 
   console.log(groupedPayments);
+
+  const result = Object.entries(groupedPayments).map(([year, data]) => ({
+    year,
+    totalMembershipAmount: data.totalMembershipAmount,
+    count: data.count,
+  }));
   return res.json({
     status: 200,
     message: 'report',
+    data: result,
   });
 };
 module.exports = { monthlyPayment, yearlyPayments };

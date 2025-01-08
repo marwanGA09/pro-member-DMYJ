@@ -12,6 +12,9 @@ function DashBoardNavigation() {
       <Link to={'new-member'}>
         <h5>New Member</h5>
       </Link>
+      <Link to={'general'}>
+        <h5>General</h5>
+      </Link>
     </div>
   );
 }
