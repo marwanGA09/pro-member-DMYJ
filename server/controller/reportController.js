@@ -64,4 +64,39 @@ const monthlyPayment = async (req, res, next) => {
   });
 };
 
-module.exports = { monthlyPayment };
+const yearlyPayments = async (req, res, next) => {
+  const payments = await prisma.monthlyPayment.findMany({
+    select: {
+      year: true,
+      member: {
+        select: {
+          membership_amount: true,
+        },
+      },
+    },
+  });
+
+  const groupedPayments = payments.reduce((acc, payment) => {
+    const { year, member } = payment;
+    const membershipAmount = member?.membership_amount || 0;
+
+    if (!acc[year]) {
+      acc[year] = {
+        totalMembershipAmount: 0,
+        count: 0,
+      };
+    }
+
+    acc[year].totalMembershipAmount += membershipAmount;
+    acc[year].count += 1;
+
+    return acc;
+  }, {});
+
+  console.log(groupedPayments);
+  return res.json({
+    status: 200,
+    message: 'report',
+  });
+};
+module.exports = { monthlyPayment, yearlyPayments };
