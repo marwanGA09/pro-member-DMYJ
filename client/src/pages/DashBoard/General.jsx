@@ -100,6 +100,62 @@ const General = () => {
       </div>
 
       {/* Placeholder for Second Graph */}
+      <div style={{ marginBottom: '40px' }}>
+        <h4>{year}</h4>
+        <label htmlFor="year"> year</label>{' '}
+        <select
+          name="year"
+          id="year"
+          onChange={(e) => {
+            setYear(e.target.value);
+          }}
+        >
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026">2026</option>
+        </select>
+        <h4>Membership Amounts Monthly</h4>
+        {monthlyLoading ? (
+          <p>Loading...</p>
+        ) : monthlyError ? (
+          <p style={{ color: 'red' }}>{monthlyError}</p>
+        ) : (
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={monthlyPayment}>
+              <CartesianGrid strokeDasharray="0 2" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip
+                content={({ active, payload }) =>
+                  active && payload ? (
+                    <div
+                      style={{
+                        backgroundColor: '#010e30',
+                        padding: '10px',
+                        border: '1px solid #ccc',
+                        fontSize: '12px',
+                      }}
+                    >
+                      <p>{`Month: ${payload[0]?.payload?.month}`}</p>
+                      <p>{`Total: ${payload[0]?.payload.totalMembershipAmount}`}</p>
+                    </div>
+                  ) : null
+                }
+              />
+
+              <Legend />
+              <Bar
+                dataKey="totalMembershipAmount"
+                fill="#8884d8"
+                name="Total Membership Amount"
+              />
+              <Bar dataKey="count" fill="#82ca9d" name="Member Count" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
 
       {/* Placeholder for Third Graph */}
       <div
