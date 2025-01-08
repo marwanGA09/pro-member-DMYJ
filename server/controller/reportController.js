@@ -93,13 +93,16 @@ const yearlyPayments = async (req, res, next) => {
     return acc;
   }, {});
 
-  console.log(groupedPayments);
-
   const result = Object.entries(groupedPayments).map(([year, data]) => ({
     year,
     totalMembershipAmount: data.totalMembershipAmount,
     count: data.count,
   }));
+
+  const membershipAmountGrouped =
+    await prisma.groupedMembershipAmounts.findMany();
+
+  console.log('some', membershipAmountGrouped);
   return res.json({
     status: 200,
     message: 'report',

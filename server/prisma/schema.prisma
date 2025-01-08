@@ -1,10 +1,74 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int              @id @unique @default(autoincrement())
+  username      String           @unique @db.VarChar(80)
+  first_name    String           @db.VarChar(80)
+  middle_name   String           @db.VarChar(80)
+  last_name     String           @db.VarChar(80)
+  date_of_birth DateTime?        @db.Date
+  email         String           @unique @db.VarChar(100)
+  sector        Sector           @default(economy)
+  password      String           @db.VarChar(200)
+  role          Role             @default(user)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  phone_number  String           @unique @db.VarChar(20)
+  sex           Sex?
+  members       Member[]
+  payments      MonthlyPayment[]
+}
+
+model Member {
+  id                Int              @id @unique @default(autoincrement())
+  profession        String?          @db.VarChar(80)
+  address           String           @db.VarChar(250)
+  phone             String           @unique @db.VarChar(20)
+  email             String?          @unique @db.VarChar(100)
+  note              String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  book_number       String           @unique
+  created_by        Int
+  date_of_birth     DateTime?
+  membership_amount Int
+  profile_image     String?
+  signed_date       DateTime         @default(now())
+  full_name         String           @db.VarChar(150)
+  sex               Sex
+  user              User             @relation(fields: [created_by], references: [id])
+  payments          MonthlyPayment[]
+}
+
+model MonthlyPayment {
+  id             Int           @id @unique @default(autoincrement())
+  year           Int
+  member_id      Int
+  user_id        Int
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  payment_method PaymentMethod @default(cash)
+  month          Int?
+  uuid           String
+  member         Member        @relation(fields: [member_id], references: [id])
+  user           User          @relation(fields: [user_id], references: [id])
+
+  @@unique([month, year, member_id])
+}
+
+
+view GroupedMembershipAmounts {
+  id    Int    @id
+  range String
+  count Int
 }
 
 
@@ -23,90 +87,12 @@ enum Role {
 }
 
 enum Sex {
-  male 
+  male
   female
 }
-
-
-
-model User {
-  id              Int           @id @default(autoincrement()) @unique
-  username        String        @db.VarChar(80)                @unique
-  first_name      String        @db.VarChar(80)
-  middle_name     String        @db.VarChar(80)
-  last_name       String        @db.VarChar(80)
-  date_of_birth   DateTime?     @db.Date
-  email           String        @unique @db.VarChar(100)
-  sector          Sector        @default(economy)
-  password        String        @db.VarChar(200)
-  phone_number    String        @db.VarChar(20)        @unique
-  role            Role          @default(user) 
-  sex  Sex?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  members         Member[]
-  payments       MonthlyPayment[]
-}
-
-
-
-// MEMBER 
-
-model Member{
-  id            Int       @id @default(autoincrement()) @unique
-  full_name    String     @db.VarChar(150)
-  sex           Sex
-  book_number    String   @unique 
-  profession    String?   @db.VarChar(80)
-  address       String    @db.VarChar(250)
-  phone         String    @db.VarChar(20)  @unique
-  email         String?   @db.VarChar(100)  @unique 
-  membership_amount Int   
-  profile_image   String?
-  signed_date     DateTime  @default(now())
-  date_of_birth    DateTime?
-  note           String?
-  created_by      Int      
-  user           User? @relation(fields: [created_by],references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  payments       MonthlyPayment[]
-}
-
 
 enum PaymentMethod {
   cash
   bank_transfer
   other
 }
-
-
-model MonthlyPayment {
-  id              Int            @id @default(autoincrement()) @unique
-  uuid String 
-  month Int?
-  year Int
-  member_id       Int
-  payment_method   PaymentMethod @default(cash)
-  member          Member         @relation(fields: [member_id], references: [id])
-  user_id       Int
-  user          User           @relation(fields: [user_id], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@unique([month,year,member_id])
-}
-// model MonthlyPayment {
-//   id              Int            @id @default(autoincrement()) @unique
-//   monthly_amount          Int
-//   total_amount Int
-//   month_covered Int[]
-//   year Int
-//   member_id       Int
-//   payment_method   PaymentMethod @default(cash)
-//   member          Member         @relation(fields: [member_id], references: [id])
-//   user_id      Int
-//   user          User           @relation(fields: [user_id], references: [id])
-//   createdAt    DateTime @default(now())
-//   updatedAt    DateTime @updatedAt
-// }
