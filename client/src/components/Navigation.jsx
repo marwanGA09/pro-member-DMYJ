@@ -23,6 +23,8 @@ const Navigation = () => {
     // alert('You have been logged out.');
   };
 
+  console.log('user', user);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Toggle menu visibility
   };

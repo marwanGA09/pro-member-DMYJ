@@ -73,7 +73,7 @@
     display: grid;
     grid-template-columns: 1.4fr 1fr 1fr 0.4fr;
     padding: 0.5rem 1rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 0.01px solid #ddd;
     align-items: center;
     text-align: left;
 
@@ -89,7 +89,7 @@
     }
 
     &:hover {
-      background-color: #f1f1f1;
+      background-color: color.scale($background-color, $lightness: 5%);
     }
   }
 
@@ -97,34 +97,6 @@
     background-color: $primary-color;
   }
 }
-
-// .pagination {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: 1rem;
-//   gap: 0.5rem;
-
-//   button {
-//     padding: 0.5rem 1rem;
-//     border: 1px solid $secondary-color;
-//     background-color: #fff;
-//     color: $secondary-color;
-//     border-radius: 4px;
-//     cursor: pointer;
-
-//     &:hover {
-//       background-color: $secondary-color;
-//       color: #fff;
-//     }
-
-//     &:disabled {
-//       background-color: #ddd;
-//       color: #aaa;
-//       cursor: not-allowed;
-//     }
-//   }
-// }
 
 .pagination {
   display: flex;

@@ -18,6 +18,7 @@ const Payments = () => {
       q: search,
       page,
       limit,
+      // sort: 'createdAt',
       ...filters,
     };
 
@@ -44,7 +45,9 @@ const Payments = () => {
 
   // Handle filtering updates
   const handleFilterChange = (field, value) => {
-    setFilters((prev) => ({ ...prev, [field]: value }));
+    if (value !== '') {
+      setFilters((prev) => ({ ...prev, [field]: value }));
+    }
   };
 
   // Handle search
@@ -58,20 +61,35 @@ const Payments = () => {
     <div className={styles.container}>
       {/* Search Input */}
       <div className={styles['search-bar']}>
-        <input
+        {/* <input
           type="text"
-          placeholder="Search by member name or book number..."
+          placeholder="Search by month..."
           value={search}
           onChange={handleSearchChange}
+        /> */}
+
+        <input
+          type="number"
+          placeholder="Year"
+          onChange={(e) => handleFilterChange('year', e.target.value)}
+          min={2020}
+          max={2026}
         />
-        <button onClick={changeFilterDisplay}>
+        <input
+          type="number"
+          placeholder="Month"
+          onChange={(e) => handleFilterChange('month', e.target.value)}
+          min={1}
+          max={12}
+        />
+
+        {/* <button onClick={changeFilterDisplay}>
           {advancedSearch ? 'Close Advanced Search' : 'Advanced Search'}
-        </button>
+        </button> */}
       </div>
 
-      {advancedSearch && (
+      {/* {advancedSearch && (
         <div className={styles['advanced-search']}>
-          {/* Filters */}
           <input
             type="text"
             placeholder="Book Number"
@@ -100,7 +118,7 @@ const Payments = () => {
             onChange={(e) => handleFilterChange('month', e.target.value)}
           />
         </div>
-      )}
+      )} */}
 
       {/* Payments List */}
       <div className={styles['payments-list']}>
@@ -116,7 +134,14 @@ const Payments = () => {
             <div className={styles['payment-row']}>
               <h3>{payment.member.full_name}</h3>
               <p>{payment.member.book_number}</p>
-              <p>{payment.payment_method}</p>
+              <p>
+                {' '}
+                {payment.payment_method
+                  .split('_')
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')}
+              </p>
+
               <p>
                 {payment.month} / {payment.year}
               </p>

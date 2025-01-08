@@ -50,16 +50,25 @@ const LoginPage = () => {
           username: loginData.username,
           password: loginData.password,
         });
-        console.log('res', response);
+        // console.log('res', response);
+        const globalData = {
+          user: {
+            id: response.data.user.id,
+            role: response.data.user.role,
+            username: response.data.user.username,
+          },
+          token: response.data.token,
+        };
+        // console.log('global', globalData);
         // console.log('Response: 1', response.data.user);
         if (response.data.status === 'success') {
           // alert('Login successful!');
-          console.log('user', response.data);
+          // console.log('user', response.data);
           // Optionally redirect the user after login
           // window.location.href = '/dashboard';
           setError({});
           // FIX TO INCLUDE TOKEN ALSO
-          setUser(response.data);
+          setUser(globalData);
           navigate('/dashboard/members');
         } else {
           setError({
