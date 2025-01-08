@@ -1,6 +1,5 @@
 const express = require('express');
 const morgan = require('morgan');
-const expressSession = require('express-session');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
@@ -10,6 +9,7 @@ const authRouter = require('./router/authoRouter');
 const userRouter = require('./router/userRouter');
 const memberRouter = require('./router/memberRouter');
 const paymentRouter = require('./router/paymentRouter');
+const reportRouter = require('./router/reportRouter');
 const authentication = require('./controller/authController');
 
 const DEPLOYMENT_URL = '';
@@ -48,6 +48,7 @@ app.use('/v1', authRouter);
 app.use('/v1/users', userRouter);
 app.use('/v1/members', memberRouter);
 app.use('/v1/payments', paymentRouter);
+app.use('/v1/report', reportRouter);
 
 app.all('*', (req, res, next) => {
   console.log(req.url);
