@@ -99,14 +99,76 @@ const yearlyPayments = async (req, res, next) => {
     count: data.count,
   }));
 
-  const membershipAmountGrouped =
-    await prisma.groupedMembershipAmounts.findMany();
-
-  console.log('some', membershipAmountGrouped);
   return res.json({
     status: 200,
     message: 'report',
     data: result,
   });
 };
-module.exports = { monthlyPayment, yearlyPayments };
+
+const membersReport = async (req, res, next) => {
+  const groupedByMembershipAmount = await prisma.$queryRaw`
+  SELECT 
+    CASE
+      WHEN membership_amount >= 10 AND membership_amount < 20 THEN '10-20'
+      WHEN membership_amount >= 20 AND membership_amount < 30 THEN '20-30'
+      WHEN membership_amount >= 30 AND membership_amount < 40 THEN '30-40'
+      WHEN membership_amount >= 40 AND membership_amount < 50 THEN '40-50'
+      WHEN membership_amount >= 50 AND membership_amount < 100 THEN '50-100'
+      WHEN membership_amount >= 100 AND membership_amount < 200 THEN '100-200'
+      WHEN membership_amount >= 200 AND membership_amount < 500 THEN '200-500'
+      WHEN membership_amount >= 500 AND membership_amount < 1000 THEN '500-1000'
+      ELSE '1000+'
+    END AS range,
+    CASE
+      WHEN membership_amount >= 10 AND membership_amount < 20 THEN 'A'
+      WHEN membership_amount >= 20 AND membership_amount < 30 THEN 'B'
+      WHEN membership_amount >= 30 AND membership_amount < 40 THEN 'C'
+      WHEN membership_amount >= 40 AND membership_amount < 50 THEN 'E'
+      WHEN membership_amount >= 50 AND membership_amount < 100 THEN 'F'
+      WHEN membership_amount >= 100 AND membership_amount < 200 THEN 'G'
+      WHEN membership_amount >= 200 AND membership_amount < 500 THEN 'H'
+      WHEN membership_amount >= 500 AND membership_amount < 1000 THEN 'I'
+      ELSE 'J'
+    END AS label,
+    COUNT(*) AS count
+  FROM "Member"
+  GROUP BY 
+    range, 
+    label
+  ORDER BY 
+    label;
+`;
+
+  const formattedResult = groupedByMembershipAmount.map((row) => ({
+    range: row.range,
+    count: Number(row.count),
+  }));
+
+  // console.log(formattedResult);
+  return res.json({
+    status: 200,
+    message: 'Member report on Pro amount',
+    data: formattedResult,
+  });
+};
+
+const membersSexReport = async (req, res, next) => {
+  const sexReport = await prisma.member.groupBy({
+    by: ['sex'],
+    _count: true,
+  });
+
+  return res.json({
+    status: 200,
+    message: 'Member sex report',
+    data: sexReport,
+  });
+};
+
+module.exports = {
+  monthlyPayment,
+  yearlyPayments,
+  membersReport,
+  membersSexReport,
+};

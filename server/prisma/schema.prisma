@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["views"]
 }
 
@@ -64,13 +64,14 @@ model MonthlyPayment {
   @@unique([month, year, member_id])
 }
 
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view groupedmembershipamounts {
+  id    BigInt?
+  range String?
+  count BigInt?
 
-view GroupedMembershipAmounts {
-  id    Int    @id
-  range String
-  count Int
+  @@ignore
 }
-
 
 enum Sector {
   economy
