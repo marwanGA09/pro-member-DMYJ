@@ -1,35 +1,62 @@
 import React from 'react';
-import PieChartComponent from './PieChartComponent';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
-const data = [
-  { category: 'Apples', quantity: 20 },
-  { category: 'Bananas', quantity: 30 },
-  { category: 'Cherries', quantity: 10 },
-];
-
-const App = () => {
-  const customLabel = ({ name, value }) => `${name}: ${value} units`;
-  const customTooltip = ({ active, payload }) =>
+const PieChartComponent = ({
+  data,
+  colors = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d'],
+  dataKey = 'value',
+  nameKey = 'name',
+  title = 'Pie Chart',
+  outerRadius = 150,
+  labelFormatter = ({ name, value }) => `${name} (${value})`,
+  tooltipFormatter = ({ active, payload }) =>
     active && payload ? (
-      <div style={{ backgroundColor: '#000', color: '#fff', padding: '5px' }}>
-        <p>{`Category: ${payload[0]?.payload?.category}`}</p>
-        <p>{`Quantity: ${payload[0]?.payload?.quantity}`}</p>
+      <div
+        style={{
+          backgroundColor: '#fff',
+          border: '1px solid #ccc',
+          padding: '5px',
+          fontSize: '12px',
+        }}
+      >
+        <p>{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
       </div>
-    ) : null;
-
+    ) : null,
+}) => {
   return (
-    <div>
-      <PieChartComponent
-        data={data}
-        colors={['#8884d8', '#82ca9d', '#ffc658']}
-        dataKey="quantity"
-        nameKey="category"
-        title="Fruit Quantities"
-        labelFormatter={customLabel}
-        tooltipFormatter={customTooltip}
-      />
+    <div style={{ marginBottom: '40px' }}>
+      <h4>{title}</h4>
+      <ResponsiveContainer width="100%" height={400}>
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey={dataKey}
+            nameKey={nameKey}
+            cx="50%"
+            cy="50%"
+            outerRadius={outerRadius}
+            label={labelFormatter}
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={colors[index % colors.length]}
+              />
+            ))}
+          </Pie>
+          <Tooltip content={tooltipFormatter} />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
     </div>
   );
 };
 
-export default App;
+export default PieChartComponent;

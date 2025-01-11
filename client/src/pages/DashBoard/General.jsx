@@ -355,31 +355,30 @@ const General = () => {
         }
       />
       {/* Placeholder Graph 4 */}
+      <div style={{ padding: '20px' }}></div>
       <div style={{ padding: '20px' }}>
-        <h1>General Report</h1>
         <PieChartComponent
-          data={additionalData1}
-          colors={['#ff8042', '#ffbb28', '#0088fe', '#00c49f']}
-          dataKey="count"
-          nameKey="range"
-          title="Distribution of Ranges"
+          data={additionalData2}
+          colors={['#8884d8', '#82ca9d', '#ffc658']}
+          dataKey="_count"
+          nameKey="sex"
+          title="Fruit Quantities"
+          labelFormatter={({ name, value }) => `${name}: ${value} units`}
+          tooltipFormatter={({ active, payload }) =>
+            active && payload ? (
+              <div
+                style={{
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  padding: '5px',
+                }}
+              >
+                <p>{`Category: ${payload[0]?.payload?._count}`}</p>
+                <p>{`Quantity: ${payload[0]?.payload?.sex}`}</p>
+              </div>
+            ) : null
+          }
         />
-      </div>
-      <div style={{ padding: '20px' }}>
-        <h1>General Report</h1>
-        {/* <PieChartComponent
-          data={additionalData2}
-          colors={['#8884d8', '#82ca9d']}
-          title="Gender Distribution"
-        /> */}
-
-        {/* <PieChartComponent
-          data={additionalData2}
-          colors={['#ff8042', '#ffbb28', '#0088fe', '#00c49f']}
-          dataKey="count"
-          nameKey="range"
-          title="Distribution of Ranges"
-        /> */}
       </div>
     </div>
   );
