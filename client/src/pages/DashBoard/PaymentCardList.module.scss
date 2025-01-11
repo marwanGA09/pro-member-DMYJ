@@ -22,7 +22,7 @@
 }
 
 .yearTitle {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #e3f1ff;
   border-bottom: 2px solid #777;
@@ -31,8 +31,11 @@
 }
 
 .paymentItem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   padding: 10px;
-  margin: 10px 0;
+  margin: 5px 0;
   border-left: 4px solid #3498db;
   background-color: color.scale($background-color, $lightness: 10%);
   border-radius: 4px;
@@ -40,10 +43,14 @@
 
 .paymentItem p {
   margin: 5px 0;
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   color: #c3e1ff;
+
+  @media (min-width: 700px) {
+    font-size: 0.8rem;
+  }
 }
 
 .paymentItem strong {
-  color: #c3e1ff;
+  color: #8ac5ff;
 }
