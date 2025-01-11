@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { globalContext } from './ContextProvider';
-import { Navigate, Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router-dom';
 
 function AuthorizedRoute() {
   const { user } = useContext(globalContext);

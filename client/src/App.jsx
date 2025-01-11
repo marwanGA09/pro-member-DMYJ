@@ -1,4 +1,4 @@
-import { RouterProvider } from 'react-router';
+import { RouterProvider } from 'react-router-dom';
 
 import mainRouter from './Layout/mainRouter';
 import { ContextProvider } from './components/ContextProvider';

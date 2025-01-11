@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import style from './PaymentForm.module.scss';
 import axios from '../../Utils/axios';
 const PaymentForm = () => {

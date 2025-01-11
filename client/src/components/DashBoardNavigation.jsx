@@ -1,20 +1,21 @@
-import { Link } from 'react-router';
-import './DashBoardNavigation.scss';
+import { NavLink } from 'react-router-dom'; // Use NavLink for active styles
+import styles from './DashBoardNavigation.module.scss';
+
 function DashBoardNavigation() {
   return (
-    <div className="dashboard-navigation">
-      <Link to={'members'}>
+    <div className={styles['dashboard-navigation']}>
+      <NavLink to="members">
         <h5>Members</h5>
-      </Link>
-      <Link to={'payments'}>
+      </NavLink>
+      <NavLink to="payments">
         <h5>Payments</h5>
-      </Link>
-      <Link to={'new-member'}>
+      </NavLink>
+      <NavLink to="new-member">
         <h5>New Member</h5>
-      </Link>
-      <Link to={'general'}>
+      </NavLink>
+      <NavLink to="general">
         <h5>General</h5>
-      </Link>
+      </NavLink>
     </div>
   );
 }

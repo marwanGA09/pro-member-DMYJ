@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from './../../Utils/axios';
 import styles from './Payments.module.scss';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Pagination } from '@mui/material';
 const Payments = () => {
   const [payments, setPayments] = useState([]);

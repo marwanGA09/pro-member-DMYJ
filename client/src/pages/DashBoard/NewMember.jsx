@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { globalContext } from '../../components/ContextProvider';
 import axios from './../../Utils/axios';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 function NewMember() {
   const { user } = useContext(globalContext);

@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router';
+import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from './../../Utils/axios';
 import { AdvancedImage } from '@cloudinary/react';

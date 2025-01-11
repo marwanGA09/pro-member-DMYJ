@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router'; // Changed to use `react-router-dom` for Link
+import { Link } from 'react-router-dom'; // Changed to use `react-router-dom` for Link
 import './Navigation.scss';
 import { globalContext } from '../components/ContextProvider';
 import axios from './../Utils/axios';
