@@ -5,7 +5,6 @@ import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
 import styles from './Member.module.scss';
 import PaymentCardList from './PaymentCardList';
-import PaymentForm from './PaymentForm';
 import { globalContext } from '../../components/ContextProvider';
 
 function Member() {
@@ -76,6 +75,7 @@ function Member() {
             memberId,
             monthlyAmount: member.membership_amount,
             userId: user?.user?.id,
+            role: user?.user?.role,
           }}
         >
           New Payment

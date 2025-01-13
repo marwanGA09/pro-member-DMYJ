@@ -15,6 +15,7 @@ const PaymentForm = () => {
     userId: state.userId,
   });
 
+  console.log(state);
   const navigate = useNavigate();
 
   // Handle input change
@@ -143,8 +144,34 @@ const PaymentForm = () => {
           <option value="other">Other</option>
         </select>
       </div>
+      {/* {user.user.role !== 'guest' ? (
+                <button type="submit" className={styles.submitButton}>
+                  Submit
+                </button>
+              ) : (
+                <button
+                  disabled
+                  type="submit"
+                  className={styles.submitButton}
+                  style={{ backgroundColor: 'gray' }}
+                >
+                  You are guest so can&apos;t perform this action
+                </button>
+              )} */}
       <div>
-        <button type="submit">Submit Payment</button>
+        {state?.role !== 'guest' ? (
+          <button type="submit">Submit Payment</button>
+        ) : (
+          <button
+            disabled
+            style={{
+              backgroundColor: 'gray',
+              cursor: 'not-allowed',
+            }}
+          >
+            You are Guest, Cant perform this action
+          </button>
+        )}
       </div>
     </form>
   );
