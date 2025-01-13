@@ -59,7 +59,7 @@ const Navigation = () => {
               </li>
             )}
             <li>
-              <Link to={'/Dashboard'}>Dashboard</Link>
+              <Link to={'/Dashboard/members'}>Dashboard</Link>
             </li>
             <li>
               <button className="logout-button" onClick={handleLogout}>

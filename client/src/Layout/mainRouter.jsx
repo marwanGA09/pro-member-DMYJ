@@ -25,11 +25,11 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           {
-            path: 'dashboard',
+            path: 'dashboard/members',
             element: <DashBoardRouterController />,
             children: [
               // { index: true, element: <GeneralDashBoard /> },
-              { path: 'members', element: <Members /> },
+              { index: true, element: <Members /> },
               { path: 'members/:memberId', element: <Member /> },
               {
                 path: 'members/:memberId/new-payment',
