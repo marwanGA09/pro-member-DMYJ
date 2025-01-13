@@ -18,7 +18,7 @@ model User {
   email         String           @unique @db.VarChar(100)
   sector        Sector           @default(economy)
   password      String           @db.VarChar(200)
-  role          Role             @default(user)
+  role          Role             @default(guest)
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
   phone_number  String           @unique @db.VarChar(20)
@@ -64,13 +64,10 @@ model MonthlyPayment {
   @@unique([month, year, member_id])
 }
 
-/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-view groupedmembershipamounts {
-  id    BigInt?
-  range String?
-  count BigInt?
-
-  @@ignore
+enum Role {
+  user
+  admin
+  guest
 }
 
 enum Sector {
@@ -80,11 +77,6 @@ enum Sector {
   dawah
   management
   other
-}
-
-enum Role {
-  user
-  admin
 }
 
 enum Sex {

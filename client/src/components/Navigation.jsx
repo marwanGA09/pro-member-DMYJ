@@ -53,9 +53,11 @@ const Navigation = () => {
         </li>
         {user ? (
           <>
-            <li>
-              <Link to={'/admin-dashboard'}>Admin</Link>
-            </li>
+            {user.role === 'admin' && (
+              <li>
+                <Link to={'/admin-dashboard'}>Admin</Link>
+              </li>
+            )}
             <li>
               <Link to={'/Dashboard'}>Dashboard</Link>
             </li>

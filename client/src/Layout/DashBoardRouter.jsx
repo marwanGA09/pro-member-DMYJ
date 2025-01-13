@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import DashBoardRouterController from '../controllers/DashBoardRouterController';
 import GeneralDashBoard from '../pages/GeneralDashBoard';
 import Members from '../pages/Members';

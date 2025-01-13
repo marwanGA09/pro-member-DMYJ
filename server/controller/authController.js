@@ -1,6 +1,4 @@
 const { validationResult } = require('express-validator');
-
-const pool = require('../utils/pool');
 const { hashText, compareHashedText } = require('../utils/hashing');
 const { addToken } = require('../utils/blacklistToken');
 
