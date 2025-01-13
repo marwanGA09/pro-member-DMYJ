@@ -171,7 +171,7 @@ async function generateRandomUsersWithMembers(userCount, membersPerUser) {
 
 // Generate data
 // const { users, members } = generateRandomUsersWithMembers(2, 5);
-generateRandomUsersWithMembers(15, 11)
+generateRandomUsersWithMembers(5, 11)
   .then((e) => {
     console.log('successfully generated');
   })
@@ -182,6 +182,3 @@ generateRandomUsersWithMembers(15, 11)
   .finally(async () => {
     await prisma.$disconnect();
   });
-// Log the generated users and members
-// console.log('Generated Users:', users);
-// console.log('Generated Members:', members);

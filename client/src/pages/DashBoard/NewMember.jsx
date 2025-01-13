@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 function NewMember() {
   const { user } = useContext(globalContext);
-  console.log(user.user.id);
+
+  console.log(user.user);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
@@ -426,9 +427,20 @@ function NewMember() {
           {errors.note && <span className={styles.error}>{errors.note}</span>}
         </label>
 
-        <button type="submit" className={styles.submitButton}>
-          Submit
-        </button>
+        {user.user.role !== 'guest' ? (
+          <button type="submit" className={styles.submitButton}>
+            Submit
+          </button>
+        ) : (
+          <button
+            disabled
+            type="submit"
+            className={styles.submitButton}
+            style={{ backgroundColor: 'gray', cursor: 'not-allowed' }}
+          >
+            You are guest so can&apos;t perform this action
+          </button>
+        )}
         <div className={styles.label}>
           {errors.something && (
             <small className="error">{errors.something}</small>
