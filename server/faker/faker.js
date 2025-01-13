@@ -65,30 +65,32 @@ const publicID = [
 async function generatePayments(userId, memberId) {
   for (let i = 2022; i <= 2024; i++) {
     for (let j = 1; j <= 12; j++) {
-      const data = {
-        uuid: `${faker.number.int({ min: 1000000, max: 999999999 })}`,
-        month: j,
-        year: i,
-        payment_method: faker.helpers.arrayElement([
-          'cash',
-          'bank_transfer',
-          'other',
-        ]),
-        member_id: memberId,
-        user_id: userId,
-      };
+      if (Math.random() * 100 < 17) {
+        const data = {
+          uuid: `${faker.number.int({ min: 1000000, max: 999999999 })}`,
+          month: j,
+          year: i,
+          payment_method: faker.helpers.arrayElement([
+            'cash',
+            'bank_transfer',
+            'other',
+          ]),
+          member_id: memberId,
+          user_id: userId,
+        };
 
-      try {
-        await prisma.monthlyPayment.create({
-          data,
-        });
-        console.log(
-          `Record ${i} / ${j} created successfully. for userid and member_id`,
-          userId,
-          memberId
-        );
-      } catch (error) {
-        console.error(`Error creating record  ${i} / ${j}:`, error.message);
+        try {
+          await prisma.monthlyPayment.create({
+            data,
+          });
+          console.log(
+            `Record ${i} / ${j} created successfully. for userid and member_id`,
+            userId,
+            memberId
+          );
+        } catch (error) {
+          console.error(`Error creating record  ${i} / ${j}:`, error.message);
+        }
       }
     }
   }
@@ -169,7 +171,7 @@ async function generateRandomUsersWithMembers(userCount, membersPerUser) {
 
 // Generate data
 // const { users, members } = generateRandomUsersWithMembers(2, 5);
-generateRandomUsersWithMembers(10, 8)
+generateRandomUsersWithMembers(15, 11)
   .then((e) => {
     console.log('successfully generated');
   })
