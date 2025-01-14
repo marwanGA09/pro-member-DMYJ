@@ -35,7 +35,7 @@ const LoginPage = () => {
     setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
   // FIX
-  const handleLogin = async (e) => {
+  const handleLogin = async (e, something) => {
     e.preventDefault();
     console.log('handle login');
 
@@ -138,6 +138,17 @@ const LoginPage = () => {
       <div className="divider">OR</div>
 
       <div className="social-buttons">
+        <button
+          className="google-button"
+          onClick={() => {
+            setLoginData({
+              username: 'guest',
+              password: 'guestguest',
+            });
+          }}
+        >
+          Log in as guest
+        </button>
         <button className="google-button" onClick={handleGoogleLogin}>
           <i className="icon-google"></i> Log in with Google
         </button>
