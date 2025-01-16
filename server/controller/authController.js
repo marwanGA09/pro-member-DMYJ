@@ -77,8 +77,6 @@ const login = async (req, res, next) => {
   // const user = await pool.query('SELECT * FROM user WHERE username = $1', [
   //   username,
   // ]);
-  const users = await prisma.user.findMany();
-  console.log(users);
   const user = await prisma.user.findUnique({
     where: {
       username,
@@ -132,8 +130,7 @@ const protected = async (req, res, next) => {
     );
   }
 
-  console.log(header);
-  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
     if (err) {
       return next(
         new AppError('Invalid or Expired token, please login again', 401)
@@ -146,8 +143,27 @@ const protected = async (req, res, next) => {
 
     console.log('decoded', decoded);
     req.user = decoded.id;
+
+    // CHECK IF USER EXIST
+
+    const currentUser = await prisma.user.findOne({ id: decoded.id });
+    console.log('user', currentUser);
+    req.user = currentUser;
     next();
   });
+};
+
+const authorized = (...roles) => {
+  return (req, res, next) => {
+    console.log('kl', roles.join(', '));
+    console.log(req);
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You are not authorized to access this route', 403)
+      );
+    }
+    next();
+  };
 };
 
 module.exports = {
@@ -155,4 +171,5 @@ module.exports = {
   login,
   signUp,
   protected,
+  authorized,
 };
