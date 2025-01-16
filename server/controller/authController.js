@@ -93,6 +93,16 @@ const login = async (req, res, next) => {
     expiresIn: process.env.JWT_EXPIRATION,
   });
 
+  const cookiesOption = {
+    expiresIn: new Date(Date.now() + process.env.COOKIES_EXPIRATION),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV !== 'production') {
+    cookiesOption.secure = true;
+  }
+  res.cookie('jwt', token, cookiesOption);
+
   // NOTE Study about sending token with cookies
   // res.cookie('jwt', token, { expires: new Date(Date.now() + process.env.JWT_EXPIRATION), httpOnly: true });
   return res.status(200).json({
