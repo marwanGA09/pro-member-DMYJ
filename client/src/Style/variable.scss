@@ -3,7 +3,7 @@
 $primary-color: #4caf50;
 // #007bff;
 $secondary-color: #1877f2;
-$hover-color: darken($primary-color, 10%);
+$hover-color: color.scale($primary-color, $lightness: -10%);
 $text-color: rgb(210, 234, 255);
 $font-family: 'Arial, sans-serif';
 $background-color: color.scale(#010e30, $lightness: 5%);

@@ -3,7 +3,7 @@
 
 $form-bg-color: color.scale(#010e30, $lightness: 15%);
 $input-border-color: #ddd;
-$button-hover-color: darken($primary-color, 10%);
+$button-hover-color: color.scale($primary-color, $lightness: -10%);
 
 .formContainer {
   max-width: 800px; // Increase max-width for larger screens

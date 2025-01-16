@@ -1,6 +1,7 @@
 // Members.module.scss
 @use 'sass:color';
-@import './../../Style/variable.scss';
+@use './../../Style/variable.scss' as *;
+// @import './../../Style/variable.scss';
 
 .container {
   padding: $padding;
@@ -33,7 +34,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: darken($secondary-color, 10%);
+        background-color: color.scale($secondary-color, $lightness: -10%);
       }
 
       @media (max-width: 650px) {
