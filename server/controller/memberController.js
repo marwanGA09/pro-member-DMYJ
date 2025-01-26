@@ -1,17 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
-const { convertStringsToNumbers } = require('../utils/convertStringsToNumbers');
-const APIfeature = require('../utils/APIfeature.js');
-const PrismaAPIFeatures = require('../utils/APIfeature.js');
 const { validationResult } = require('express-validator');
+
+const PrismaAPIFeatures = require('../utils/APIfeature.js');
+
 const prisma = new PrismaClient();
 
 const createMember = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log('req body from creating errors');
-  console.log('form controller', req.body);
-  console.log('form controller', req.file);
   if (!errors.isEmpty()) {
-    console.log('there is error', errors.array());
     return res.status(400).json({
       errors: errors.array(),
       message: 'invalid data format',
@@ -33,11 +29,12 @@ const createMember = async (req, res, next) => {
     note: req.body.note,
     created_by: parseInt(req.body.createdBy),
   };
-  console.log('user input', memberData);
+  // console.log('user input', memberData);
+
   const member = await prisma.member.create({
     data: memberData,
   });
-  console.log('created member', member);
+  // console.log('created member', member);
   return res.status(201).json({
     status: 'success',
     message: 'registered member successfully ',
@@ -52,7 +49,7 @@ const getAllMembers = async (req, res, next) => {
     .limitFields()
     .paginate();
   const prismaQueryOption = features.build();
-  console.log(JSON.stringify(prismaQueryOption, null, 2));
+  // console.log(JSON.stringify(prismaQueryOption, null, 2));
 
   const current = new Date();
 
@@ -78,8 +75,8 @@ const getAllMembers = async (req, res, next) => {
 };
 
 const getMember = async (req, res, next) => {
+  // console.log('getMember');
   const id = parseInt(req.params.id);
-  console.log('getMember');
 
   const member = await prisma.member.findUnique({
     where: { id: id },
@@ -112,7 +109,7 @@ const getMember = async (req, res, next) => {
       },
     },
   });
-  console.log(member);
+  // console.log(member);
   return res.status(200).json({
     status: 'success',
     message: member

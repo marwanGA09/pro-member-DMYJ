@@ -1,5 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
+
 const prisma = new PrismaClient();
+
 const monthlyPayment = async (req, res, next) => {
   const payments = await prisma.monthlyPayment.findMany({
     where: {
@@ -33,7 +35,7 @@ const monthlyPayment = async (req, res, next) => {
     return acc;
   }, {});
 
-  console.log(groupedPayments);
+  // console.log(groupedPayments);
   const toString = {
     1: 'Jan',
     2: 'Feb',
@@ -55,7 +57,7 @@ const monthlyPayment = async (req, res, next) => {
     count: data.count,
   }));
 
-  console.log(result);
+  // console.log(result);
 
   return res.json({
     status: 200,

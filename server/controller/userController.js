@@ -11,7 +11,7 @@ const getAllUsers = async (req, res, next) => {
     .paginate();
   const prismaQueryOption = features.build();
 
-  console.log(JSON.stringify(prismaQueryOption, null, 2));
+  // console.log(JSON.stringify(prismaQueryOption, null, 2));
 
   const users = await prisma.user.findMany(prismaQueryOption);
   // IMPORTANT REMOVE PRIVATE DATA
@@ -19,7 +19,7 @@ const getAllUsers = async (req, res, next) => {
     delete user.password;
   });
 
-  console.log(users);
+  // console.log(users);
   const totalUsers = await prisma.user.count(features.query);
   return res.status(200).json({
     status: 'success',
