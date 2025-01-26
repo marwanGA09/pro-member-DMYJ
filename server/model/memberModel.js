@@ -81,9 +81,6 @@ const memberSchema = checkSchema({
 
   profileImage: {
     optional: true,
-    // isURL: {
-    //   errorMessage: 'Profile image must be a valid URL',
-    // },
   },
 
   signedDate: {

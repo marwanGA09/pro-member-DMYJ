@@ -1,4 +1,5 @@
-// // passportConfig.js
+// passportConfig.js
+// NOTE this file may be removed
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const { compareHashedText } = require('./../utils/hashing');

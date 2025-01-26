@@ -62,10 +62,6 @@ const login = async (req, res, next) => {
   const { username, password } = req.body;
   // console.log(password, username);
   // NOTE check in database
-  // const user = await pool.query('SELECT * FROM user WHERE username = $1', [
-  //   username,
-  // ]);
-
   const user = await prisma.user.findUnique({
     where: {
       username,
