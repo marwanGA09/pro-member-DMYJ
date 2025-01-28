@@ -111,17 +111,48 @@ const login = async (req, res, next) => {
 };
 
 const logOut = (req, res, next) => {
-  const header = req.headers.authorization;
-  const token = header && header.split(' ')[1];
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    console.log('header');
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    console.log('req.cookes');
+    token = req.cookies.jwt;
+  }
 
-  if (!header || !token) {
+  if (!token) {
     return next(
       new AppError(
-        'You are not logged in, please logged in first to logout',
+        'You are not logged in! please logged in first to logout.',
         401
       )
     );
   }
+
+  // const header = req.headers.authorization;
+  // const token = header && header.split(' ')[1];
+
+  // if (!header || !token) {
+  //   return next(
+  //     new AppError(
+  //       'You are not logged in, please logged in first to logout',
+  //       401
+  //     )
+  //   );
+  // }
+
+  const cookiesOption = {
+    //  expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
+    expires: new Date(Date.now() + 10),
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+  };
+
+  res.cookie('jwt', token, cookiesOption);
 
   addToken(token);
   res.status(200).json({
