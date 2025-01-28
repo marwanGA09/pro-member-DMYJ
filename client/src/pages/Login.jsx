@@ -61,7 +61,7 @@ const LoginPage = () => {
             role: response.data.user.role,
             username: response.data.user.username,
           },
-          token: response.data.token,
+          // token: response.data.token,
         };
         // console.log('global', globalData);
         // console.log('Response: 1', response.data.user);

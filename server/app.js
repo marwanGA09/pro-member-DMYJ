@@ -52,15 +52,15 @@ app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
 });
 
-app.get(
-  '/v1/protected-route',
-  authentication.protected,
-  authentication.authorized('admin'),
-  (req, res, next) => {
-    console.log('This is protected route');
-    res.send('This is protected route');
-  }
-);
+// app.get(
+//   '/v1/protected-route',
+//   authentication.protected,
+//   authentication.authorized('admin'),
+//   (req, res, next) => {
+//     console.log('This is protected route');
+//     res.send('This is protected route');
+//   }
+// );
 
 app.use('/v1', authRouter);
 app.use(

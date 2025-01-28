@@ -12,7 +12,7 @@ const Navigation = () => {
     axios
       .get('logout', {
         withCredentials: true,
-        headers: { Authorization: `Bearer ${user.token}` },
+        // headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
         console.log(res);
@@ -54,7 +54,7 @@ const Navigation = () => {
         </li>
         {user ? (
           <>
-            {user.role === 'admin' && (
+            {user.user.role === 'admin' && (
               <li>
                 <Link to={'/admin-dashboard'}>Admin</Link>
               </li>

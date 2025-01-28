@@ -227,7 +227,7 @@ function NewMember() {
         .post('members', formDataPayload, {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            // Authorization: `Bearer ${user.token}`,
             'Content-Type': 'multipart/form-data',
           },
         })

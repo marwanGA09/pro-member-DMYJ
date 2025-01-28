@@ -132,18 +132,6 @@ const logOut = (req, res, next) => {
     );
   }
 
-  // const header = req.headers.authorization;
-  // const token = header && header.split(' ')[1];
-
-  // if (!header || !token) {
-  //   return next(
-  //     new AppError(
-  //       'You are not logged in, please logged in first to logout',
-  //       401
-  //     )
-  //   );
-  // }
-
   const cookiesOption = {
     //  expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
     expires: new Date(Date.now() + 10),
@@ -163,6 +151,8 @@ const logOut = (req, res, next) => {
 
 const protected = async (req, res, next) => {
   //
+
+  // NOTE LEFT HEADER CODE INTENTIONALLY WHILE I SENT TOKEN THROUGH COOKIES
   let token;
   if (
     req.headers.authorization &&

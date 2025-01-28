@@ -11,10 +11,6 @@ router.post(
   monthlyPaymentSchema,
   catchAsync(paymentController.createPayment)
 );
-router.get(
-  '/',
-  authorized('guest'),
-  catchAsync(paymentController.getAllPayments)
-);
+router.get('/', catchAsync(paymentController.getAllPayments));
 
 module.exports = router;
