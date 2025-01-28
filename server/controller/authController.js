@@ -1,10 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-
+const { promisify } = require('util');
 const AppError = require('../utils/AppError');
 const { hashText, compareHashedText } = require('../utils/hashing');
-const { addToken, isBlacklisted } = require('../utils/blacklistToken');
+
+const catchAsync = require('../utils/catchAsync');
 
 const prisma = new PrismaClient();
 
@@ -142,14 +143,13 @@ const logOut = (req, res, next) => {
 
   res.cookie('jwt', token, cookiesOption);
 
-  addToken(token);
   res.status(200).json({
     status: 'success',
     message: 'User successfully logged out',
   });
 };
 
-const protected = async (req, res, next) => {
+const protected = catchAsync(async (req, res, next) => {
   //
 
   // NOTE LEFT HEADER CODE INTENTIONALLY WHILE I SENT TOKEN THROUGH COOKIES
@@ -171,34 +171,57 @@ const protected = async (req, res, next) => {
     );
   }
 
-  jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
-    if (err) {
-      return next(
-        new AppError('Invalid or Expired token, please login again', 401)
-      );
-    }
+  const decoded = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET_KEY
+  );
 
-    if (isBlacklisted(token)) {
-      return next(new AppError('Token is invalid or logged out', 401));
-    }
+  console.log('decoded', decoded);
 
-    console.log('decoded', decoded);
+  // CHECK IF USER EXIST
 
-    // CHECK IF USER EXIST
-
-    const currentUser = await prisma.user.findUnique({
-      where: { id: decoded.id },
-    });
-
-    if (!currentUser) {
-      return next(new AppError('User not found', 401));
-    }
-
-    console.log('user', currentUser);
-    req.user = { id: currentUser.id, role: currentUser.role };
-    next();
+  const currentUser = await prisma.user.findUnique({
+    where: { id: decoded.id },
   });
-};
+
+  if (!currentUser) {
+    return next(new AppError('User not found', 401));
+  }
+
+  console.log('user', currentUser);
+  req.user = { id: currentUser.id, role: currentUser.role };
+  next();
+
+  // jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+  //   if (err) {
+  //     console.log('ccc', JSON.stringify(err, null, 2));
+
+  //     return next(
+  //       new AppError('Invalid or Expired token, please login again', 401)
+  //     );
+  //   }
+
+  //   if (isBlacklisted(token)) {
+  //     return next(new AppError('Token is invalid or logged out', 401));
+  //   }
+
+  //   console.log('decoded', decoded);
+
+  //   // CHECK IF USER EXIST
+
+  //   const currentUser = await prisma.user.findUnique({
+  //     where: { id: decoded.id },
+  //   });
+
+  //   if (!currentUser) {
+  //     return next(new AppError('User not found', 401));
+  //   }
+
+  //   console.log('user', currentUser);
+  //   req.user = { id: currentUser.id, role: currentUser.role };
+  //   next();
+  // });
+});
 
 const authorized = (...roles) => {
   return (req, res, next) => {
