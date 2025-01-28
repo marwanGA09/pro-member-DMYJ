@@ -182,7 +182,7 @@ const protected = async (req, res, next) => {
 const authorized = (...roles) => {
   return (req, res, next) => {
     console.log('kl', roles.join(', '));
-    console.log(req);
+    console.log(req.user.role);
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError('You are not authorized to access this route', 403)

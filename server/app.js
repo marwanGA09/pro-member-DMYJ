@@ -52,13 +52,23 @@ app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
 });
 
-app.get('/v1/protected-route', authentication.protected, (req, res, next) => {
-  console.log('This is protected route');
-  res.send('This is protected route');
-});
+app.get(
+  '/v1/protected-route',
+  authentication.protected,
+  authentication.authorized('admin'),
+  (req, res, next) => {
+    console.log('This is protected route');
+    res.send('This is protected route');
+  }
+);
 
 app.use('/v1', authRouter);
-app.use('/v1/users', authentication.protected, userRouter);
+app.use(
+  '/v1/users',
+  authentication.protected,
+  authentication.authorized('admin'),
+  userRouter
+);
 app.use('/v1/members', authentication.protected, memberRouter);
 app.use('/v1/payments', authentication.protected, paymentRouter);
 app.use('/v1/report', authentication.protected, reportRouter);
