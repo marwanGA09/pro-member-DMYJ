@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 async function hashText(text) {
-  return await bcrypt.hash(text, 11);
+  return await bcrypt.hash(text, process.env.HASH_SALT_VALUE);
 }
 
 async function compareHashedText(hashText, text) {

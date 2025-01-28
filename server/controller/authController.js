@@ -1,20 +1,16 @@
-const { validationResult } = require('express-validator');
-const { hashText, compareHashedText } = require('../utils/hashing');
-const { addToken } = require('../utils/blacklistToken');
-
-const jwt = require('jsonwebtoken');
-const { isBlacklisted } = require('../utils/blacklistToken');
-
 const { PrismaClient } = require('@prisma/client');
+const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
+
 const AppError = require('../utils/AppError');
+const { hashText, compareHashedText } = require('../utils/hashing');
+const { addToken, isBlacklisted } = require('../utils/blacklistToken');
 
 const prisma = new PrismaClient();
 
 const signUp = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log('signup');
-  // INSERT INTO DB
-
+  // console.log('signup');
   if (!errors.isEmpty()) {
     return res.status(400).json({
       errors: errors.array(),
@@ -23,14 +19,6 @@ const signUp = async (req, res, next) => {
   }
 
   const hashedPassword = await hashText(req.body.password);
-
-  console.log('req body', req.body);
-
-  // let { confirmPassword, ...userData } = {
-  //   ...req.body,
-  //   password: hashedPassword,
-  // };
-  // console.log('userdata', userData);
 
   let endData = {
     username: req.body.username,
@@ -45,12 +33,12 @@ const signUp = async (req, res, next) => {
     role: req.body.role,
   };
 
-  console.log('end data', endData);
+  // console.log('end data', endData);
 
   const currentUser = await prisma.user.create({
     data: endData,
   });
-  console.log('currentUser', currentUser);
+  // console.log('currentUser', currentUser);
 
   return res.status(201).json({
     user: currentUser,
@@ -72,26 +60,27 @@ const login = async (req, res, next) => {
   }
 
   const { username, password } = req.body;
-  console.log(password, username);
+  // console.log(password, username);
   // NOTE check in database
-  // const user = await pool.query('SELECT * FROM user WHERE username = $1', [
-  //   username,
-  // ]);
   const user = await prisma.user.findUnique({
     where: {
       username,
     },
   });
 
-  console.log('user', user);
+  // console.log('user', user);
 
   if (!user || !(await compareHashedText(user.password, password))) {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
 
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRATION,
-  });
+  const token = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: process.env.JWT_EXPIRATION,
+    }
+  );
 
   const cookiesOption = {
     expiresIn: new Date(Date.now() + process.env.COOKIES_EXPIRATION),
@@ -116,6 +105,7 @@ const login = async (req, res, next) => {
 const logOut = (req, res, next) => {
   const header = req.headers.authorization;
   const token = header && header.split(' ')[1];
+
   if (!header || !token) {
     return next(
       new AppError(
@@ -124,6 +114,7 @@ const logOut = (req, res, next) => {
       )
     );
   }
+
   addToken(token);
   res.status(200).json({
     status: 'success',
@@ -140,7 +131,8 @@ const protected = async (req, res, next) => {
     );
   }
 
-  jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+  // console.log(header);
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
       return next(
         new AppError('Invalid or Expired token, please login again', 401)

@@ -1,6 +1,7 @@
+// NOTE this file may be removed in future
+
 const { Pool } = require('pg');
-const dotenv = require('dotenv').config();
-console.log('password', typeof process.env.DB_USER);
+// console.log('password', typeof process.env.DB_USER);
 const pool = new Pool({
   host: process.env.DB_HOST, // or wherever the db is hosted
   user: process.env.DB_USER,
