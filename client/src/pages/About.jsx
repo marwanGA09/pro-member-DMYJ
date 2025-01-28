@@ -8,6 +8,7 @@ function About() {
   const onFetchProtected = () => {
     axios
       .get('protected-route', {
+        withCredentials: true,
         headers: {
           authorization: `Bearer ${user.token}`,
         },

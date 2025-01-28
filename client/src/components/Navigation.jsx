@@ -11,6 +11,7 @@ const Navigation = () => {
   const handleLogout = () => {
     axios
       .get('logout', {
+        withCredentials: true,
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {

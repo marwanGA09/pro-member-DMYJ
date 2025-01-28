@@ -201,24 +201,27 @@ const General = () => {
 
   useEffect(() => {
     axios
-      .get('report/monthlyPayments', { params: { pyear: year } })
+      .get('report/monthlyPayments', {
+        withCredentials: true,
+        params: { pyear: year },
+      })
       .then((res) => setMonthlyPayment(res.data.data))
       .catch(() => setMonthlyError('Error fetching data'));
   }, [year]);
 
   useEffect(() => {
     axios
-      .get('report/yearlyPayments')
+      .get('report/yearlyPayments', { withCredentials: true })
       .then((res) => setYearlyPayment(res.data.data))
       .catch(() => setYearlyError('Error fetching data'));
 
     axios
-      .get('report/memberReport')
+      .get('report/memberReport', { withCredentials: true })
       .then((res) => setAdditionalData1(res.data.data))
       .catch(() => console.error('Error fetching additionalData1'));
 
     axios
-      .get('report/memberSexReport')
+      .get('report/memberSexReport', { withCredentials: true })
       .then((res) => setAdditionalData2(res.data.data))
       .catch(() => console.error('Error fetching additionalData2'));
   }, []);

@@ -23,7 +23,10 @@ const Payments = () => {
     };
 
     try {
-      const response = await axios.get('payments', { params });
+      const response = await axios.get('payments', {
+        withCredentials: true,
+        params,
+      });
       const { data, totalPayments } = response.data;
 
       setPayments(data);

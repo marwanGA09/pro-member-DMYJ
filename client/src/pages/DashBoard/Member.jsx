@@ -18,7 +18,9 @@ function Member() {
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        const response = await axios.get(`members/${memberId}`);
+        const response = await axios.get(`members/${memberId}`, {
+          withCredentials: true,
+        });
         setMember(response.data.data);
         setLoading(false);
       } catch (err) {

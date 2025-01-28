@@ -46,10 +46,14 @@ const LoginPage = () => {
       setLoading(true);
 
       try {
-        const response = await axios.post('login', {
-          username: loginData.username,
-          password: loginData.password,
-        });
+        const response = await axios.post(
+          'login',
+          {
+            username: loginData.username,
+            password: loginData.password,
+          },
+          { withCredentials: true }
+        );
         // console.log('res', response);
         const globalData = {
           user: {

@@ -34,7 +34,10 @@ const Members = () => {
     console.log('params', params);
 
     try {
-      const response = await axios.get('members', { params });
+      const response = await axios.get('members', {
+        withCredentials: true,
+        params,
+      });
       const { data, totalMembers } = response.data;
 
       setMembers(data);
