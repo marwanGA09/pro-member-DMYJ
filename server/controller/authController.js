@@ -84,6 +84,7 @@ const login = async (req, res, next) => {
 
   const cookiesOption = {
     expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
+    // expires: new Date(Date.now() + 10000),
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
@@ -130,15 +131,25 @@ const logOut = (req, res, next) => {
 };
 
 const protected = async (req, res, next) => {
-  const header = req.headers.authorization;
-  const token = header && header.split(' ')[1];
-  if (!header || !token) {
+  //
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    console.log('header');
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    console.log('req.cookes');
+    token = req.cookies.jwt;
+  }
+
+  if (!token) {
     return next(
-      new AppError('You are not logged in, please logged in first', 401)
+      new AppError('You are not logged in! Please log in to get access.', 401)
     );
   }
 
-  // console.log(header);
   jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
     if (err) {
       return next(
@@ -154,7 +165,9 @@ const protected = async (req, res, next) => {
 
     // CHECK IF USER EXIST
 
-    const currentUser = await prisma.user.findOne({ id: decoded.id });
+    const currentUser = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
 
     if (!currentUser) {
       return next(new AppError('User not found', 401));

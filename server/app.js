@@ -58,10 +58,10 @@ app.get('/v1/protected-route', authentication.protected, (req, res, next) => {
 });
 
 app.use('/v1', authRouter);
-app.use('/v1/users', userRouter);
-app.use('/v1/members', memberRouter);
-app.use('/v1/payments', paymentRouter);
-app.use('/v1/report', reportRouter);
+app.use('/v1/users', authentication.protected, userRouter);
+app.use('/v1/members', authentication.protected, memberRouter);
+app.use('/v1/payments', authentication.protected, paymentRouter);
+app.use('/v1/report', authentication.protected, reportRouter);
 
 app.all('*', (req, res, next) => {
   // console.log(req.url);
