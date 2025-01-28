@@ -83,14 +83,21 @@ const login = async (req, res, next) => {
   );
 
   const cookiesOption = {
-    expiresIn: new Date(Date.now() + process.env.COOKIES_EXPIRATION),
+    expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
   };
 
-  if (process.env.NODE_ENV !== 'production') {
-    cookiesOption.secure = true;
-  }
+  // if (process.env.NODE_ENV === 'production') {
+  //   cookiesOption.secure = true;
+  //   cookiesOption.sameSite = 'None';
+  // }
+  console.log({ cookiesOption });
+  // console.log()
   res.cookie('jwt', token, cookiesOption);
+
+  user.password = undefined;
 
   // NOTE Study about sending token with cookies
   // res.cookie('jwt', token, { expires: new Date(Date.now() + process.env.JWT_EXPIRATION), httpOnly: true });
@@ -132,7 +139,7 @@ const protected = async (req, res, next) => {
   }
 
   // console.log(header);
-  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
     if (err) {
       return next(
         new AppError('Invalid or Expired token, please login again', 401)
@@ -144,13 +151,17 @@ const protected = async (req, res, next) => {
     }
 
     console.log('decoded', decoded);
-    req.user = decoded.id;
 
     // CHECK IF USER EXIST
 
     const currentUser = await prisma.user.findOne({ id: decoded.id });
+
+    if (!currentUser) {
+      return next(new AppError('User not found', 401));
+    }
+
     console.log('user', currentUser);
-    req.user = currentUser;
+    req.user = { id: currentUser.id, role: currentUser.role };
     next();
   });
 };

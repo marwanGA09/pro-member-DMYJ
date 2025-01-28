@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
@@ -19,11 +20,18 @@ const DEVELOPMENT_URL = 'http://localhost:5173';
 const app = express();
 
 dotenv.config();
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
+
+app.use((req, res, next) => {
+  console.log('middleware');
+  console.log(JSON.stringify({ cookies: req.cookies }, null, 2));
+  next();
+});
+
 // console.log('process', process.env.NODE_ENV);
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(cors({ origin: DEPLOYMENT_URL, credentials: true }));
@@ -39,12 +47,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.use((req, res, next) => {
-  console.log('middleware');
-  console.log('mi1, ', req.body);
-  next();
-});
 
 app.get('/home', (req, res, next) => {
   res.send('hello wold from home');
