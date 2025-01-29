@@ -11,29 +11,63 @@ const getAllUsers = async (req, res, next) => {
     .paginate();
   const prismaQueryOption = features.build();
 
-  // console.log(JSON.stringify(prismaQueryOption, null, 2));
+  const users = await prisma.user.findMany({
+    ...prismaQueryOption,
+    include: {
+      members: true,
+      payments: true,
+    },
+  });
 
-  const users = await prisma.user.findMany(prismaQueryOption);
+  console.log({
+    ...prismaQueryOption,
+    include: {
+      members: true,
+      payments: true,
+    },
+  });
+
   // IMPORTANT REMOVE PRIVATE DATA
   users.forEach((user) => {
     delete user.password;
   });
 
-  // console.log(users);
+  const userWithCountedMembers = users.map((user) => {
+    return {
+      ...user,
+      members: user.members.length,
+      payments: user.payments.length,
+    };
+  });
+
   const totalUsers = await prisma.user.count(features.query);
   return res.status(200).json({
     status: 'success',
     result: users.length,
     totalUsers,
     currentPage: +req.query.page || 1,
-    data: users,
+    data: userWithCountedMembers,
   });
 };
 
 const getUser = async (req, res, next) => {
+  // console.log('getMember');
+  const id = parseInt(req.params.id);
+
+  const user = await prisma.user.findUnique({
+    where: { id: id },
+    include: {
+      members: true,
+      payments: true,
+    },
+  });
+
+  user.password = undefined;
+  // console.log(member);
   return res.status(200).json({
     status: 'success',
-    message: 'user is fetched successfully',
+    message: user ? 'get user successfully' : `There is no user with ${id} id:`,
+    data: user,
   });
 };
 

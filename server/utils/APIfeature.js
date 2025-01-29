@@ -9,6 +9,8 @@ class PrismaAPIFeatures {
     this.pagination = {}; // Holds pagination options
     this.numericFields = numericFields || [];
     this.payments = {}; // Holds
+
+    console.log(this.queryString);
   }
 
   filter(qForField) {
