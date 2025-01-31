@@ -54,7 +54,7 @@ const getUser = async (req, res, next) => {
   // console.log('getMember');
   const id = parseInt(req.params.id);
 
-  const user = await prisma.user.findUnique({
+  let user = await prisma.user.findUnique({
     where: { id: id },
     include: {
       members: true,
@@ -63,6 +63,11 @@ const getUser = async (req, res, next) => {
   });
 
   user.password = undefined;
+  user = {
+    ...user,
+    members: user.members.length,
+    payments: user.payments.length,
+  };
   // console.log(member);
   return res.status(200).json({
     status: 'success',
