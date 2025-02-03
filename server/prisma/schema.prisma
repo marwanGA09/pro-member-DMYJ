@@ -10,6 +10,7 @@ datasource db {
 
 model User {
   id            Int              @id @unique @default(autoincrement())
+  profileUrl    String           @default("")
   username      String           @unique @db.VarChar(80)
   first_name    String           @db.VarChar(80)
   middle_name   String           @db.VarChar(80)
