@@ -15,6 +15,7 @@ import Member from '../pages/DashBoard/Member';
 import PaymentForm from '../pages/DashBoard/PaymentForm';
 import General from '../pages/DashBoard/General';
 import UsersPage from '../pages/DashBoard/Users';
+import User from '../pages/DashBoard/User';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: 'admin-dashboard',
             element: <UsersPage />,
+          },
+          {
+            path: 'admin-dashboard/:userId',
+            element: <User />,
           },
         ],
       },
