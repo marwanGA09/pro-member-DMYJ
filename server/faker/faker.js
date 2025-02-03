@@ -157,7 +157,7 @@ async function generateRandomUsersWithMembers(userCount, membersPerUser) {
       sex: faker.helpers.arrayElement(sexes),
     };
     // users.push(user);
-    // console.log('test', user);
+    console.log('test this');
     const dbUser = await prisma.user.create({ data: user });
     // console.log('db', dbUser);
     console.log('user with i, and id of this created', i, dbUser.id);
@@ -176,9 +176,11 @@ generateRandomUsersWithMembers(5, 11)
     console.log('successfully generated');
   })
   .catch((e) => {
+    console.log('hhh');
     console.error(e);
     process.exit(1);
   })
   .finally(async () => {
+    console.log('jj');
     await prisma.$disconnect();
   });

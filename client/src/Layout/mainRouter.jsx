@@ -14,6 +14,7 @@ import NewMember from '../pages/DashBoard/NewMember';
 import Member from '../pages/DashBoard/Member';
 import PaymentForm from '../pages/DashBoard/PaymentForm';
 import General from '../pages/DashBoard/General';
+import UsersPage from '../pages/DashBoard/Users';
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'admin-dashboard',
-            element: <AdminDashboard />,
+            element: <UsersPage />,
           },
         ],
       },
