@@ -52,20 +52,14 @@ function Member() {
   if (loading) return <p>Loading member data...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  // Initialize Cloudinary instance
   const cld = new Cloudinary({
     cloud: {
-      cloudName: 'dugvpesxp', // Replace with your Cloudinary cloud name
+      cloudName: import.meta.env.VITE_CLOUDINARY_NAME,
     },
   });
 
   const profileImage = cld.image(member.profile_image);
 
-  // console.log('state', {
-  //   memberId,
-  //   monthlyAmount: member.membership_amount,
-  //   userid: user?.user?.id,
-  // });
   return (
     <>
       <div>

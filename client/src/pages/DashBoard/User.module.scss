@@ -15,6 +15,21 @@ $hover-color: color.scale($background-color, $lightness: -5%);
 }
 
 .userProfile {
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profileImage {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+    // margin: 0 auto 20px;
+    margin-bottom: 30px;
+  }
+
   h2 {
     text-align: center;
     color: $primary-color;

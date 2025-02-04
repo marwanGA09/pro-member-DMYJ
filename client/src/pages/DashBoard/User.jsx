@@ -1,10 +1,14 @@
-import { useEffect, useState, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Cloudinary } from '@cloudinary/url-gen';
+
 import axios from './../../Utils/axios';
 import styles from './User.module.scss';
+import { AdvancedImage } from '@cloudinary/react';
 // import { globalContext } from '../../context/GlobalContext';
 
 function User() {
+  console.log('user');
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,6 +22,7 @@ function User() {
         const response = await axios.get(`/users/${userId}`, {
           withCredentials: true,
         });
+        console.log(response.data.data);
         setUser(response.data.data);
         setLoading(false);
       } catch (err) {
@@ -48,22 +53,24 @@ function User() {
   if (loading) return <p>Loading user data...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: import.meta.env.VITE_CLOUDINARY_NAME,
+    },
+  });
+
+  const profileUrl = cld.image(user.profileUrl);
+
   return (
     <>
-      {/* <div>
-        <Link
-          className={styles.newButton}
-          to={`./new-action`}
-          state={{
-            userId,
-            role: loggedInUser?.user?.role,
-          }}
-        >
-          New Action
-        </Link>
-      </div> */}
       <div className={styles.container}>
         <div className={styles.userProfile}>
+          <div className={styles.imageContainer}>
+            <AdvancedImage
+              cldImg={profileUrl}
+              className={styles.profileImage}
+            />{' '}
+          </div>
           <h2>
             {user.first_name} {user.middle_name} {user.last_name}
           </h2>
