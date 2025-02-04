@@ -8,7 +8,6 @@ import { AdvancedImage } from '@cloudinary/react';
 // import { globalContext } from '../../context/GlobalContext';
 
 function User() {
-  console.log('user');
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

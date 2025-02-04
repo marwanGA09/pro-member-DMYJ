@@ -60,6 +60,7 @@ const LoginPage = () => {
             id: response.data.user.id,
             role: response.data.user.role,
             username: response.data.user.username,
+            profileUrl: response.data.user.profileUrl,
           },
           // token: response.data.token,
         };

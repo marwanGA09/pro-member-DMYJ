@@ -3,6 +3,8 @@ import axios from './../../Utils/axios';
 import { Link } from 'react-router-dom';
 import styles from './Users.module.scss';
 import capitalizeFirstLetter from '../../Utils/capitalizeFirstLetter';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage } from '@cloudinary/react';
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -30,6 +32,12 @@ const UsersPage = () => {
     }
   };
 
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: import.meta.env.VITE_CLOUDINARY_NAME,
+    },
+  });
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>All Members</h2>
@@ -37,6 +45,13 @@ const UsersPage = () => {
       <div className={styles.userList}>
         {users.map((user) => (
           <Link to={`./${user.id}`} key={user.id} className={styles.userCard}>
+            <div className={styles.imageContainer}>
+              <AdvancedImage
+                cldImg={cld.image(user.profileUrl)}
+                className={styles.profileImage}
+              />{' '}
+            </div>
+
             <h3>
               {`${capitalizeFirstLetter(user.first_name)} ${
                 capitalizeFirstLetter(user.middle_name) || ''
