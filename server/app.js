@@ -43,7 +43,7 @@ app.use('/v1', authRouter);
 app.use(
   '/v1/users',
   authentication.protected,
-  authentication.authorized('admin'),
+ 
   userRouter
 );
 

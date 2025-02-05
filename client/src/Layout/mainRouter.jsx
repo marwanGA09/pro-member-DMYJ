@@ -5,7 +5,6 @@ import SignUp from '../pages/SignUp';
 import About from '../pages/About';
 import RouterController from '../controllers/RouterController';
 import ProtectedRoute from '../components/ProtectedRoute';
-import AdminDashboard from '../pages/DashBoard/AdminDashboard';
 import AuthorizedRoute from '../components/AuthorizedRoute';
 import Members from '../pages/DashBoard/Members';
 import Payments from '../pages/DashBoard/Payments';
@@ -40,6 +39,7 @@ const router = createBrowserRouter([
               { path: 'payments', element: <Payments /> },
               { path: 'new-member', element: <NewMember /> },
               { path: 'general', element: <General /> },
+              { path: 'my-account', element: <User /> },
             ],
           },
         ],

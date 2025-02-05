@@ -66,7 +66,11 @@ const Navigation = () => {
               <Link to={'/Dashboard/members'}>Dashboard</Link>
             </li>
             <li className={styles.navItem}>
-              <div className={styles.currentUser}>
+              <Link
+                to={'/dashboard/my-account'}
+                state={{ id: user.user.id }}
+                className={styles.currentUser}
+              >
                 <AdvancedImage
                   cldImg={cld.image(user.user.profileUrl)}
                   className={styles.profileImage}
@@ -75,7 +79,7 @@ const Navigation = () => {
                   <span className={styles.username}>{user.user.username}</span>
                   <span className={styles.role}>{user.user.role}</span>
                 </div>
-              </div>
+              </Link>
             </li>
             <li className={styles.navItem}>
               <button className={styles.logoutButton} onClick={handleLogout}>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Cloudinary } from '@cloudinary/url-gen';
 
 import axios from './../../Utils/axios';
@@ -9,6 +9,11 @@ import { AdvancedImage } from '@cloudinary/react';
 
 function User() {
   const { userId } = useParams();
+  const userIdLocation = useLocation();
+  const CurrentUserId = userId || userIdLocation?.state.id;
+  console.log({ userId });
+  console.log({ userIdLocation });
+  console.log({ CurrentUserId });
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,7 +23,7 @@ function User() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`/users/${userId}`, {
+        const response = await axios.get(`/users/${CurrentUserId}`, {
           withCredentials: true,
         });
         console.log(response.data.data);
@@ -31,7 +36,7 @@ function User() {
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [CurrentUserId]);
 
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
