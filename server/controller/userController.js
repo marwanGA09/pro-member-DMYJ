@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const PrismaAPIFeatures = require('../utils/APIfeature.js');
+const AppError = require('../utils/AppError.js');
 
 const prisma = new PrismaClient();
 
@@ -62,12 +63,14 @@ const getUser = async (req, res, next) => {
     },
   });
 
-  user.password = undefined;
-  user = {
-    ...user,
-    members: user.members.length,
-    payments: user.payments.length,
-  };
+  if (user) {
+    user.password = undefined;
+    user = {
+      ...user,
+      members: user.members.length,
+      payments: user.payments.length,
+    };
+  }
   // console.log(member);
   return res.status(200).json({
     status: 'success',

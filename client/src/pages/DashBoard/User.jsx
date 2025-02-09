@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Cloudinary } from '@cloudinary/url-gen';
 
 import axios from './../../Utils/axios';
@@ -11,9 +11,6 @@ function User() {
   const { userId } = useParams();
   const userIdLocation = useLocation();
   const CurrentUserId = userId || userIdLocation?.state.id;
-  console.log({ userId });
-  console.log({ userIdLocation });
-  console.log({ CurrentUserId });
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -111,6 +108,14 @@ function User() {
             <strong>Joined:</strong>{' '}
             {new Date(user.createdAt).toLocaleDateString()}
           </p>
+        </div>
+        <div>
+          <button>
+            {' '}
+            <Link to={'../edit-user'} state={{ id: CurrentUserId }}>
+              Edit My Profile
+            </Link>{' '}
+          </button>
         </div>
       </div>
     </>

@@ -15,6 +15,7 @@ import PaymentForm from '../pages/DashBoard/PaymentForm';
 import General from '../pages/DashBoard/General';
 import UsersPage from '../pages/DashBoard/Users';
 import User from '../pages/DashBoard/User';
+import UserEdit from '../pages/DashBoard/UserEdit';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
               { path: 'new-member', element: <NewMember /> },
               { path: 'general', element: <General /> },
               { path: 'my-account', element: <User /> },
+              { path: 'edit-user', element: <UserEdit /> },
             ],
           },
         ],
