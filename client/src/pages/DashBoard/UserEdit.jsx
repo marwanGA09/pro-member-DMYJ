@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Cloudinary } from '@cloudinary/url-gen';
 import axios from '../../Utils/axios';
 import styles from './UserEdit.module.scss';
-import { AdvancedImage } from '@cloudinary/react';
 import { FaCamera } from 'react-icons/fa';
+import { globalContext } from '../../components/ContextProvider';
 
 function UserEdit() {
+  const { user: currentLogged } = useContext(globalContext);
+
+  console.log({ currentLogged });
   const userLocation = useLocation();
   const userId = userLocation?.state?.id;
   const navigate = useNavigate();
@@ -27,13 +29,22 @@ function UserEdit() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const sectors = [
+    'economy',
+    'academy',
+    'social',
+    'dawah',
+    'management',
+    'other',
+  ];
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`/users/${userId}`, {
           withCredentials: true,
         });
-        console.log('data', response.data);
+        // console.log('data', response.data);
         setFormData(response.data.data);
         setLoading(false);
       } catch (err) {
@@ -53,28 +64,38 @@ function UserEdit() {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-
-    const uploadData = new FormData();
-    uploadData.append('file', file);
-    uploadData.append(
-      'upload_preset',
-      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-    );
-    uploadData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_NAME);
-
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${
-          import.meta.env.VITE_CLOUDINARY_NAME
-        }/upload`,
-        { method: 'POST', body: uploadData }
-      );
-      const data = await response.json();
-      setFormData((prev) => ({ ...prev, profileUrl: data.public_id }));
-    } catch (error) {
-      setError('Error uploading image');
+    // console.log('files', file);
+    if (file) {
+      setFormData((prev) => ({
+        ...prev,
+        profileUrl: file, // Preview the uploaded image
+        // profileImage: URL.createObjectURL(file), // Preview the uploaded image
+      }));
     }
+
+    // const file = e.target.files[0];
+    // if (!file) return;
+
+    // const uploadData = new FormData();
+    // uploadData.append('file', file);
+    // uploadData.append(
+    //   'upload_preset',
+    //   import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+    // );
+    // uploadData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_NAME);
+
+    // try {
+    //   const response = await fetch(
+    //     `https://api.cloudinary.com/v1_1/${
+    //       import.meta.env.VITE_CLOUDINARY_NAME
+    //     }/upload`,
+    //     { method: 'POST', body: uploadData }
+    //   );
+    //   const data = await response.json();
+    //   setFormData((prev) => ({ ...prev, profileUrl: data.public_id }));
+    // } catch (error) {
+    //   setError('Error uploading image');
+    // }
   };
 
   const handleSubmit = async (e) => {
@@ -95,10 +116,10 @@ function UserEdit() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  const cld = new Cloudinary({
-    cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
-  });
-  const profileImg = cld.image(formData.profileUrl);
+  //   const cld = new Cloudinary({
+  //     cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
+  //   });
+  //   const profileImg = cld.image(formData.profileUrl);
 
   return (
     <div className={styles.container}>
@@ -107,10 +128,27 @@ function UserEdit() {
         <div className={styles.imageSection}>
           <div className={styles.imageUploadWrapper}>
             <div className={styles.imageContainer}>
-              <AdvancedImage
+              {/* <AdvancedImage
                 cldImg={profileImg}
                 className={styles.profileImage}
+              /> */}
+              {/* {console.log(
+                'formdata.profileUrl',
+                formData.profileUrl,
+                formData.profileUrl
+                  ? URL.createObjectURL(formData.profileUrl)
+                  : 'default'
+              )} */}
+              <img
+                src={
+                  formData.profileUrl
+                    ? URL.createObjectURL(formData.profileUrl)
+                    : '/default-profile.avif'
+                }
+                alt="Profile Preview"
+                className={styles.profileImage}
               />
+
               <div className={styles.imageOverlay}>
                 <label htmlFor="profileUpload" className={styles.uploadLabel}>
                   <FaCamera className={styles.cameraIcon} />
@@ -170,7 +208,7 @@ function UserEdit() {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        {/* <div className={styles.formGroup}>
           <label>Email</label>
           <input
             type="email"
@@ -179,7 +217,7 @@ function UserEdit() {
             onChange={handleInputChange}
             required
           />
-        </div>
+        </div> */}
 
         <div className={styles.formGroup}>
           <label>Phone Number</label>
@@ -218,6 +256,7 @@ function UserEdit() {
           >
             <option value="admin">Admin</option>
             <option value="user">User</option>
+            <option value="guest">Guest</option>
           </select>
         </div>
 
@@ -228,9 +267,11 @@ function UserEdit() {
             value={formData.sector}
             onChange={handleInputChange}
           >
-            <option value="dawah">Dawah</option>
-            <option value="education">Education</option>
-            <option value="health">Health</option>
+            {sectors.map((sector) => (
+              <option key={sector} value={sector}>
+                {sector}
+              </option>
+            ))}
           </select>
         </div>
 
