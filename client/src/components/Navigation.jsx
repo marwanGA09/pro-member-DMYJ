@@ -23,7 +23,7 @@ const Navigation = () => {
   };
 
   console.log('user navigation', user);
-  console.log({ styles });
+  // console.log({ styles });
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -31,7 +31,6 @@ const Navigation = () => {
   const cld = new Cloudinary({
     cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
   });
-  console.log(':Kjsldf', user);
 
   return (
     <nav className={styles.navigation}>

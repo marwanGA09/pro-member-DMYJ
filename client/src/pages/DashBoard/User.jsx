@@ -70,7 +70,7 @@ function User() {
             <AdvancedImage
               cldImg={profileUrl}
               className={styles.profileImage}
-            />{' '}
+            />
           </div>
           <h2>
             {user.first_name} {user.middle_name} {user.last_name}
@@ -97,24 +97,27 @@ function User() {
             <strong>Age:</strong> {calculateAge(user.date_of_birth)}
           </p>
           <p>
-            <strong>Total Registered Members by {user.first_name}:</strong>{' '}
+            <strong>Total Registered Members by {user.first_name}:</strong>
             {user.members}
           </p>
           <p>
-            <strong>Total Payments collected by {user.first_name}:</strong>{' '}
+            <strong>Total Payments collected by {user.first_name}:</strong>
             {user.payments}
           </p>
           <p>
-            <strong>Joined:</strong>{' '}
+            <strong>Joined:</strong>
             {new Date(user.createdAt).toLocaleDateString()}
           </p>
         </div>
         <div>
           <button>
-            {' '}
-            <Link to={'../edit-user'} state={{ id: CurrentUserId }}>
+            <Link
+              to={'edit'}
+              // to={'../edit-user'}
+              state={{ id: CurrentUserId }}
+            >
               Edit My Profile
-            </Link>{' '}
+            </Link>
           </button>
         </div>
       </div>

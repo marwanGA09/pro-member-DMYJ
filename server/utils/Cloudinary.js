@@ -26,9 +26,11 @@ const storage = new CloudinaryStorage({
       'avif', // AV1 Image File Format
     ], // Allowed image formats
     public_id: (req, file) =>
-      `${req.body.fullName.split(' ').join('-')}-${Math.floor(
-        Math.random() * 1000
-      )}`,
+      `${
+        req.body.fullName
+          ? req.body.fullName.split(' ').join('-')
+          : req.body.first_name
+      }-${Math.floor(Math.random() * 1000)}`,
     transformation: [
       { quality: '70' }, // Resize and compress
     ],

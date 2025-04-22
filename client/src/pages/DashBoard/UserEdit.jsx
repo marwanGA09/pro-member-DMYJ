@@ -4,11 +4,13 @@ import axios from '../../Utils/axios';
 import styles from './UserEdit.module.scss';
 import { FaCamera } from 'react-icons/fa';
 import { globalContext } from '../../components/ContextProvider';
+import { Cloudinary } from '@cloudinary/url-gen/index';
+import { AdvancedImage } from '@cloudinary/react';
 
 function UserEdit() {
   const { user: currentLogged } = useContext(globalContext);
 
-  console.log({ currentLogged });
+  //   console.log('current', currentLogged.user.role);
   const userLocation = useLocation();
   const userId = userLocation?.state?.id;
   const navigate = useNavigate();
@@ -16,12 +18,12 @@ function UserEdit() {
     first_name: '',
     middle_name: '',
     last_name: '',
-    username: '',
+    // username: '',
     email: '',
     phone_number: '',
-    date_of_birth: '4/3/2002',
+    date_of_birth: new Date(),
     sector: 'dawah',
-    role: 'admin',
+    role: 'guest',
     sex: 'male',
     profileUrl: '',
   });
@@ -59,7 +61,16 @@ function UserEdit() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log('input change on userEdit', { name, value });
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDateChange = (date, field) => {
+    console.log('handle date change on useredit', date.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      [field]: date.target.value,
+    }));
   };
 
   const handleImageUpload = async (e) => {
@@ -101,13 +112,50 @@ function UserEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+    console.log('form', formData);
+    // profileUrl;
+    // first_name;
+    // middle_name;
+    // last_name;
+    // date_of_birth;
+    // email;
+    // sector;
+    // role;
+    // phone_number;
+    // sex;
+    const formDataPayload = new FormData();
+    formDataPayload.append('profileUrl', formData.profileUrl);
+    formDataPayload.append('first_name', formData.first_name);
+    formDataPayload.append('middle_name', formData.middle_name);
+    formDataPayload.append('last_name', formData.last_name);
+    formDataPayload.append(
+      'date_of_birth',
+      new Date(formData.date_of_birth).toISOString()
+    );
+    formDataPayload.append('email', formData.email);
+    formDataPayload.append('sector', formData.sector);
+    formDataPayload.append('role', formData.role);
+    formDataPayload.append('phone_number', formData.phone_number);
+    formDataPayload.append('sex', formData.sex);
+
+    console.log(
+      'Payload from userFOrm data: ',
+      Array.from(formDataPayload.entries())
+    );
+    console.log({ formDataPayload });
     try {
-      await axios.patch(`/users/${userId}`, formData, {
-        withCredentials: true,
-      });
+      const updatedUser = await axios.patch(
+        `/users/${userId}`,
+        formDataPayload,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log({ updatedUser });
       navigate(`/users/${userId}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Update failed');
+      console.log('Error');
     } finally {
       setSubmitting(false);
     }
@@ -116,10 +164,11 @@ function UserEdit() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  //   const cld = new Cloudinary({
-  //     cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
-  //   });
-  //   const profileImg = cld.image(formData.profileUrl);
+  const cld = new Cloudinary({
+    cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
+  });
+  const profileImg =
+    cld.image(formData?.profileUrl) || cld.image('default-profile.avif');
 
   return (
     <div className={styles.container}>
@@ -128,18 +177,18 @@ function UserEdit() {
         <div className={styles.imageSection}>
           <div className={styles.imageUploadWrapper}>
             <div className={styles.imageContainer}>
-              {/* <AdvancedImage
+              <AdvancedImage
                 cldImg={profileImg}
                 className={styles.profileImage}
-              /> */}
-              {/* {console.log(
+              />
+              {console.log(
                 'formdata.profileUrl',
                 formData.profileUrl,
                 formData.profileUrl
                   ? URL.createObjectURL(formData.profileUrl)
                   : 'default'
-              )} */}
-              <img
+              )}
+              {/* <img
                 src={
                   formData.profileUrl
                     ? URL.createObjectURL(formData.profileUrl)
@@ -147,7 +196,7 @@ function UserEdit() {
                 }
                 alt="Profile Preview"
                 className={styles.profileImage}
-              />
+              /> */}
 
               <div className={styles.imageOverlay}>
                 <label htmlFor="profileUpload" className={styles.uploadLabel}>
@@ -197,7 +246,7 @@ function UserEdit() {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        {/* <div className={styles.formGroup}>
           <label>Username</label>
           <input
             type="text"
@@ -206,7 +255,7 @@ function UserEdit() {
             onChange={handleInputChange}
             required
           />
-        </div>
+        </div> */}
 
         {/* <div className={styles.formGroup}>
           <label>Email</label>
@@ -234,31 +283,36 @@ function UserEdit() {
           <input
             type="date"
             name="date_of_birth"
-            value={formData.date_of_birth?.split('T')[0]}
-            onChange={handleInputChange}
+            value={formData.date_of_birth}
+            // onChange={handleInputChange}
+            onChange={(date) => handleDateChange(date, 'date_of_birth')}
           />
         </div>
 
         <div className={styles.formGroup}>
           <label>Sex</label>
           <select name="sex" value={formData.sex} onChange={handleInputChange}>
-            <option value="male">Male</option>
+            <option value="male" selected>
+              Male
+            </option>
             <option value="female">Female</option>
           </select>
         </div>
 
-        <div className={styles.formGroup}>
-          <label>Role</label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleInputChange}
-          >
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-            <option value="guest">Guest</option>
-          </select>
-        </div>
+        {currentLogged.user.role === 'admin' && (
+          <div className={styles.formGroup}>
+            <label>Role</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+            >
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="guest">Guest</option>
+            </select>
+          </div>
+        )}
 
         <div className={styles.formGroup}>
           <label>Sector</label>

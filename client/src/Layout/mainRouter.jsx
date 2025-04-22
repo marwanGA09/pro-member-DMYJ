@@ -41,7 +41,7 @@ const router = createBrowserRouter([
               { path: 'new-member', element: <NewMember /> },
               { path: 'general', element: <General /> },
               { path: 'my-account', element: <User /> },
-              { path: 'edit-user', element: <UserEdit /> },
+              { path: 'my-account/edit', element: <UserEdit /> },
             ],
           },
         ],
@@ -57,6 +57,7 @@ const router = createBrowserRouter([
             path: 'admin-dashboard/:userId',
             element: <User />,
           },
+          { path: 'admin-dashboard/:userId/edit', element: <UserEdit /> },
         ],
       },
       {

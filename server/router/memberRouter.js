@@ -1,6 +1,5 @@
 const express = require('express');
 const multer = require('multer');
-
 const { storage } = require('./../utils/Cloudinary');
 const memberController = require('../controller/memberController');
 const catchAsync = require('../utils/catchAsync');

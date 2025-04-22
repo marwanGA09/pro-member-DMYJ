@@ -1,6 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
 const PrismaAPIFeatures = require('../utils/APIfeature.js');
-const AppError = require('../utils/AppError.js');
 
 const prisma = new PrismaClient();
 
@@ -79,4 +78,60 @@ const getUser = async (req, res, next) => {
   });
 };
 
-module.exports = { getAllUsers, getUser };
+// id
+// username
+// password
+// createdAt
+// updatedAt
+// members
+// payments
+
+const fieldCantBeUpdated = [
+  'id',
+  'username',
+  'password',
+  'createdAt',
+  // 'updatedAt',
+  'members',
+  'payments',
+];
+
+//
+// profileUrl;
+// first_name;
+// middle_name;
+// last_name;
+// date_of_birth;
+// email;
+// sector;
+// role;
+// phone_number;
+// sex;
+const updateUser = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  let oldUserData = await prisma.user.findUnique({
+    where: { id: id },
+  });
+  console.log({ oldUserData });
+  const updatedUserData = { ...req.body };
+  updatedUserData.profileUrl = req?.file?.filename;
+
+  fieldCantBeUpdated.forEach((field) => delete updatedUserData[field]);
+  console.log({ updatedUserData });
+  // let
+  const updatedUser = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: updatedUserData,
+  });
+  console.log({ id });
+  console.log({ updateUser });
+  return res.status(200).json({
+    status: 'success',
+    message: 'update message',
+    user: updatedUser,
+  });
+};
+module.exports = { getAllUsers, getUser, updateUser };
