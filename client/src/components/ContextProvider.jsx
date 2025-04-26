@@ -4,7 +4,7 @@ const globalContext = createContext();
 
 function ContextProvider({ children }) {
   const [user, setUser] = useState(false);
-  console.log('user', user);
+  console.log('user from contextProvider', user);
   return (
     <globalContext.Provider value={{ user, setUser }}>
       {children}

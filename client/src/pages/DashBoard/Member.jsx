@@ -58,7 +58,7 @@ function Member() {
     },
   });
 
-  const profileImage = cld.image(member.profile_image);
+  const profileImage = cld.image(member?.profile_image);
 
   return (
     <>

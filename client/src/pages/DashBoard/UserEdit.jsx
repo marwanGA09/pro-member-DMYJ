@@ -75,7 +75,7 @@ function UserEdit() {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    // console.log('files', file);
+    console.log('handle image change on useredit', file);
     if (file) {
       setFormData((prev) => ({
         ...prev,
@@ -83,30 +83,6 @@ function UserEdit() {
         // profileImage: URL.createObjectURL(file), // Preview the uploaded image
       }));
     }
-
-    // const file = e.target.files[0];
-    // if (!file) return;
-
-    // const uploadData = new FormData();
-    // uploadData.append('file', file);
-    // uploadData.append(
-    //   'upload_preset',
-    //   import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-    // );
-    // uploadData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_NAME);
-
-    // try {
-    //   const response = await fetch(
-    //     `https://api.cloudinary.com/v1_1/${
-    //       import.meta.env.VITE_CLOUDINARY_NAME
-    //     }/upload`,
-    //     { method: 'POST', body: uploadData }
-    //   );
-    //   const data = await response.json();
-    //   setFormData((prev) => ({ ...prev, profileUrl: data.public_id }));
-    // } catch (error) {
-    //   setError('Error uploading image');
-    // }
   };
 
   const handleSubmit = async (e) => {
@@ -167,8 +143,8 @@ function UserEdit() {
   const cld = new Cloudinary({
     cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
   });
-  const profileImg =
-    cld.image(formData?.profileUrl) || cld.image('default-profile.avif');
+
+  const profileImg = cld.image(formData?.profileUrl);
 
   return (
     <div className={styles.container}>
@@ -177,27 +153,33 @@ function UserEdit() {
         <div className={styles.imageSection}>
           <div className={styles.imageUploadWrapper}>
             <div className={styles.imageContainer}>
-              <AdvancedImage
-                cldImg={profileImg}
-                className={styles.profileImage}
-              />
+              {/* https://res.cloudinary.com/dugvpesxp/image/upload/v1/members/photo/undefined-316?_a=DAJCwlWIZAA0 */}
               {console.log(
+                profileImg.publicID.toString().contains('members/photo')
+              )}
+              {profileImg ? (
+                <AdvancedImage
+                  cldImg={profileImg}
+                  className={styles.profileImage}
+                />
+              ) : (
+                <img
+                  src={
+                    formData.profileUrl
+                      ? URL.createObjectURL(formData.profileUrl)
+                      : '/default-profile.avif'
+                  }
+                  alt="Profile Preview"
+                  className={styles.profileImage}
+                />
+              )}
+              {/* {console.log(
                 'formdata.profileUrl',
                 formData.profileUrl,
                 formData.profileUrl
                   ? URL.createObjectURL(formData.profileUrl)
                   : 'default'
-              )}
-              {/* <img
-                src={
-                  formData.profileUrl
-                    ? URL.createObjectURL(formData.profileUrl)
-                    : '/default-profile.avif'
-                }
-                alt="Profile Preview"
-                className={styles.profileImage}
-              /> */}
-
+              )} */}
               <div className={styles.imageOverlay}>
                 <label htmlFor="profileUpload" className={styles.uploadLabel}>
                   <FaCamera className={styles.cameraIcon} />
@@ -291,10 +273,13 @@ function UserEdit() {
 
         <div className={styles.formGroup}>
           <label>Sex</label>
-          <select name="sex" value={formData.sex} onChange={handleInputChange}>
-            <option value="male" selected>
-              Male
-            </option>
+          <select
+            name="sex"
+            value={formData.sex}
+            onChange={handleInputChange}
+            defaultValue={'male'}
+          >
+            <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
         </div>
