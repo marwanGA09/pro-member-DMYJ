@@ -126,6 +126,7 @@ const updateUser = async (req, res, next) => {
     },
     data: updatedUserData,
   });
+  delete updatedUser.password;
   console.log({ id });
   console.log({ updateUser });
   return res.status(200).json({

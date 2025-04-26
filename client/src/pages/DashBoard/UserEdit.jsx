@@ -8,7 +8,7 @@ import { Cloudinary } from '@cloudinary/url-gen/index';
 import { AdvancedImage } from '@cloudinary/react';
 
 function UserEdit() {
-  const { user: currentLogged } = useContext(globalContext);
+  const { user: currentLogged, setUser } = useContext(globalContext);
 
   //   console.log('current', currentLogged.user.role);
   const userLocation = useLocation();
@@ -24,7 +24,7 @@ function UserEdit() {
     date_of_birth: new Date(),
     sector: 'dawah',
     role: 'guest',
-    sex: 'male',
+    sex: '',
     profileUrl: '',
   });
   const [loading, setLoading] = useState(true);
@@ -46,8 +46,20 @@ function UserEdit() {
         const response = await axios.get(`/users/${userId}`, {
           withCredentials: true,
         });
-        // console.log('data', response.data);
-        setFormData(response.data.data);
+        setFormData({
+          ...response.data.data,
+          sex: formData?.sex || response.data.data.sex || 'male',
+        });
+        // console.log('vvvvvvvvvvvvvvvvvvvvvvvv');
+        // console.log(formData?.sex);
+        // console.log(response.data.data.sex);
+        // console.log(formData?.sex || response.data.data);
+        // console.log({
+        //   ...response.data.data,
+        //   sex: formData?.sex || response.data.data.sex || 'male',
+        // });
+        // console.log('vvvvvvvvvvvvvvvvvvvvvvvv');
+
         setLoading(false);
       } catch (err) {
         console.log('error', err);
@@ -120,14 +132,27 @@ function UserEdit() {
     );
     console.log({ formDataPayload });
     try {
-      const updatedUser = await axios.patch(
-        `/users/${userId}`,
-        formDataPayload,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log({ updatedUser });
+      const response = await axios.patch(`/users/${userId}`, formDataPayload, {
+        withCredentials: true,
+      });
+
+      const globalData = {
+        user: {
+          id: response.data.user.id,
+          role: response.data.user.role,
+          username: response.data.user.username,
+          profileUrl: response.data.user.profileUrl,
+        },
+        // token: response.data.token,
+      };
+
+      console.log({ currentLogged });
+      console.log({ globalData });
+      if (currentLogged.user.id === userId) {
+        console.log('UPDATE OUR SELF');
+        setUser(globalData);
+      }
+      console.log({ updatedUser: { ...response.data.data } });
       navigate(`/users/${userId}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Update failed');
@@ -154,10 +179,8 @@ function UserEdit() {
           <div className={styles.imageUploadWrapper}>
             <div className={styles.imageContainer}>
               {/* https://res.cloudinary.com/dugvpesxp/image/upload/v1/members/photo/undefined-316?_a=DAJCwlWIZAA0 */}
-              {console.log(
-                profileImg.publicID.toString().contains('members/photo')
-              )}
-              {profileImg ? (
+              {/* {console.log(profileImg.publicID.includes('members/photo'))} */}
+              {profileImg.publicID.includes('members/photo') ? (
                 <AdvancedImage
                   cldImg={profileImg}
                   className={styles.profileImage}
@@ -273,12 +296,7 @@ function UserEdit() {
 
         <div className={styles.formGroup}>
           <label>Sex</label>
-          <select
-            name="sex"
-            value={formData.sex}
-            onChange={handleInputChange}
-            defaultValue={'male'}
-          >
+          <select name="sex" value={formData.sex} onChange={handleInputChange}>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
