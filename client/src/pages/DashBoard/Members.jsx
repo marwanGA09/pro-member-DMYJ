@@ -247,14 +247,14 @@ const Members = () => {
           shape="rounded"
           sx={{
             '& .MuiPaginationItem-root': {
-              color: '#007bff',
+              color: '#4caf50',
               '&:hover': {
-                backgroundColor: '#e0f7fa',
-                color: '#0056b3',
+                backgroundColor: '#678568',
+                color: '#64e768',
               },
             },
             '& .Mui-selected': {
-              backgroundColor: '#007bff',
+              backgroundColor: '#4caf50',
               color: '#fff',
               fontWeight: 'bold',
             },

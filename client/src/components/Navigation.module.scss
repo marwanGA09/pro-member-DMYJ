@@ -75,7 +75,7 @@ $hover-color: color.scale($primary-color, $lightness: -10%);
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ddd;
+  border: 2px solid $border-color;
 }
 
 .userInfo {
@@ -86,12 +86,12 @@ $hover-color: color.scale($primary-color, $lightness: -10%);
 .username {
   font-weight: bold;
   font-size: 14px;
-  color: #fff;
+  color: $text-color;
 }
 
 .role {
   font-size: 12px;
-  color: #ddd;
+  color: color.scale($text-color, $lightness: -5%);
 }
 
 .logoutButton {

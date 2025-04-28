@@ -1,16 +1,23 @@
 @use 'sass:color';
 
 $primary-color: #4caf50;
-// #007bff;
-$secondary-color: #1877f2;
+// NOTE LET REMOVE BLUE COLOR WITH GREEN
+// $secondary-color: #1877f2;
+$secondary-color: $primary-color;
+
 $hover-color: color.scale($primary-color, $lightness: -10%);
-$text-color: rgb(210, 234, 255);
+// $text-color: rgb(210, 234, 255);
+$text-color: rgb(3, 3, 3);
 $font-family: 'Arial, sans-serif';
-$background-color: color.scale(#010e30, $lightness: 5%);
-$border-color: #ddd;
+// $background-color: color.scale(#010e30, $lightness: 5%);
+$background-color: color.scale(#fff, $lightness: 5%);
+// $border-color: #ddd;
+$border-color: #323232;
 $error-color: #e74c3c;
-$light-color: #ffffff;
-$dark-color: #333333;
+// $light-color: #fff;
+// $dark-color: #333;
+$light-color: #333;
+$dark-color: #fff;
 
 $spacing-small: 8px;
 $spacing-medium: 15px;
