@@ -7,6 +7,7 @@
     flex: 1; // Take all remaining space
     display: flex;
     flex-direction: column; // Ensures proper stacking if needed
+    // width: 100%; // Ensure it takes full width
   }
 
   &__right {

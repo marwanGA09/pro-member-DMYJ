@@ -7,7 +7,7 @@ function DashBoardRouterController() {
       <div className="dashboard-router__right">
         <DashBoardNavigation />
       </div>
-      <div className="dashboard-router__left">
+      <div className="dashboard-router__left" style={{ width: '100%' }}>
         <Outlet />
       </div>
     </div>

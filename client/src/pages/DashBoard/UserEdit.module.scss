@@ -1,22 +1,117 @@
+// .imageUploadWrapper {
+//   position: relative;
+//   display: inline-block;
+//   margin-bottom: 1rem;
+//   &:hover {
+//     .imageOverlay {
+//       opacity: 1;
+//     }
+//   }
+// }
+
+// .imageContainer {
+//   position: relative;
+//   width: 150px;
+//   height: 150px;
+//   border-radius: 50%;
+//   overflow: hidden;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+// }
+
+// .profileImage {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
+
+// .imageOverlay {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: rgba(0, 0, 0, 0.5);
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   opacity: 0;
+//   transition: opacity 0.3s ease;
+//   border-radius: 50%;
+// }
+
+// .uploadLabel {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   color: white;
+//   cursor: pointer;
+//   text-align: center;
+
+//   span {
+//     font-size: 0.8rem;
+//     margin-top: 0.5rem;
+//   }
+// }
+
+// .cameraIcon {
+//   font-size: 1.5rem;
+//   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+// }
+
+// .fileInput {
+//   display: none;
+// }
+
+/* UserEdit.module.scss */
+
+@use './../../Style/variable.scss' as *;
+@use 'sass:color';
+
+.container {
+  max-width: 700px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: color.scale($background-color, $lightness: 3%);
+  box-shadow: 0 4px 20px rgba(15, 23, 60, 0.08);
+  border-radius: 1rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  // color: #222;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.imageSection {
+  display: flex;
+  justify-content: center;
+}
+
 .imageUploadWrapper {
   position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
-  &:hover {
-    .imageOverlay {
-      opacity: 1;
-    }
-  }
+  width: 180px;
+  height: 180px;
 }
 
 .imageContainer {
+  width: 100%;
+  height: 100%;
   position: relative;
-  width: 150px;
-  height: 150px;
   border-radius: 50%;
   overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border: 4px solid #eeeeee;
+  background-color: #f9f9f9;
 }
 
 .profileImage {
@@ -27,39 +122,122 @@
 
 .imageOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
+  width: 100%;
+  height: 40%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .uploadLabel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white;
-  cursor: pointer;
-  text-align: center;
-
-  span {
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
-  }
+  color: #fff;
+  font-size: 0.9rem;
 }
 
 .cameraIcon {
   font-size: 1.5rem;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+  margin-bottom: 0.5rem;
 }
 
 .fileInput {
   display: none;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  // color: #444;
+}
+
+.formGroup input,
+.formGroup select {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background: #fafafa;
+  transition: border 0.3s ease;
+
+  &:focus {
+    border-color: #0077ff;
+    outline: none;
+    background: #fff;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelButton {
+  background-color: #ccc;
+  color: #000;
+
+  &:hover {
+    background-color: #bbb;
+  }
+}
+
+.submitButton {
+  background-color: #4caf50;
+  color: #fff;
+
+  &:hover {
+    background-color: #43a047;
+  }
+
+  &:disabled {
+    background-color: #c8e6c9;
+    cursor: not-allowed;
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .imageUploadWrapper {
+    width: 140px;
+    height: 140px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
