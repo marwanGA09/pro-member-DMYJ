@@ -48,6 +48,7 @@ const Payments = () => {
 
   // Handle filtering updates
   const handleFilterChange = (field, value) => {
+    console.log('filter', field, value);
     if (value !== '') {
       setFilters((prev) => ({ ...prev, [field]: value }));
     }

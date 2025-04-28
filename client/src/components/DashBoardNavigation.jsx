@@ -6,7 +6,7 @@ function DashBoardNavigation() {
     <div className={styles['dashboard-navigation']}>
       <NavLink
         style={({ isActive }) => {
-          return isActive ? { color: ' #007bff' } : {};
+          return isActive ? { color: ' #4caf50', fontWeight: 'bold' } : {};
         }}
         to="members"
       >
@@ -14,7 +14,7 @@ function DashBoardNavigation() {
       </NavLink>
       <NavLink
         style={({ isActive }) => {
-          return isActive ? { color: ' #007bff' } : {};
+          return isActive ? { color: ' #4caf50', fontWeight: 'bold' } : {};
         }}
         to="payments"
       >
@@ -22,7 +22,7 @@ function DashBoardNavigation() {
       </NavLink>
       <NavLink
         style={({ isActive }) => {
-          return isActive ? { color: ' #007bff' } : {};
+          return isActive ? { color: ' #4caf50', fontWeight: 'bold' } : {};
         }}
         to="new-member"
       >
@@ -30,7 +30,7 @@ function DashBoardNavigation() {
       </NavLink>
       <NavLink
         style={({ isActive }) => {
-          return isActive ? { color: ' #007bff' } : {};
+          return isActive ? { color: ' #4caf50', fontWeight: 'bold' } : {};
         }}
         to="general"
       >

@@ -48,10 +48,10 @@ const Members = () => {
   };
 
   // Trigger fetchData whenever search, sort, filters, page, or limit changes
+  console.log('FILTER i want ', Object.keys(filters));
   useEffect(() => {
     fetchData();
   }, [search, sort, filters, page, limit, month, year, isPaid]);
-
   // Handle Year
   const handleYear = (event) => {
     setYear(event.target.value);

@@ -16,7 +16,7 @@
 .yearGroup {
   padding: 10px;
   background-color: color.scale($background-color, $lightness: 5%);
-  border: 2px solid #777;
+  border: 2px solid $border-color;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -24,7 +24,7 @@
 .yearTitle {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #e3f1ff;
+  color: $text-color;
   border-bottom: 2px solid #777;
   margin-bottom: 10px;
   padding-bottom: 5px;
@@ -36,7 +36,7 @@
   gap: 10px;
   padding: 10px;
   margin: 5px 0;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid $primary-color;
   background-color: color.scale($background-color, $lightness: 10%);
   border-radius: 4px;
 }
@@ -44,7 +44,7 @@
 .paymentItem p {
   margin: 5px 0;
   font-size: 0.6rem;
-  color: #c3e1ff;
+  color: $primary-color;
 
   @media (min-width: 700px) {
     font-size: 0.8rem;
@@ -52,5 +52,5 @@
 }
 
 .paymentItem strong {
-  color: #8ac5ff;
+  color: $text-color;
 }

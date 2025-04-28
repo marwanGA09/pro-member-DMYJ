@@ -58,7 +58,7 @@ const Navigation = () => {
           <>
             {user.user.role === 'admin' && (
               <li className={styles.navItem}>
-                <Link to={'/admin-dashboard'}>Admin</Link>
+                <Link to={'/admin-dashboard'}>Users</Link>
               </li>
             )}
             <li className={styles.navItem}>

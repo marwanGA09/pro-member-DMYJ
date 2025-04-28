@@ -1,7 +1,7 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
 
-$form-bg-color: color.scale(#010e30, $lightness: 15%);
+$form-bg-color: color.scale($background-color, $lightness: -5%);
 $input-border-color: #ddd;
 $button-hover-color: color.scale($primary-color, $lightness: -10%);
 
