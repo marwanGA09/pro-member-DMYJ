@@ -153,7 +153,7 @@ function UserEdit() {
         setUser(globalData);
       }
       console.log({ updatedUser: { ...response.data.data } });
-      navigate(`/users/${userId}`);
+      navigate(-1);
     } catch (err) {
       setError(err.response?.data?.message || 'Update failed');
       console.log('Error');
@@ -180,7 +180,7 @@ function UserEdit() {
             <div className={styles.imageContainer}>
               {/* https://res.cloudinary.com/dugvpesxp/image/upload/v1/members/photo/undefined-316?_a=DAJCwlWIZAA0 */}
               {/* {console.log(profileImg.publicID.includes('members/photo'))} */}
-              {profileImg.publicID.includes('members/photo') ? (
+              {profileImg.publicID.includes('users/photo') ? (
                 <AdvancedImage
                   cldImg={profileImg}
                   className={styles.profileImage}

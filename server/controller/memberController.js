@@ -29,7 +29,8 @@ const createMember = async (req, res, next) => {
     note: req.body.note,
     created_by: parseInt(req.body.createdBy),
   };
-  console.log('user input', memberData);
+  console.log('**********/\nuser input for new member\n', memberData);
+  console.log('**********/\nuser file input for new member\n', req.file);
 
   const member = await prisma.member.create({
     data: memberData,

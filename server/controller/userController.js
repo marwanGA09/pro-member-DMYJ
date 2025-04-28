@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const PrismaAPIFeatures = require('../utils/APIfeature.js');
+const cloudinary = require('cloudinary').v2;
 
 const prisma = new PrismaClient();
 
@@ -113,7 +114,21 @@ const updateUser = async (req, res, next) => {
   let oldUserData = await prisma.user.findUnique({
     where: { id: id },
   });
-  console.log({ oldUserData });
+  // console.log('old user image puplic id \n ', oldUserData.profileUrl);
+  // console.log({ oldUserData });
+
+  // configure your cloudinary instance
+  if (oldUserData.profileUrl) {
+    cloudinary.uploader.destroy(
+      oldUserData.profileUrl,
+      function (error, result) {
+        console.log('remove old image from cloudinary');
+        console.log(result, error);
+      }
+    );
+  }
+
+  console.log('req.body\n', req.body);
   const updatedUserData = { ...req.body };
   updatedUserData.profileUrl = req?.file?.filename;
 

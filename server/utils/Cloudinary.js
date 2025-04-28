@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
+const memberStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'members/photo', // Folder name in Cloudinary
@@ -26,15 +26,35 @@ const storage = new CloudinaryStorage({
       'avif', // AV1 Image File Format
     ], // Allowed image formats
     public_id: (req, file) =>
-      `${
-        req.body.fullName
-          ? req.body.fullName.split(' ').join('-')
-          : req.body.first_name
-      }-${Math.floor(Math.random() * 1000)}`,
+      `${req.body.fullName.split(' ').join('-')}-${Date.now()}`, // Public ID for the uploaded image
+    transformation: [
+      { quality: '70' }, // Resize and compress
+    ],
+  },
+});
+const userStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'users/photo', // Folder name in Cloudinary
+    allowed_formats: [
+      'jpg', // JPEG
+      'jpeg', // JPEG
+      'png', // Portable Network Graphics
+      'gif', // Graphics Interchange Format
+      'webp', // Web Picture Format
+      'bmp', // Bitmap
+      'tiff', // Tagged Image File Format
+      'tif', // Tagged Image File Format (alternative extension)
+      'svg', // Scalable Vector Graphics
+      'heic', // High-Efficiency Image Coding
+      'heif', // High-Efficiency Image File Format
+      'avif', // AV1 Image File Format
+    ], // Allowed image formats
+    public_id: (req, file) => `${req.body.first_name}-${Date.now()}`, // Public ID for the uploaded image
     transformation: [
       { quality: '70' }, // Resize and compress
     ],
   },
 });
 
-module.exports = { cloudinary, storage };
+module.exports = { cloudinary, memberStorage, userStorage };

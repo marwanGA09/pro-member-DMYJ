@@ -110,7 +110,7 @@ function User() {
           </p>
         </div>
         <div>
-          <button>
+          <button className={styles.editButton}>
             <Link
               to={'edit'}
               // to={'../edit-user'}

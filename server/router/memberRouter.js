@@ -1,13 +1,13 @@
 const express = require('express');
 const multer = require('multer');
-const { storage } = require('./../utils/Cloudinary');
+const { memberStorage } = require('./../utils/Cloudinary');
 const memberController = require('../controller/memberController');
 const catchAsync = require('../utils/catchAsync');
 const memberSchema = require('../model/memberModel');
 
 const router = express.Router();
 
-const uploadMember = multer({ storage });
+const uploadMember = multer({ storage: memberStorage });
 
 router.post(
   '/',

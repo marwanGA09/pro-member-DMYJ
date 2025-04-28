@@ -13,6 +13,14 @@ $hover-color: color.scale($background-color, $lightness: -5%);
   width: 100%;
   margin: auto;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+
+  & div:last-child {
+    // margin-left: auto;
+    align-self: flex-end;
+    margin-right: 2rem;
+  }
 }
 
 .userProfile {
@@ -60,5 +68,22 @@ $hover-color: color.scale($background-color, $lightness: -5%);
   &:hover {
     background: $hover-color;
     transform: scale(1.05);
+  }
+}
+
+.editButton {
+  margin-top: 1rem;
+  padding: 0.4rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #ccc;
+  color: #000;
+
+  &:hover {
+    background-color: #bbb;
   }
 }
