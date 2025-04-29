@@ -3,14 +3,14 @@
 
 .new-button {
   background-color: var(--primary-color);
-  color: $text-color;
+  color: var(--text-color);
   padding: 5px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: $hover-color;
+    background-color: var(--hover-color);
   }
 }
 
@@ -56,15 +56,15 @@
 h2 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: $text-color;
+  color: var(--text-color);
 }
 
 p {
   font-size: 1.2em;
   margin: 10px 0;
-  color: color.adjust($text-color, $lightness: 20%);
+  color: color.adjust(var(--text-color), $lightness: 20%);
 }
 p strong {
   font-weight: bold;
-  color: color.adjust($text-color, $lightness: -10%);
+  color: color.adjust(var(--text-color), $lightness: -10%);
 }

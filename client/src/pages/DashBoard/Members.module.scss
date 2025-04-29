@@ -6,7 +6,7 @@
 .container {
   padding: $padding;
   font-family: $font-family;
-  color: $text-color;
+  color: var(--text-color);
 
   .search-bar {
     display: flex;

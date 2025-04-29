@@ -5,7 +5,7 @@
 
 .general-container {
   padding: 20px;
-  color: $text-color;
+  color: var(--text-color);
   background-color: $background-color;
   font-family: $font-family;
 }
@@ -31,9 +31,9 @@
     border: 1px solid $border-color;
     border-radius: 5px;
     background-color: $background-color;
-    color: $text-color;
+    color: var(--text-color);
     &:hover {
-      border-color: $hover-color;
+      border-color: var(--hover-color);
     }
   }
 }
@@ -43,7 +43,7 @@
   padding: 10px;
   border: 1px solid $border-color;
   font-size: 12px;
-  color: $text-color;
+  color: var(--text-color);
   box-shadow: 4px 4px 8px 8px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
 }

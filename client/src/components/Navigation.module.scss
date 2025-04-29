@@ -1,9 +1,6 @@
 @use 'sass:color';
 @use './../Style/variable.scss' as *;
 
-// var(--primary-color): #4caf50;
-// $hover-color: color.scale(var(--primary-color), $lightness: -10%);
-
 .navigation {
   display: flex;
   justify-content: space-between;
@@ -18,11 +15,11 @@
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--primary-color);
+  color: $primary-color;
   cursor: pointer;
 
   &:hover {
-    color: $hover-color;
+    color: var(--hover-color);
   }
 }
 
@@ -44,14 +41,14 @@
 .navItem button {
   text-decoration: none;
   font-size: 1rem;
-  color: $text-color;
+  color: var(--text-color);
   padding: 5px 10px;
   border: none;
   background: none;
   cursor: pointer;
 
   &:hover {
-    color: $hover-color;
+    color: var(--hover-color);
   }
 }
 
@@ -86,24 +83,24 @@
 .username {
   font-weight: bold;
   font-size: 14px;
-  color: $text-color;
+  color: var(--text-color);
 }
 
 .role {
   font-size: 12px;
-  color: color.scale($text-color, $lightness: -5%);
+  color: color.scale(var(--text-color), $lightness: -5%);
 }
 
 .logoutButton {
-  color: var(--primary-color) !important;
+  color: $primary-color !important;
   font-weight: bold;
-  // border: 1px solid var(--primary-color);
+  // border: 1px solid $primary-color;
   border-radius: 5px;
   padding: 5px 15px;
   margin-left: 30px;
 
   &:hover {
-    // background-color: var(--primary-color);
+    // background-color: $primary-color;
     color: #fff;
   }
 }

@@ -3,7 +3,7 @@
 
 $form-bg-color: color.scale($background-color, $lightness: -5%);
 $input-border-color: #ddd;
-$button-hover-color: $hover-color;
+$button-hover-color: var(--hover-color);
 
 .formContainer {
   max-width: 800px; // Increase max-width for larger screens
@@ -35,12 +35,12 @@ $button-hover-color: $hover-color;
   display: flex;
   flex-direction: column;
   font-size: 1rem;
-  color: $text-color;
+  color: var(--text-color);
 }
 
 .input,
 .textarea {
-  color: color.scale($text-color, $lightness: -60%);
+  color: color.scale(var(--text-color), $lightness: -60%);
   padding: $spacing-small;
   border: 1px solid $input-border-color;
   border-radius: $border-radius;

@@ -1,7 +1,5 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
-$secondary-color: color.scale($background-color, $lightness: 5%);
-$hover-color: color.scale($background-color, $lightness: -5%);
 
 .container {
   max-width: 800px;
@@ -29,7 +27,7 @@ $hover-color: color.scale($background-color, $lightness: -5%);
   padding: 15px;
   border-radius: 8px;
   text-decoration: none;
-  color: $text-color;
+  color: var(--text-color);
   border: 1px solid #ddd;
   transition: all 0.3s, transform 0.2s;
 
@@ -64,7 +62,7 @@ $hover-color: color.scale($background-color, $lightness: -5%);
   }
 
   &:hover {
-    background: $hover-color;
+    background: color.scale($background-color, $lightness: -5%);
     transform: translateY(-5px);
   }
 }
@@ -97,6 +95,6 @@ $hover-color: color.scale($background-color, $lightness: -5%);
 
   span {
     font-weight: bold;
-    color: $text-color;
+    color: var(--text-color);
   }
 }

@@ -52,7 +52,7 @@
   p {
     font-size: 16px;
     margin: 8px 0;
-    color: $text-color;
+    color: var(--text-color);
 
     strong {
       color: var(--primary-color);
@@ -71,7 +71,7 @@
   transition: all 0.3s, transform 0.2s;
 
   &:hover {
-    background: $hover-color;
+    background: var(--hover-color);
     transform: scale(1.05);
   }
 }
