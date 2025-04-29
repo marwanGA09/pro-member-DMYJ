@@ -1,14 +1,17 @@
+import { ThemeProvider } from './components/ThemeProvider';
 import { RouterProvider } from 'react-router-dom';
 
 import mainRouter from './Layout/mainRouter';
 import { ContextProvider } from './components/ContextProvider';
-import './Style/index.css';
+import './Style/index.scss';
 
 function App() {
   return (
-    <ContextProvider>
-      <RouterProvider router={mainRouter} />
-    </ContextProvider>
+    <ThemeProvider>
+      <ContextProvider>
+        <RouterProvider router={mainRouter} />
+      </ContextProvider>
+    </ThemeProvider>
   );
 }
 

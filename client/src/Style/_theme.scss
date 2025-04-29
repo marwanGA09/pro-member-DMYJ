@@ -2,6 +2,7 @@
 
 html[data-theme='dark'] {
   --background-color: #{$background-dark};
+  --background-2-color: color.scale($background-dark, $lightness: -10%);
   --text-color: #{$text-white};
   --primary-color: #{$primary-color};
   --border-color: #{$border-dark};
@@ -11,6 +12,7 @@ html[data-theme='dark'] {
 
 html[data-theme='light'] {
   --background-color: #{$background-light};
+  --background-2-color: color.scale($background-light, $lightness: -10%);
   --text-color: #{$text-black};
   --primary-color: #{$primary-color};
   --border-color: #{$border-light};

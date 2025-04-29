@@ -62,7 +62,7 @@
   }
 
   &:hover {
-    background: color.scale(var(--background-color), $lightness: -5%);
+    background: var(--background-2-color);
     transform: translateY(-5px);
   }
 }

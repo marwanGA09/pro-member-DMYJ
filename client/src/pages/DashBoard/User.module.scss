@@ -4,8 +4,8 @@
 .container {
   /*
   NOTE 
-  OLD : $secondary-color: color.scale($background-color, $lightness: 5%);
-  OLD : $hover-color: color.scale($background-color, $lightness: -5%);
+  OLD : $secondary-color: var(--background-2-color);
+  OLD : $hover-color:var(--background-2-color);
 
   
   */

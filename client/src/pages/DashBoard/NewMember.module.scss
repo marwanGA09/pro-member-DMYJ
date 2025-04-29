@@ -1,7 +1,7 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
 
-$form-bg-color: color.scale(var(--background-color), $lightness: -5%);
+$form-bg-color: var(--background-2-color);
 $input-border-color: #ddd;
 $button-hover-color: var(--hover-color);
 
@@ -40,7 +40,7 @@ $button-hover-color: var(--hover-color);
 
 .input,
 .textarea {
-  color: color.scale(var(--text-color), $lightness: -60%);
+  color: var(--background-2-color);
   padding: $spacing-small;
   border: 1px solid $input-border-color;
   border-radius: $border-radius;

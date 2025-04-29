@@ -48,7 +48,7 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: color.scale(var(--primary-color), $lightness: 10%);
+        background-color: var(--background-2-color);
       }
     }
   }
@@ -119,7 +119,7 @@
       border: 1px solid var(--border-color);
 
       &:hover {
-        background-color: color.scale(var(--primary-color), $lightness: -20%);
+        background-color: var(--background-2-color);
       }
     }
 
