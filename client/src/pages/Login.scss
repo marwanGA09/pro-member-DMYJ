@@ -124,7 +124,7 @@
     }
 
     .facebook-button {
-      background-color: $secondary-color;
+      background-color: var(--secondary-color);
       color: #fff;
 
       background-color: color.adjust(var(--primary-color), $lightness: -10%);

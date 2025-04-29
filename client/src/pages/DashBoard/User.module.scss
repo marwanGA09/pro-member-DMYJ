@@ -1,11 +1,16 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
 
-$secondary-color: color.scale($background-color, $lightness: 5%);
-$hover-color: color.scale($background-color, $lightness: -5%);
-
 .container {
-  background: $secondary-color;
+  /*
+  NOTE 
+  OLD : $secondary-color: color.scale($background-color, $lightness: 5%);
+  OLD : $hover-color: color.scale($background-color, $lightness: -5%);
+
+  
+  */
+
+  background: var(--secondary-color);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
