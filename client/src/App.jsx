@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import mainRouter from './Layout/mainRouter';
 import { ContextProvider } from './components/ContextProvider';
-import './App.scss';
+import './Style/index.css';
 
 function App() {
   return (

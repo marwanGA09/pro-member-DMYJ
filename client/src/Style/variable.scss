@@ -6,18 +6,14 @@ $primary-color: #4caf50;
 $secondary-color: $primary-color;
 
 $hover-color: color.scale($primary-color, $lightness: -10%);
-// $text-color: rgb(210, 234, 255);
-$text-color: rgb(3, 3, 3);
+// $text-color: #d2eaff;
+$text-color: hwb(0 1% 99%);
 $font-family: 'Arial, sans-serif';
 // $background-color: color.scale(#010e30, $lightness: 5%);
 $background-color: color.scale(#fff, $lightness: 5%);
 // $border-color: #ddd;
 $border-color: #323232;
 $error-color: #e74c3c;
-// $light-color: #fff;
-// $dark-color: #333;
-$light-color: #333;
-$dark-color: #fff;
 
 $spacing-small: 8px;
 $spacing-medium: 15px;

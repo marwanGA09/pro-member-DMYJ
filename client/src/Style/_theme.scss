@@ -1,0 +1,19 @@
+@use './color' as *;
+
+html[data-theme='dark'] {
+  --background-color: #{$background-dark};
+  --text-color: #{$text-white};
+  --primary-color: #{$primary-color};
+  --border-color: #{$border-dark};
+  --error-color: #{$error-color};
+  --hover-color: #{$hover-color};
+}
+
+html[data-theme='light'] {
+  --background-color: #{$background-light};
+  --text-color: #{$text-black};
+  --primary-color: #{$primary-color};
+  --border-color: #{$border-light};
+  --error-color: #{$error-color};
+  --hover-color: #{$hover-color};
+}

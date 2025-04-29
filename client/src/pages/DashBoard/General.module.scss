@@ -1,18 +1,6 @@
 @use './../../Style/variable.scss' as *;
 @use 'sass:color';
 
-// Global colors and variables
-// $primary-color: #4caf50;
-// $secondary-color: #1877f2;
-// $hover-color: darken($primary-color, 10%);
-// $text-color: rgb(210, 234, 255);
-// $font-family: 'Arial, sans-serif';
-// $background-color: color.scale(#010e30, $lightness: 5%);
-// $border-color: #ddd;
-// $error-color: #e74c3c;
-// $light-color: #ffffff;
-// $dark-color: #333333;
-
 // Component styles
 
 .general-container {
@@ -42,9 +30,8 @@
     padding: 5px 10px;
     border: 1px solid $border-color;
     border-radius: 5px;
-    background-color: $light-color;
-    color: $dark-color;
-
+    background-color: $background-color;
+    color: $text-color;
     &:hover {
       border-color: $hover-color;
     }
@@ -52,9 +39,11 @@
 }
 
 .tooltip {
-  background-color: $dark-color;
+  background-color: $background-color;
   padding: 10px;
   border: 1px solid $border-color;
   font-size: 12px;
-  color: $light-color;
+  color: $text-color;
+  box-shadow: 4px 4px 8px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
 }
