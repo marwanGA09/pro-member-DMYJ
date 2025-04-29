@@ -17,7 +17,7 @@
     select {
       flex: 1;
       padding: 8px;
-      border: 1px solid $border-color;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
 
       @media (max-width: 650px) {
@@ -47,7 +47,7 @@
     background-color: color.scale(var(--background-color), $lightness: 20%);
     padding: $padding;
     margin-bottom: $margin;
-    // border: 1px solid $border-color;
+    // border: 1px solid var(--border-color);
     border-radius: 4px;
     display: flex;
     flex-wrap: wrap;
@@ -62,7 +62,7 @@
       margin-bottom: $padding;
       width: min-content;
       padding: $padding;
-      border: 1px solid $border-color;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
     }
 
@@ -83,7 +83,7 @@
       align-items: center;
       justify-content: space-between;
       // background-color: color.adjust(var(--background-color), $lightness: 5%);
-      border-bottom: 0.01px solid $border-color;
+      border-bottom: 0.01px solid var(--border-color);
       // border-radius: 4px;
       padding: 0.5rem 1rem;
       cursor: pointer;

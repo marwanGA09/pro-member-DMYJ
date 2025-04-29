@@ -16,7 +16,7 @@
 .yearGroup {
   padding: 10px;
   background-color: color.scale(var(--background-color), $lightness: 5%);
-  border: 2px solid $border-color;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

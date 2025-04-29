@@ -78,6 +78,6 @@ $button-hover-color: var(--hover-color);
   margin-top: 10px;
 }
 .error {
-  color: $error-color;
+  color: var(--error-color);
   font-size: 0.7rem;
 }

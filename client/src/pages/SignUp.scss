@@ -6,7 +6,7 @@
   margin: 50px auto;
   padding: 20px;
   // background-color: #fff;
-  box-shadow: 0 0 4px $border-color;
+  box-shadow: 0 0 4px var(--border-color);
   border-radius: 10px;
 
   .title {
@@ -39,7 +39,7 @@
       }
 
       .error {
-        color: $error-color;
+        color: var(--error-color);
         font-size: 0.85rem;
         margin-top: 5px;
       }
