@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px;
-  background-color: color.scale($background-color, $lightness: -10%);
+  background-color: color.scale(var(--background-color), $lightness: -10%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
   z-index: 50;
@@ -55,7 +55,7 @@
 .currentUser {
   display: flex;
   align-items: center;
-  background: color.scale($background-color, $lightness: 8%);
+  background: color.scale(var(--background-color), $lightness: 8%);
   padding: 8px 12px;
   border-radius: 8px;
   gap: 10px;
@@ -63,7 +63,7 @@
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background: color.scale($background-color, $lightness: 5%);
+    background: color.scale(var(--background-color), $lightness: 5%);
   }
 }
 
@@ -124,7 +124,7 @@
 
     &.open {
       display: flex;
-      background-color: $background-color;
+      background-color: var(--background-color);
       z-index: 100;
     }
   }

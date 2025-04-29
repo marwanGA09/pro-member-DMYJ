@@ -6,7 +6,7 @@
 .general-container {
   padding: 20px;
   color: var(--text-color);
-  background-color: $background-color;
+  background-color: var(--background-color);
   font-family: $font-family;
 }
 
@@ -30,7 +30,7 @@
     padding: 5px 10px;
     border: 1px solid $border-color;
     border-radius: 5px;
-    background-color: $background-color;
+    background-color: var(--background-color);
     color: var(--text-color);
     &:hover {
       border-color: var(--hover-color);
@@ -39,7 +39,7 @@
 }
 
 .tooltip {
-  background-color: $background-color;
+  background-color: var(--background-color);
   padding: 10px;
   border: 1px solid $border-color;
   font-size: 12px;

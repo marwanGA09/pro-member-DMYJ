@@ -5,7 +5,7 @@
   max-width: 600px;
   margin: 0 auto; /* Center the form horizontally */
   padding: 20px;
-  background-color: color.scale($background-color, $lightness: 10%);
+  background-color: color.scale(var(--background-color), $lightness: 10%);
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

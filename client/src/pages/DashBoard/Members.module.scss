@@ -44,7 +44,7 @@
   }
 
   .advanced-search {
-    background-color: color.scale($background-color, $lightness: 20%);
+    background-color: color.scale(var(--background-color), $lightness: 20%);
     padding: $padding;
     margin-bottom: $margin;
     // border: 1px solid $border-color;
@@ -82,14 +82,14 @@
       gap: 10px;
       align-items: center;
       justify-content: space-between;
-      // background-color: color.adjust($background-color, $lightness: 5%);
+      // background-color: color.adjust(var(--background-color), $lightness: 5%);
       border-bottom: 0.01px solid $border-color;
       // border-radius: 4px;
       padding: 0.5rem 1rem;
       cursor: pointer;
 
       &:hover {
-        background-color: color.scale($background-color, $lightness: 5%);
+        background-color: color.scale(var(--background-color), $lightness: 5%);
       }
 
       h3 {
