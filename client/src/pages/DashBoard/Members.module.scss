@@ -26,7 +26,8 @@
     }
 
     button {
-      background-color: var(--secondary-color);
+      background-color: var(--primary-color);
+      font-weight: 700;
       color: white;
       border: none;
       border-radius: 4px;
@@ -34,7 +35,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: var(--background-2-color);
+        background-color: var(--primary-dark-color);
       }
 
       @media (max-width: 650px) {
@@ -52,6 +53,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+
     p {
       margin-bottom: $padding;
       font-weight: bold;
@@ -82,7 +84,7 @@
       gap: 10px;
       align-items: center;
       justify-content: space-between;
-      // background-color: color.adjust(var(--background-color), $lightness: 5%);
+      background-color: var(--background-2-color);
       border-bottom: 0.01px solid var(--border-color);
       // border-radius: 4px;
       padding: 0.5rem 1rem;
@@ -110,6 +112,10 @@
 
     .header {
       background-color: var(--primary-color);
+
+      &:hover {
+        background-color: var(--primary-dark-color);
+      }
     }
   }
 

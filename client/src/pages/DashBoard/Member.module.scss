@@ -3,7 +3,7 @@
 
 .new-button {
   background-color: var(--primary-color);
-  color: var(--text-color);
+  color: #fff;
   padding: 5px 20px;
   border: none;
   border-radius: 5px;
@@ -35,7 +35,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px var(--background-color);
   font-family: Arial, sans-serif;
-  background-color:var(--background-2-color);
+  // background-color: var(--background-2-color);
 
   div {
     display: flex;
@@ -62,9 +62,9 @@ h2 {
 p {
   font-size: 1.2em;
   margin: 10px 0;
-  color: color.adjust(var(--text-color), $lightness: 20%);
+  color: var(--text-2-color);
 }
 p strong {
   font-weight: bold;
-  color: color.adjust(var(--text-color), $lightness: -10%);
+  color: var(--text-2-color);
 }

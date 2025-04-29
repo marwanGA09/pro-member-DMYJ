@@ -62,21 +62,6 @@ function Member() {
 
   return (
     <>
-      <div>
-        {' '}
-        <Link
-          className={styles['new-button']}
-          to={`./new-payment`}
-          state={{
-            memberId,
-            monthlyAmount: member.membership_amount,
-            userId: user?.user?.id,
-            role: user?.user?.role,
-          }}
-        >
-          New Payment
-        </Link>{' '}
-      </div>
       <div className={styles.container}>
         <div className={styles.memberProfile}>
           <div>
@@ -127,6 +112,21 @@ function Member() {
           className={styles.paymentList}
         />
       </div>{' '}
+      <div>
+        {' '}
+        <Link
+          className={styles['new-button']}
+          to={`./new-payment`}
+          state={{
+            memberId,
+            monthlyAmount: member.membership_amount,
+            userId: user?.user?.id,
+            role: user?.user?.role,
+          }}
+        >
+          New Payment
+        </Link>{' '}
+      </div>
     </>
   );
 }

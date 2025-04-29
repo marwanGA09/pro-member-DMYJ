@@ -32,7 +32,7 @@
 
   button {
     padding: 0.5rem 1rem;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -95,6 +95,10 @@
 
   .header {
     background-color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--primary-dark-color);
+    }
   }
 }
 

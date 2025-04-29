@@ -13,7 +13,7 @@
   background: var(--secondary-color);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
   margin: auto;
@@ -42,11 +42,14 @@
     object-fit: cover;
     // margin: 0 auto 20px;
     margin-bottom: 30px;
+    box-shadow: 2px 2px 32px 3px black;
   }
 
   h2 {
     text-align: center;
     color: var(--primary-color);
+    text-shadow: 2px 2px 4px black;
+    letter-spacing: 2px;
   }
 
   p {
@@ -85,10 +88,10 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-color: #ccc;
-  color: #000;
+  background-color: var(--primary-color);
+  color: #fff;
 
   &:hover {
-    background-color: #bbb;
+    background-color: var(--primary-dark-color);
   }
 }

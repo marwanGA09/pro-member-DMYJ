@@ -1,10 +1,13 @@
 @use './color' as *;
+@use 'sass:color';
 
 html[data-theme='dark'] {
   --background-color: #{$background-dark};
-  --background-2-color: color.scale($background-dark, $lightness: -10%);
+  --background-2-color: #{color.scale($background-dark, $lightness: -10%)};
   --text-color: #{$text-white};
+  --text-2-color: #{color.adjust($text-white, $lightness: 20%)};
   --primary-color: #{$primary-color};
+  --primary-dark-color: #{color.adjust($primary-color, $lightness: 10%)};
   --border-color: #{$border-dark};
   --error-color: #{$error-color};
   --hover-color: #{$hover-color};
@@ -14,7 +17,9 @@ html[data-theme='light'] {
   --background-color: #{$background-light};
   --background-2-color: color.scale($background-light, $lightness: -10%);
   --text-color: #{$text-black};
+  --text-2-color: #{color.adjust($text-black, $lightness: 20%)};
   --primary-color: #{$primary-color};
+  --primary-dark-color: #{color.adjust($primary-color, $lightness: 10%)};
   --border-color: #{$border-light};
   --error-color: #{$error-color};
   --hover-color: #{$hover-color};

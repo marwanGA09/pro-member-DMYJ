@@ -5,7 +5,7 @@
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
-  box-shadow: 0 0 4px var(--border-color);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.539);
   border-radius: 10px;
   text-align: center;
 
@@ -48,7 +48,7 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: var(--background-2-color);
+        background-color: var(--primary-dark-color);
       }
     }
   }
@@ -127,7 +127,7 @@
       background-color: var(--secondary-color);
       color: #fff;
 
-      background-color: color.adjust(var(--primary-color), $lightness: -10%);
+      background-color: var(--primary-dark-color);
     }
   }
 }
