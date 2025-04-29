@@ -2,7 +2,7 @@
 @use 'sass:color';
 
 .new-button {
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   color: $text-color;
   padding: 5px 20px;
   border: none;

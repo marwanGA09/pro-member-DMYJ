@@ -1,8 +1,8 @@
 @use 'sass:color';
 @use './../Style/variable.scss' as *;
 
-$primary-color: #4caf50;
-$hover-color: color.scale($primary-color, $lightness: -10%);
+// var(--primary-color): #4caf50;
+// $hover-color: color.scale(var(--primary-color), $lightness: -10%);
 
 .navigation {
   display: flex;
@@ -18,7 +18,7 @@ $hover-color: color.scale($primary-color, $lightness: -10%);
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: $primary-color;
+  color: var(--primary-color);
   cursor: pointer;
 
   &:hover {
@@ -95,15 +95,15 @@ $hover-color: color.scale($primary-color, $lightness: -10%);
 }
 
 .logoutButton {
-  color: $primary-color !important;
+  color: var(--primary-color) !important;
   font-weight: bold;
-  // border: 1px solid $primary-color;
+  // border: 1px solid var(--primary-color);
   border-radius: 5px;
   padding: 5px 15px;
   margin-left: 30px;
 
   &:hover {
-    // background-color: $primary-color;
+    // background-color: var(--primary-color);
     color: #fff;
   }
 }

@@ -11,7 +11,7 @@
 
   .title {
     font-size: 1.8rem;
-    color: $primary-color;
+    color: var(--primary-color);
     margin-bottom: 20px;
   }
 
@@ -41,14 +41,14 @@
       padding: 10px;
       font-size: 1rem;
       color: #fff;
-      background-color: $primary-color;
+      background-color: var(--primary-color);
       border: none;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: color.scale($primary-color, $lightness: 10%);
+        background-color: color.scale(var(--primary-color), $lightness: 10%);
       }
     }
   }
@@ -119,7 +119,7 @@
       border: 1px solid $border-color;
 
       &:hover {
-        background-color: color.scale($primary-color, $lightness: -20%);
+        background-color: color.scale(var(--primary-color), $lightness: -20%);
       }
     }
 
@@ -127,7 +127,7 @@
       background-color: $secondary-color;
       color: #fff;
 
-      background-color: color.adjust($primary-color, $lightness: -10%);
+      background-color: color.adjust(var(--primary-color), $lightness: -10%);
     }
   }
 }

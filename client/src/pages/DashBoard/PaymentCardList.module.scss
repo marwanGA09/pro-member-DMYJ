@@ -36,7 +36,7 @@
   gap: 10px;
   padding: 10px;
   margin: 5px 0;
-  border-left: 4px solid $primary-color;
+  border-left: 4px solid var(--primary-color);
   background-color: color.scale($background-color, $lightness: 10%);
   border-radius: 4px;
 }
@@ -44,7 +44,7 @@
 .paymentItem p {
   margin: 5px 0;
   font-size: 0.6rem;
-  color: $primary-color;
+  color: var(--primary-color);
 
   @media (min-width: 700px) {
     font-size: 0.8rem;
