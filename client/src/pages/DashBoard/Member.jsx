@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from './../../Utils/axios';
 import { AdvancedImage } from '@cloudinary/react';
@@ -11,7 +11,8 @@ function Member() {
   const { memberId } = useParams();
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const { user } = useContext(globalContext);
 
@@ -24,8 +25,19 @@ function Member() {
         setMember(response.data.data);
         setLoading(false);
       } catch (err) {
-        setError(err.message || 'Failed to fetch member data.');
-        setLoading(false);
+        // catch (err) {
+        //   setError(err.message || 'Failed to fetch member data.');
+        //   setLoading(false);
+        // }
+        navigate('/error', {
+          state: {
+            message:
+              err?.response?.data?.message ||
+              err.message ||
+              'Failed to fetch member data.',
+          },
+          replace: true, // optional: avoids back button returning to error
+        });
       }
     };
 
@@ -50,7 +62,7 @@ function Member() {
   };
 
   if (loading) return <p>Loading member data...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // if (error) return <p>Error: {error}</p>;
 
   const cld = new Cloudinary({
     cloud: {

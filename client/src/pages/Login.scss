@@ -114,12 +114,12 @@
     }
 
     .google-button {
-      background-color: #fff;
-      color: rgb(28, 28, 28);
+      background-color: var(--background-2-color);
+      color: var(--primary-color);
       border: 1px solid var(--border-color);
 
       &:hover {
-        background-color: var(--background-2-color);
+        background-color: var(--text-color);
       }
     }
 

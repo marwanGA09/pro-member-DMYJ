@@ -16,11 +16,13 @@ import General from '../pages/DashBoard/General';
 import UsersPage from '../pages/DashBoard/Users';
 import User from '../pages/DashBoard/User';
 import UserEdit from '../pages/DashBoard/UserEdit';
+import ErrorPage from '../components/ErrorPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RouterController />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
       {
@@ -77,7 +79,7 @@ const router = createBrowserRouter([
 
   {
     path: '*',
-    element: <h1>404 Not Found</h1>,
+    element: <ErrorPage />,
   },
 ]);
 

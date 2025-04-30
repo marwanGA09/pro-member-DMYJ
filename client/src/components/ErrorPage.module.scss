@@ -1,0 +1,44 @@
+@use './../Style/variable.scss' as *;
+
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: $spacing-large;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  text-align: center;
+  gap: 1rem;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    max-width: 600px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: $border-radius;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        background-color: var(--hover-color);
+      }
+    }
+  }
+}

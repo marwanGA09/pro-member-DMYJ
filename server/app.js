@@ -40,12 +40,7 @@ app.use(
 
 app.use('/v1', authRouter);
 
-app.use(
-  '/v1/users',
-  authentication.protected,
- 
-  userRouter
-);
+app.use('/v1/users', authentication.protected, userRouter);
 
 app.use('/v1/members', authentication.protected, memberRouter);
 

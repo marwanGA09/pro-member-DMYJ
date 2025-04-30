@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from './../../Utils/axios';
 import styles from './Members.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 const Members = () => {
   const [members, setMembers] = useState([]);
@@ -10,6 +10,8 @@ const Members = () => {
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
   // const [limit, setLimit] = useState(10);
+
+  const navigate = useNavigate();
 
   const [isPaid, setIsPaid] = useState('');
   const currentTime = new Date();
@@ -42,8 +44,19 @@ const Members = () => {
 
       setMembers(data);
       setTotalPages(Math.ceil(totalMembers / limit));
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (err) {
+      // catch (error) {
+      //   console.error('Error fetching data:', error);
+      // }
+      navigate('/error', {
+        state: {
+          message:
+            err?.response?.data?.message ||
+            err.message ||
+            'Failed to fetch member data.',
+        },
+        replace: true, // optional: avoids back button returning to error
+      });
     }
   };
 

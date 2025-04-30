@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Cloudinary } from '@cloudinary/url-gen';
 
 import axios from './../../Utils/axios';
@@ -15,6 +15,7 @@ function User() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
   //   const { user: loggedInUser } = useContext(globalContext);
 
   useEffect(() => {
@@ -27,8 +28,19 @@ function User() {
         setUser(response.data.data);
         setLoading(false);
       } catch (err) {
-        setError(err.message || 'Failed to fetch user data.');
+        // catch (err) {
+        //   setError(err.message || 'Failed to fetch user data.');
+        // }
         setLoading(false);
+        navigate('/error', {
+          state: {
+            message:
+              err?.response?.data?.message ||
+              err.message ||
+              'Failed to fetch member data.',
+          },
+          replace: true, // optional: avoids back button returning to error
+        });
       }
     };
 

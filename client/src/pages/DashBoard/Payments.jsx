@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from './../../Utils/axios';
 import styles from './Payments.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
 const Payments = () => {
   const [payments, setPayments] = useState([]);
@@ -11,6 +11,8 @@ const Payments = () => {
   const limit = 10;
   const [totalPages, setTotalPages] = useState(1);
   const [advancedSearch, setAdvancedSearch] = useState(false);
+
+  const navigate = useNavigate();
 
   // Function to fetch data from the backend
   const fetchData = async () => {
@@ -31,8 +33,19 @@ const Payments = () => {
 
       setPayments(data);
       setTotalPages(Math.ceil(totalPayments / limit));
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (err) {
+      // catch (error) {
+      //   console.error('Error fetching data:', error);
+      // }
+      navigate('/error', {
+        state: {
+          message:
+            err?.response?.data?.message ||
+            err.message ||
+            'Failed to fetch member data.',
+        },
+        replace: true, // optional: avoids back button returning to error
+      });
     }
   };
 

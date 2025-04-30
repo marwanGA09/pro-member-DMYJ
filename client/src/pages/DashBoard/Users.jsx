@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from './../../Utils/axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Users.module.scss';
 import capitalizeFirstLetter from '../../Utils/capitalizeFirstLetter';
 import { Cloudinary } from '@cloudinary/url-gen';
@@ -11,6 +11,8 @@ const UsersPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // Users per page
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
@@ -27,8 +29,20 @@ const UsersPage = () => {
       setUsers(data);
       setTotalPages(Math.ceil(totalUsers / limit));
       console.log({ data, totalUsers });
-    } catch (error) {
-      console.error('Error fetching users:', error);
+    } catch (err) {
+      // catch (error) {
+      //   console.error('Error fetching users:', error);
+      //   navigate('/error');
+      // }
+      navigate('/error', {
+        state: {
+          message:
+            err?.response?.data?.message ||
+            err.message ||
+            'Failed to fetch member data.',
+        },
+        replace: true, // optional: avoids back button returning to error
+      });
     }
   };
 

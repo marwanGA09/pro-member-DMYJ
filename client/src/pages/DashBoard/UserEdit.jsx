@@ -62,9 +62,21 @@ function UserEdit() {
 
         setLoading(false);
       } catch (err) {
-        console.log('error', err);
-        setError(err.message || 'Failed to fetch user data.');
+        // catch (err) {
+        //   console.log('error', err);
+        //   setError(err.message || 'Failed to fetch user data.');
+        // }
+
         setLoading(false);
+        navigate('/error', {
+          state: {
+            message:
+              err?.response?.data?.message ||
+              err.message ||
+              'Failed to fetch member data.',
+          },
+          replace: true, // optional: avoids back button returning to error
+        });
       }
     };
 
