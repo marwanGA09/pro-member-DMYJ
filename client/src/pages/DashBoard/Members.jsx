@@ -3,7 +3,10 @@ import axios from './../../Utils/axios';
 import styles from './Members.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
+import LoadingPage from '../../components/LoadingPage';
 const Members = () => {
+  const [loading, setLoading] = useState(true);
+
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('');
@@ -36,6 +39,7 @@ const Members = () => {
     console.log('params', params);
 
     try {
+      setLoading(true);
       const response = await axios.get('members', {
         withCredentials: true,
         params,
@@ -57,6 +61,8 @@ const Members = () => {
         },
         replace: true, // optional: avoids back button returning to error
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -232,21 +238,26 @@ const Members = () => {
           <p>Pro Amount</p>
           <p>Phone</p>
         </div>
-        {members.map((member) => (
-          <Link to={'./' + member.id} key={member.id}>
-            <div
-              className={`${styles['member-row']}  ${
-                member?.payments.length > 0 ? styles.paid : ''
-              }`}
-            >
-              <h3>{member.full_name}</h3>
-              <p> {member.book_number}</p>
-              <p> {member?.profession || '---'}</p>
-              <p>${member.membership_amount}</p>
-              <p>{member.phone}</p>
-            </div>
-          </Link>
-        ))}
+        {loading ? (
+          <LoadingPage />
+        ) : (
+          members.map((member) => (
+            <Link to={'./' + member.id} key={member.id}>
+              <div
+                className={`${styles['member-row']}  ${
+                  member?.payments.length > 0 ? styles.paid : ''
+                }`}
+              >
+                <h3>{member.full_name}</h3>
+                <p> {member.book_number}</p>
+                <p> {member?.profession || '---'}</p>
+                <p>${member.membership_amount}</p>
+                <p>{member.phone}</p>
+              </div>
+            </Link>
+          ))
+        )}
+        {/* {} */}
       </div>
 
       {/* Pagination */}

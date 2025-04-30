@@ -3,6 +3,7 @@ import axios from './../../Utils/axios';
 import styles from './Payments.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
+import LoadingPage from '../../components/LoadingPage';
 const Payments = () => {
   const [payments, setPayments] = useState([]);
   const [search, setSearch] = useState('');
@@ -12,6 +13,7 @@ const Payments = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [advancedSearch, setAdvancedSearch] = useState(false);
 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   // Function to fetch data from the backend
@@ -25,6 +27,7 @@ const Payments = () => {
     };
 
     try {
+      setLoading(true);
       const response = await axios.get('payments', {
         withCredentials: true,
         params,
@@ -37,6 +40,7 @@ const Payments = () => {
       // catch (error) {
       //   console.error('Error fetching data:', error);
       // }
+      setLoading(false);
       navigate('/error', {
         state: {
           message:
@@ -46,6 +50,8 @@ const Payments = () => {
         },
         replace: true, // optional: avoids back button returning to error
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -145,26 +151,31 @@ const Payments = () => {
           <p>Payment Method</p>
           <p>mm / yy</p>
         </div>
-        {payments.map((payment) => (
-          // <Link to={'./' + payment.id} key={payment.id}>
-          <Link key={payment.id}>
-            <div className={styles['payment-row']}>
-              <h3>{payment.member.full_name}</h3>
-              <p>{payment.member.book_number}</p>
-              <p>
-                {' '}
-                {payment.payment_method
-                  .split('_')
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(' ')}
-              </p>
 
-              <p>
-                {payment.month} / {payment.year}
-              </p>
-            </div>
-          </Link>
-        ))}
+        {loading ? (
+          <LoadingPage />
+        ) : (
+          payments.map((payment) => (
+            // <Link to={'./' + payment.id} key={payment.id}>
+            <Link key={payment.id}>
+              <div className={styles['payment-row']}>
+                <h3>{payment.member.full_name}</h3>
+                <p>{payment.member.book_number}</p>
+                <p>
+                  {' '}
+                  {payment.payment_method
+                    .split('_')
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ')}
+                </p>
+
+                <p>
+                  {payment.month} / {payment.year}
+                </p>
+              </div>
+            </Link>
+          ))
+        )}
       </div>
 
       {/* Pagination */}

@@ -6,6 +6,7 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import styles from './Member.module.scss';
 import PaymentCardList from './PaymentCardList';
 import { globalContext } from '../../components/ContextProvider';
+import LoadingPage from '../../components/LoadingPage';
 
 function Member() {
   const { memberId } = useParams();
@@ -27,8 +28,8 @@ function Member() {
       } catch (err) {
         // catch (err) {
         //   setError(err.message || 'Failed to fetch member data.');
-        //   setLoading(false);
         // }
+        setLoading(false);
         navigate('/error', {
           state: {
             message:
@@ -61,8 +62,7 @@ function Member() {
     return age;
   };
 
-  if (loading) return <p>Loading member data...</p>;
-  // if (error) return <p>Error: {error}</p>;
+  if (loading) return <LoadingPage />;
 
   const cld = new Cloudinary({
     cloud: {

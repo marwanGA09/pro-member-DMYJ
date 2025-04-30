@@ -9,13 +9,14 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import LoadingPage from '../../components/LoadingPage';
 
 const BarGraph = ({ title, data, xKey, bars, tooltipFormatter }) => {
   return (
     <div style={{ marginBottom: '40px' }}>
       <h4>{title}</h4>
       {data.length === 0 ? (
-        <p>Loading...</p>
+        <LoadingPage />
       ) : (
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={data}>

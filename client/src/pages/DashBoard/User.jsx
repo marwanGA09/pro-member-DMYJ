@@ -5,6 +5,7 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import axios from './../../Utils/axios';
 import styles from './User.module.scss';
 import { AdvancedImage } from '@cloudinary/react';
+import LoadingPage from '../../components/LoadingPage';
 // import { globalContext } from '../../context/GlobalContext';
 
 function User() {
@@ -63,8 +64,7 @@ function User() {
     return age;
   };
 
-  if (loading) return <p>Loading user data...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <LoadingPage />;
 
   const cld = new Cloudinary({
     cloud: {

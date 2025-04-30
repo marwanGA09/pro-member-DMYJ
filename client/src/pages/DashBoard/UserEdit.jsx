@@ -6,6 +6,7 @@ import { FaCamera } from 'react-icons/fa';
 import { globalContext } from '../../components/ContextProvider';
 import { Cloudinary } from '@cloudinary/url-gen/index';
 import { AdvancedImage } from '@cloudinary/react';
+import LoadingPage from '../../components/LoadingPage';
 
 function UserEdit() {
   const { user: currentLogged, setUser } = useContext(globalContext);
@@ -174,8 +175,7 @@ function UserEdit() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <LoadingPage />;
 
   const cld = new Cloudinary({
     cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME },
