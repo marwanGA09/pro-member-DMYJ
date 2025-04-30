@@ -14,7 +14,7 @@ const reportRouter = require('./router/reportRouter');
 const authentication = require('./controller/authController');
 
 const DEPLOYMENT_URL = '';
-const DEVELOPMENT_URL = 'http://localhost:5173';
+const DEVELOPMENT_URL = 'http://196.189.123.114:5173';
 // const DEVELOPMENT_URL = 'http://localhost:4173';
 
 const app = express();
@@ -31,15 +31,13 @@ app.use(morgan('dev'));
 //   next();
 // });
 
-// app.use(
-//   cors({
-//     origin:
-//       process.env.NODE_ENV === 'production' ? DEPLOYMENT_URL : DEVELOPMENT_URL,
-//     credentials: true,
-//   })
-// );
-
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === 'production' ? DEPLOYMENT_URL : DEVELOPMENT_URL,
+    credentials: true,
+  })
+);
 
 app.use((req, res, next) => {
   // console.log('simply checking if this works');
