@@ -39,6 +39,13 @@ app.use(
   })
 );
 
+app.get('/', (req, res, next) => {
+  return res.status(200).json({
+    status: 'success',
+    message: 'Welcome to the API',
+  });
+});
+
 app.use('/v1', authRouter);
 
 app.use('/v1/users', authentication.protected, userRouter);
