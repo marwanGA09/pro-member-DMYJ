@@ -39,6 +39,17 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  console.log('simply checking if this works');
+  console.log('middleware');
+  console.log(JSON.stringify({ cookies: req.cookies }, null, 2));
+  console.log('req.headers', req.headers);
+  console.log('req.body', req.body);
+  console.log('req.params', req.params);
+  console.log('req.query', req.query);
+  next();
+});
+
 app.get('/', (req, res, next) => {
   return res.status(200).json({
     status: 'success',
