@@ -31,22 +31,24 @@ app.use(morgan('dev'));
 //   next();
 // });
 
-app.use(
-  cors({
-    origin:
-      process.env.NODE_ENV === 'production' ? DEPLOYMENT_URL : DEVELOPMENT_URL,
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin:
+//       process.env.NODE_ENV === 'production' ? DEPLOYMENT_URL : DEVELOPMENT_URL,
+//     credentials: true,
+//   })
+// );
+
+app.use(cors());
 
 app.use((req, res, next) => {
-  console.log('simply checking if this works');
-  console.log('middleware');
-  console.log(JSON.stringify({ cookies: req.cookies }, null, 2));
-  console.log('req.headers', req.headers);
-  console.log('req.body', req.body);
-  console.log('req.params', req.params);
-  console.log('req.query', req.query);
+  // console.log('simply checking if this works');
+  // console.log('middleware');
+  // console.log(JSON.stringify({ cookies: req.cookies }, null, 2));
+  // console.log('req.headers', req.headers);
+  // console.log('req.body', req.body);
+  // console.log('req.params', req.params);
+  // console.log('req.query', req.query);
   next();
 });
 
