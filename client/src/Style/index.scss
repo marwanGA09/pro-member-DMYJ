@@ -13,6 +13,10 @@ body {
   font-family: $font-family;
 }
 
+input {
+  background-color: rgb(213, 213, 213);
+}
+
 a {
   text-decoration: none; /* Remove underline */
   color: inherit; /* Inherit text color from parent */

@@ -6,6 +6,8 @@ import axios from './../Utils/axios';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 
+import ThemeToggle from './ToggleTheme';
+
 const Navigation = () => {
   const { user, setUser } = useContext(globalContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -96,6 +98,9 @@ const Navigation = () => {
             </li>
           </>
         )}
+        <li className={styles.navItem}>
+          <ThemeToggle />
+        </li>
       </ul>
     </nav>
   );
