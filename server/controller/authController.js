@@ -80,8 +80,10 @@ const login = async (req, res, next) => {
   const cookiesOption = {
     expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
     // expires: new Date(Date.now() + 10000),
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    // httpOnly: true,
+    httpOnly: false,
+    // secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
   };
 
@@ -121,10 +123,20 @@ const logOut = (req, res, next) => {
   }
 
   const cookiesOption = {
+    // NOTE previous code for production
+
+    // expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
+    // // expires: new Date(Date.now() + 10),
+    // httpOnly: true,
+    // secure: process.env.NODE_ENV === 'production',
+    // sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+    // ****************************
     expires: new Date(Date.now() + parseInt(process.env.COOKIES_EXPIRATION)),
-    // expires: new Date(Date.now() + 10),
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    // expires: new Date(Date.now() + 10000),
+    // httpOnly: true,
+    httpOnly: false,
+    // secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
   };
 
