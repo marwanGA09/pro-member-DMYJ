@@ -13,8 +13,7 @@ const paymentRouter = require('./router/paymentRouter');
 const reportRouter = require('./router/reportRouter');
 const authentication = require('./controller/authController');
 
-const DEPLOYMENT_URL = '';
-// const DEVELOPMENT_URL = 'http://196.189.123.114:5173';
+const DEPLOYMENT_URL = 'https://pro-member-dmyj-1.onrender.com';
 const DEVELOPMENT_URL = 'http://localhost:5173';
 
 const app = express();
