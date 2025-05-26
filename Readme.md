@@ -1,5 +1,3 @@
-Here's the extracted **README.md** content for the **PRO-MEMBER-DMYJ** project in clean Markdown format:
-
 ---
 
 # PRO-MEMBER-DMYJ
