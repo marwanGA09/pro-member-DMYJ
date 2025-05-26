@@ -109,5 +109,4 @@ npm test
 
 ---
 
-Let me know if you'd like it exported as a file or further modified.
 ```
