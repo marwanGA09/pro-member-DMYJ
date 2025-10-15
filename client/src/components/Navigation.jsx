@@ -37,7 +37,8 @@ const Navigation = () => {
   return (
     <nav className={styles.navigation}>
       <Link to={'/'}>
-        <div className={styles.logo}>MyLogo</div>
+        <img src='./../../public/logo.png' height={50} width={50} alt='logo image'/>
+
       </Link>
 
       {/* Hamburger Icon */}
