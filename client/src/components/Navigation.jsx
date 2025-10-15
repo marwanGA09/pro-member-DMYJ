@@ -37,7 +37,7 @@ const Navigation = () => {
   return (
     <nav className={styles.navigation}>
       <Link to={'/'}>
-        <img src='./../../public/logo.png' height={50} width={50} alt='logo image'/>
+        <img src='https://res.cloudinary.com/dugvpesxp/image/upload/v1760557093/cropped_circle_image_hnwizw.png' height={50} width={50} alt='logo image'/>
 
       </Link>
 
